@@ -26,6 +26,10 @@
     background: #111;
     width: 50vw;
     padding: 0.1rem 0.1rem 0rem 0rem; 
+    position: fixed;
+    left: 0;
+    top: 7vh;
+    z-index: 9999;
 
     display: flex;
     flex-direction: column;

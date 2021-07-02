@@ -1,8 +1,8 @@
 import React from 'react';
 
-const NavbarButton = (props: {text: string}) => {
+const NavbarButton = (props: {text: string, callback: () => void}) => {
     return (
-        <div className="navbarButton">
+        <div className="navbarButton" onClick={props.callback}>
             {props.text}
         </div>
     );
