@@ -1,15 +1,52 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 
 import Navbar from "./common/Navbar";
 import Menu from "./common/Menu";
 import Start from "./start/Start";
-import { initialState, reducer } from './common/reducer';
-import Calendar from './calendar/Calendar';
-import Declarations from './declarations/Declarations';
+import Calendar from "./calendar/Calendar";
+import Declarations from "./declarations/Declarations";
+import Join from "./join/Join";
+import Login from "./join/Login";
+import Register from "./join/Register";
+
+import { initialState, reducer } from "./common/reducer";
+import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
+import { FirebaseFirestore, getFirestore } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 const App = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  React.useEffect(() => {
+    state.firebaseApp = !getApps().length
+      ? initializeApp({
+          apiKey: "AIzaSyDqUy4xsFcEEpv0VU5cAfWub2AjdDr4Iek",
+          authDomain: "czas-pracy-d35c9.firebaseapp.com",
+          projectId: "czas-pracy-d35c9",
+          storageBucket: "czas-pracy-d35c9.appspot.com",
+          messagingSenderId: "26978114858",
+          appId: "1:26978114858:web:908c8893038bb541129253",
+          measurementId: "G-1PYTW1W0L4",
+        })
+      : getApp();
+
+    state.db = getFirestore();
+  }, []);
+
+  const addUser = async () => {
+    if (state.db) {
+      try {
+        const docRef = await addDoc(collection(state.db, "users"), {
+          name: "Bob",
+          teamID: "UyBAtvRyMZjyJe0JM2hk",
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    }
+  };
 
   return (
     <div className="App">
@@ -17,13 +54,19 @@ const App = () => {
         <Navbar state={state} dispatch={dispatch} />
         <Menu state={state} dispatch={dispatch} />
       </header>
+
       <div className="app__body">
         <Start state={state} dispatch={dispatch} />
-        {state.stage === "calendar" && <Calendar state={state} dispatch={dispatch} />}
+        {state.stage === "calendar" && (
+          <Calendar state={state} dispatch={dispatch} />
+        )}
         <Declarations state={state} dispatch={dispatch} />
+        <Join state={state} dispatch={dispatch} />
+        <Login state={state} dispatch={dispatch} />
+        <Register state={state} dispatch={dispatch} />
       </div>
     </div>
   );
-}
+};
 
 export default App;

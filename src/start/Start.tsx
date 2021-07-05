@@ -15,6 +15,7 @@ const Start = (props: {state: State, dispatch: React.Dispatch<Action>}) => {
 
   return (
     <div className={props.state.stage === "start" ? "start start--layout" : "start start--hidden"} >
+      <button onClick={() => {console.log(props.state)}}>SH</button>
       <FaBriefcase style={buttonStyle} />
       <FaMugHot style={buttonStyle} />
       <FaBed style={buttonStyle} />

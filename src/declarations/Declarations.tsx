@@ -5,6 +5,16 @@ import moment from "moment";
 import DatePicker, { CalendarContainer } from "react-datepicker";
 import TimePicker from "rc-time-picker";
 
+import {
+  collection,
+  documentId,
+  getDocs,
+  query,
+  where,
+  addDoc,
+  Timestamp,
+} from "firebase/firestore";
+
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "rc-time-picker/assets/index.css";
@@ -52,8 +62,40 @@ const Declarations = (props: {
     );
   };
 
+  const getEvents = () =>
+    (async () => {
+      if (props.state.db) {
+        const q = query(
+          collection(props.state.db, "work_blocks"),
+          where("userID", "==", props.state.userID)
+        );
+        const querySnapshot = await getDocs(q);
+
+        let newEvents = {};
+
+        querySnapshot.forEach((doc) => {
+          newEvents = {
+            ...newEvents,
+            [doc.data().start.toDate().toDateString()]: {
+              title: timeDiffString(
+                doc.data().start.toDate(),
+                doc.data().end.toDate()
+              ),
+              allDay: false,
+              start: doc.data().start.toDate(),
+              end: doc.data().end.toDate(),
+            },
+          };
+        });
+        setEventsMock(newEvents);
+      }
+    })();
+
+  React.useEffect(() => {
+    getEvents();
+  }, [props.state.stage]);
+
   const addEvent = () => {
-    // const start: Date = formInfo.start;
     const start: Date = new Date(
       formInfo.day.getFullYear(),
       formInfo.day.getMonth(),
@@ -72,9 +114,6 @@ const Declarations = (props: {
       formInfo.end.getSeconds(),
       formInfo.end.getMilliseconds()
     );
-    // const end: Date = formInfo.end;
-    // start.setUTCFullYear(formInfo.day.getUTCFullYear(), formInfo.day.getUTCMonth(), formInfo.day.getUTCDay())
-    // end.setUTCFullYear(formInfo.day.getUTCFullYear(), formInfo.day.getUTCMonth(), formInfo.day.getUTCDay())
     const newEvent: eventInfo = {
       title: timeDiffString(start, end),
       allDay: false,
@@ -83,7 +122,20 @@ const Declarations = (props: {
     };
 
     if (timeDiffString(start, end) !== "00:00") {
-      setEventsMock({ ...eventsMock, [start.toDateString()]: newEvent });
+      (async () => {
+        if (props.state.db) {
+          const docRef = await addDoc(
+            collection(props.state.db, "work_blocks"),
+            {
+              start: Timestamp.fromDate(start),
+              end: Timestamp.fromDate(end),
+              userID: props.state.userID,
+              teamID: props.state.teamID,
+            }
+          );
+          getEvents();
+        }
+      })();
     }
   };
 
@@ -136,15 +188,6 @@ const Declarations = (props: {
           SUBMIT
         </button>
       </div>
-      {/* <form>
-      <label htmlFor=""></label>
-      <input
-        type="text"
-        id="logInName"
-        name="logInName"
-        value={creds.username}
-        onChange={(e) => setCreds({ ...creds, username: e.target.value })}></input>
-    </form> */}
       <div style={{ zIndex: 100, height: "90%" }}>
         <Calendar
           selectable={true}
