@@ -61,8 +61,7 @@ const Menu = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       }
     >
       <div
-        className="menu"
-        style={{ visibility: props.state.isMenuVisible ? "visible" : "hidden" }}
+        className={props.state.isMenuVisible ? "menu menu--visible" : "menu menu--hidden"}
       >
         {props.state.userID ? (
           <>

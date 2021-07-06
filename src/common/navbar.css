@@ -1,41 +1,61 @@
 .navbar {
-    background: #333;
-    height: 7vh;
+    background: #3066BE;
+    height: 8vh;
     width: 100vw;
+    z-index: 99999;
 
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    box-shadow: 0 0 6px 0 rgb(43, 33, 24, 0.6); 
 }
 
-.navbarButton:hover {
-    color: #AA0;
-    background-color: #555;
+.navbarButton--size {
+    padding: 0.5vh 1.5vh 0.5vh 1.5vh;
+    height: 7vh;
+    width: 7vh;
+    color: #ECF0F1;
+}
+
+.menuButton:hover {
+    color: #3066BE;
+    background: #FFECD6;
     font-weight: bolder;
 }
 
-.navbarButton {
-    background: #333;
+.menuButton {
     padding-left: 0.5rem; 
-    margin: 0rem 0rem 0.1rem 0rem; 
     padding: 1rem 0rem 1rem 0.5em; 
     text-align: left;
-    color: #DDD;
-    font-weight: bold;
+    user-select: none
+    /* font-weight: bold; */
 }
 
 .menu {
-    background: #111;
+    background: #FFF8F0;
     width: 50vw;
-    padding: 0.1rem 0.1rem 0rem 0rem; 
+    padding: 0.2rem 0rem 0.2rem 0rem; 
     position: fixed;
     left: 0;
-    top: 7vh;
+    top: 8vh;
+    transition: transform 0.25s ease-in-out;
     z-index: 9999;
+    box-shadow: 3px 3px 3px 3px rgb(43, 33, 24, 0.2); 
+
 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
+}
+
+.menu--visible {
+    /* visibility: visible; */
+    transform: translate3d(0vw, 0, 0);
+}
+
+.menu--hidden {
+    /* visibility: hidden; */
+    transform: translate3d(calc(-50vw - 6px), 0, 0);
 }

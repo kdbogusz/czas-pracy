@@ -1,0 +1,35 @@
+.miscButton--main {
+    background: #3066BE;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-style: none;
+    color: #ECF0F1;
+}
+
+.miscButton--main:hover {
+    background: #2958A3;
+}
+
+.miscButton--main:active {
+    background: #214683;
+}
+
+.miscButton--shadow {
+    box-shadow: 0px 0px 10px 1px rgb(43, 33, 24, 0.4); 
+}
+
+/* .miscButton--cancel {
+    background: #3066BE;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-style: none;
+    color: #ECF0F1;
+}
+
+.miscButton--cancel:hover {
+    background: #2958A3;
+}
+
+.miscButton--cancel:active {
+    background: #214683;
+} */

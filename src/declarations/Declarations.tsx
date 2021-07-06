@@ -1,9 +1,15 @@
-import React from "react";
+import React, { HTMLAttributes, SyntheticEvent } from "react";
 import { State, Action, ActionType } from "../common/reducer";
-import { Calendar, momentLocalizer, stringOrDate } from "react-big-calendar";
+import {
+  Calendar,
+  EventPropGetter,
+  momentLocalizer,
+  stringOrDate,
+} from "react-big-calendar";
 import moment from "moment";
 import DatePicker, { CalendarContainer } from "react-datepicker";
 import TimePicker from "rc-time-picker";
+import Popup from "reactjs-popup";
 
 import {
   collection,
@@ -13,6 +19,8 @@ import {
   where,
   addDoc,
   Timestamp,
+  doc,
+  deleteDoc,
 } from "firebase/firestore";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -42,8 +50,10 @@ const Declarations = (props: {
     start: new Date(),
     end: new Date(),
   });
-
-  const [eventsMock, setEventsMock] = React.useState({});
+  const [events, setEvents] = React.useState({});
+  const [isPopUpOpen, setIsPopUpOpen] = React.useState(false);
+  const [popUpPosition, setPopUpPosition] = React.useState({ x: 0, y: 0 });
+  const [selected, setSelected] = React.useState<eventInfo>();
 
   moment.locale("en-GB");
   const localizer = momentLocalizer(moment);
@@ -87,9 +97,29 @@ const Declarations = (props: {
             },
           };
         });
-        setEventsMock(newEvents);
+        setEvents(newEvents);
       }
     })();
+
+  const setTemporaryEvent = () => {
+    if (formInfo.start !== formInfo.end) {
+      const temporaryEvent: eventInfo = {
+        title: timeDiffString(formInfo.start, formInfo.end),
+        allDay: false,
+        start: formInfo.start,
+        end: formInfo.end,
+      };
+
+      setEvents({
+        ...events,
+        ["tmp"]: temporaryEvent,
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    setTemporaryEvent();
+  }, [formInfo]);
 
   React.useEffect(() => {
     getEvents();
@@ -114,12 +144,6 @@ const Declarations = (props: {
       formInfo.end.getSeconds(),
       formInfo.end.getMilliseconds()
     );
-    const newEvent: eventInfo = {
-      title: timeDiffString(start, end),
-      allDay: false,
-      start: start,
-      end: end,
-    };
 
     if (timeDiffString(start, end) !== "00:00") {
       (async () => {
@@ -147,7 +171,43 @@ const Declarations = (props: {
       start: startDate,
       end: endDate,
     });
+
     return true;
+  };
+
+  const deleteHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    (async () => {
+      if (props.state.db && selected) {
+        const q = query(
+          collection(props.state.db, "work_blocks"),
+          where("start", "==", Timestamp.fromDate(selected.start))
+        );
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((block) => {
+          (async () => {
+            if (props.state.db) {
+              const blockRef = block.ref;
+              await deleteDoc(blockRef);
+            }
+          })();
+        });
+        getEvents();
+        setIsPopUpOpen(false);
+      }
+    })();
+  };
+
+  const eventPropGetter = (
+    event: eventInfo,
+    start: stringOrDate,
+    end: stringOrDate,
+    isSelected: boolean
+  ) => {
+    if (event === events["tmp" as keyof typeof events]) {
+      return { style: { background: "rgba(50, 50, 50, 0.65)" } };
+    }
+    return { style: { background: "blue" } };
   };
 
   return (
@@ -188,13 +248,25 @@ const Declarations = (props: {
           SUBMIT
         </button>
       </div>
-      <div style={{ zIndex: 100, height: "90%" }}>
+      <div
+        style={{ zIndex: 100, height: "90%" }}
+        onClick={(e) => {
+          setPopUpPosition({ x: e.pageX, y: e.pageY });
+        }}
+      >
         <Calendar
+          eventPropGetter={(event, start, end, isSelected) =>
+            eventPropGetter(event, start, end, isSelected)
+          }
           selectable={true}
           onSelectSlot={onSelectSlot}
+          onSelectEvent={(event: eventInfo, e: SyntheticEvent) => {
+            setSelected(event);
+            setTimeout(() => setIsPopUpOpen(true), 0);
+          }}
           localizer={localizer}
-          events={Object.keys(eventsMock).map(
-            (key) => eventsMock[key as keyof typeof eventsMock]
+          events={Object.keys(events).map(
+            (key) => events[key as keyof typeof events]
           )}
           step={60}
           defaultView="week"
@@ -204,6 +276,24 @@ const Declarations = (props: {
           startAccessor="start"
           endAccessor="end"
         />
+        <Popup
+          open={isPopUpOpen}
+          closeOnDocumentClick
+          onClose={() => {
+            setIsPopUpOpen(false);
+          }}
+          contentStyle={{
+            padding: "20px",
+            background: "red",
+            position: "fixed",
+            left: popUpPosition.x,
+            top: popUpPosition.y,
+          }}
+        >
+          <button type="button" onClick={deleteHandler}>
+            DELETE
+          </button>
+        </Popup>
       </div>
     </div>
   );

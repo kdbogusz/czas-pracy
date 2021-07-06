@@ -1,22 +1,23 @@
 import React from "react";
 import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
-import {State, Action, ActionType} from "../common/reducer";
+import { State, Action, ActionType } from "../common/reducer";
 
 import {
-    collection,
-    documentId,
-    getDocs,
-    query,
-    where,
-    writeBatch,
-    doc,
-  } from "firebase/firestore";
+  collection,
+  documentId,
+  getDocs,
+  query,
+  where,
+  writeBatch,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 
 import "./start.css";
 import "../common/common.css";
 
-const Start = (props: {state: State, dispatch: React.Dispatch<Action>}) => {
-    const [passcode, setPasscode] = React.useState("");
+const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const [passcode, setPasscode] = React.useState("");
 
   const buttonStyle = {
     height: "25vw",
@@ -25,67 +26,56 @@ const Start = (props: {state: State, dispatch: React.Dispatch<Action>}) => {
     padding: "1rem 1rem 1rem 1rem",
   };
 
-//   const handleSubmit = () => {
-//     (async () => {
-//         if (props.state.db) {
-//           const teamQuery = query(
-//             collection(props.state.db, "teams"),
-//             where("passcode", "==", passcode)
-//           );
-//           const teamQuerySnapshot = await getDocs(teamQuery);\
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    (async () => {
+      if (props.state.db) {
+        const teamQuery = query(
+          collection(props.state.db, "teams"),
+          where("passcode", "==", passcode)
+        );
+        const teamQuerySnapshot = await getDocs(teamQuery);
 
-//           teamQuerySnapshot.forEach((doc) => {
-//               props.dispatch({
-//                 type: ActionType.SetTeamID,
-//                 payload: doc.id,
-//               });
-//               (async () => { try {
-//                 if (props.state.db) {
-//                   const batch = writeBatch(props.state.db);
-//                     const userRef = doc(props.state.db, "users", props.state.userID);
-//                 }
-//                 props.dispatch({
-//                   type: ActionType.SetUserID,
-//                   payload: docRef.id,
-//                 });
-//                 props.dispatch({
-//                   type: ActionType.SetStageStart,
-//                   payload: "",
-//                 });
-//               } catch (e) {
-//                   // TODO
-//               }
-//               })();
-              
-
-//               if (props.state.db) {
-//                 const teamsQuery = query(
-//                   collection(props.state.db, "teams"),
-//                   where("leaderID", "==", doc.id)
-//                 );
-//                 (async () => {
-//                   const teamsQuerySnapshot = await getDocs(teamsQuery);
-//                   props.dispatch({
-//                     type: ActionType.SetIsTeamLeader,
-//                     payload: !teamsQuerySnapshot.empty
-//                   });
-//                 })();
-//               }
-//             } else {
-//               setTemporaryMessage("Logowanie nie powiodło się");
-//             }
-//             return;
-//           });
-//         }
-//       })();
-//   };
+        teamQuerySnapshot.forEach((team) => {
+          props.dispatch({
+            type: ActionType.SetTeamID,
+            payload: team.id,
+          });
+          (async () => {
+            try {
+              if (props.state.db) {
+                const userRef = doc(
+                  props.state.db,
+                  "users",
+                  props.state.userID
+                );
+                await updateDoc(userRef, {
+                  teamID: team.id,
+                });
+              }
+              props.dispatch({
+                type: ActionType.SetStageStart,
+                payload: "",
+              });
+            } catch (e) {
+              // TODO
+            }
+          })();
+        });
+      }
+    })();
+  };
 
   return (
-    <div className={props.state.stage === "start" ? "start start--layout" : "start start--hidden"} >
-      <button onClick={() => {console.log(props.state)}}>SH</button>
+    <div
+      className={
+        props.state.stage === "noTeam"
+          ? "start start--layout"
+          : "start start--hidden"
+      }
+    >
       DOŁĄCZ DO TEAMU
-      {/* <form onSubmit={handleSubmit}> */}
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="passcode">Passcode</label>
         <input
           type="text"
@@ -98,6 +88,6 @@ const Start = (props: {state: State, dispatch: React.Dispatch<Action>}) => {
       </form>
     </div>
   );
-}
+};
 
 export default Start;

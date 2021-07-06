@@ -2,3 +2,7 @@
     height: 100%;
     width: 100%;
 }
+
+.react-calendar-timeline .rct-header-root {
+    background: chartreuse;
+}

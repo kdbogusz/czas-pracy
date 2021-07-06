@@ -20,6 +20,7 @@ export enum ActionType {
   SetStageJoin = "SET_STAGE_JOIN",
   SetStageLogin = "SET_STAGE_LOGIN",
   SetStageRegister = "SET_STAGE_REGISTER",
+  SetStageNoTeam = "SET_STAGE_NO_TEAM",
   SetFirebaseApp = "SET_FIREBASE_APP",
   SetDB = "SET_DB",
   SetUserID = "SET_USER_ID",
@@ -73,6 +74,11 @@ export function reducer(state: State, action: Action): State {
       return {
         ...state,
         stage: "register",
+      };
+    case ActionType.SetStageNoTeam:
+      return {
+        ...state,
+        stage: "noTeam",
       };
     case ActionType.HideMenu:
       return {

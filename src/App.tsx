@@ -9,6 +9,7 @@ import Declarations from "./declarations/Declarations";
 import Join from "./join/Join";
 import Login from "./join/Login";
 import Register from "./join/Register";
+import NoTeam from "./start/NoTeam";
 
 import { initialState, reducer } from "./common/reducer";
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
@@ -34,20 +35,6 @@ const App = () => {
     state.db = getFirestore();
   }, []);
 
-  const addUser = async () => {
-    if (state.db) {
-      try {
-        const docRef = await addDoc(collection(state.db, "users"), {
-          name: "Bob",
-          teamID: "UyBAtvRyMZjyJe0JM2hk",
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    }
-  };
-
   return (
     <div className="App">
       <header>
@@ -56,6 +43,7 @@ const App = () => {
       </header>
 
       <div className="app__body">
+        <NoTeam state={state} dispatch={dispatch} />
         <Start state={state} dispatch={dispatch} />
         {state.stage === "calendar" && (
           <Calendar state={state} dispatch={dispatch} />

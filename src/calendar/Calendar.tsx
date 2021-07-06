@@ -33,35 +33,6 @@ const Calendar = (props: {state: State, dispatch: React.Dispatch<Action>}) => {
   const [groups, setGroups] = React.useState<singleGroup[]>([]);
   const [items, setItems] = React.useState<singleItem[]>([]);
 
-  // const groups = [
-  //   { id: 1, title: "group 1" },
-  //   { id: 2, title: "group 2" },
-  // ];
-
-  // const items = [
-  //   {
-  //     id: 1,
-  //     group: 1,
-  //     title: "",
-  //     start_time: moment(),
-  //     end_time: moment().add(1, "hour"),
-  //   },
-  //   {
-  //     id: 2,
-  //     group: 2,
-  //     title: "",
-  //     start_time: moment().add(-1, "hour"),
-  //     end_time: moment().add(7, "hour"),
-  //   },
-  //   {
-  //     id: 3,
-  //     group: 1,
-  //     title: "",
-  //     start_time: moment().add(2, "hour"),
-  //     end_time: moment().add(3, "hour"),
-  //   },
-  // ];
-
   const getItems = () => (async () => {
     if (props.state.db) {
       const userQuery = query(

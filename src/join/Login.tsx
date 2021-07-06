@@ -45,14 +45,21 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
               type: ActionType.SetUserID,
               payload: doc.id,
             });
-            props.dispatch({
-              type: ActionType.SetTeamID,
-              payload: doc.data().teamID,
-            });
-            props.dispatch({
-              type: ActionType.SetStageStart,
-              payload: "",
-            });
+            if (doc.data().teamID) {
+              props.dispatch({
+                type: ActionType.SetTeamID,
+                payload: doc.data().teamID,
+              });
+              props.dispatch({
+                type: ActionType.SetStageStart,
+                payload: "",
+              });
+            } else {
+              props.dispatch({
+                type: ActionType.SetStageNoTeam,
+                payload: "",
+              });
+            }
             if (props.state.db) {
               const teamsQuery = query(
                 collection(props.state.db, "teams"),
@@ -62,7 +69,7 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
                 const teamsQuerySnapshot = await getDocs(teamsQuery);
                 props.dispatch({
                   type: ActionType.SetIsTeamLeader,
-                  payload: !teamsQuerySnapshot.empty
+                  payload: !teamsQuerySnapshot.empty,
                 });
               })();
             }
@@ -74,9 +81,9 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       }
     })();
   };
-  
+
   React.useEffect(() => {
-    setCreds({name: "", password: "", passwordCheck: ""});
+    setCreds({ name: "", password: "", passwordCheck: "" });
     setMessage("");
   }, [props.state.stage]);
 
