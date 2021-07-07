@@ -1,37 +1,37 @@
 .join {
-    height: 100%;
+  height: 100%;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .join__logo {
-    max-height: min(50vh, 50vw);
-    max-width: min(50vh, 50vw);
-    margin-bottom: min(20vh, 20vw);
+  max-height: min(50vh, 50vw);
+  max-width: min(50vh, 50vw);
+  margin-bottom: min(20vh, 20vw);
 }
 
 .join__buttons {
-    height: 30%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
+  height: 30%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
 
 @media screen and (max-width: 768px) {
-    .join__button {
-        width: 70%;
-        height: 30%;
-    }
+  .join__button {
+    width: 70%;
+    height: 30%;
+  }
 }
 
 @media screen and (min-width: 768px) {
-    .join__button {
-        width: 50%;
-        height: 25%;
-    }
+  .join__button {
+    width: 50%;
+    height: 25%;
+  }
 }

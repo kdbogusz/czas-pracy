@@ -29,36 +29,25 @@ import "rc-time-picker/assets/index.css";
 import "../common/common.css";
 import "./declarations.css";
 
-type slotInfo = {
+type SlotInfo = {
   start: stringOrDate;
   end: stringOrDate;
 };
 
-type eventInfo = {
+type FormInfo = {
+  day: Date;
+  start: Date;
+  end: Date;
+}
+
+type EventInfo = {
   title: string;
   allDay: boolean;
   start: Date;
   end: Date;
 };
 
-const Declarations = (props: {
-  state: State;
-  dispatch: React.Dispatch<Action>;
-}) => {
-  const [formInfo, setFormInfo] = React.useState({
-    day: new Date(),
-    start: new Date(),
-    end: new Date(),
-  });
-  const [events, setEvents] = React.useState({});
-  const [isPopUpOpen, setIsPopUpOpen] = React.useState(false);
-  const [popUpPosition, setPopUpPosition] = React.useState({ x: 0, y: 0 });
-  const [selected, setSelected] = React.useState<eventInfo>();
-
-  moment.locale("en-GB");
-  const localizer = momentLocalizer(moment);
-
-  const timeDiffString = (start: Date, end: Date) => {
+export const timeDiffString = (start: Date, end: Date) => {
     const timeDiff: number = end.getTime() - start.getTime();
     const dateDiff = new Date(timeDiff);
     const hourDiff = dateDiff.getUTCHours();
@@ -71,6 +60,25 @@ const Declarations = (props: {
       String(minuteDiff)
     );
   };
+
+const Declarations = (props: {
+  state: State;
+  dispatch: React.Dispatch<Action>;
+}) => {
+  const [formInfo, setFormInfo] = React.useState<FormInfo>({
+    day: new Date(),
+    start: new Date(),
+    end: new Date(),
+  });
+  const [events, setEvents] = React.useState({});
+  const [isPopUpOpen, setIsPopUpOpen] = React.useState(false);
+  const [popUpPosition, setPopUpPosition] = React.useState({ x: 0, y: 0 });
+  const [selected, setSelected] = React.useState<EventInfo>();
+
+  moment.locale("en-GB");
+  const localizer = momentLocalizer(moment);
+
+  
 
   const getEvents = () =>
     (async () => {
@@ -86,7 +94,7 @@ const Declarations = (props: {
         querySnapshot.forEach((doc) => {
           newEvents = {
             ...newEvents,
-            [doc.data().start.toDate().toDateString()]: {
+            [doc.data().start.toDate().toString()]: {
               title: timeDiffString(
                 doc.data().start.toDate(),
                 doc.data().end.toDate()
@@ -103,7 +111,7 @@ const Declarations = (props: {
 
   const setTemporaryEvent = () => {
     if (formInfo.start !== formInfo.end) {
-      const temporaryEvent: eventInfo = {
+      const temporaryEvent: EventInfo = {
         title: timeDiffString(formInfo.start, formInfo.end),
         allDay: false,
         start: formInfo.start,
@@ -125,7 +133,7 @@ const Declarations = (props: {
     getEvents();
   }, [props.state.stage]);
 
-  const addEvent = () => {
+  const addEvent = (state: State, formInfo: FormInfo) => {
     const start: Date = new Date(
       formInfo.day.getFullYear(),
       formInfo.day.getMonth(),
@@ -147,23 +155,65 @@ const Declarations = (props: {
 
     if (timeDiffString(start, end) !== "00:00") {
       (async () => {
-        if (props.state.db) {
+        if (state.db) {
           const docRef = await addDoc(
-            collection(props.state.db, "work_blocks"),
+            collection(state.db, "work_blocks"),
             {
               start: Timestamp.fromDate(start),
               end: Timestamp.fromDate(end),
-              userID: props.state.userID,
-              teamID: props.state.teamID,
+              userID: state.userID,
+              teamID: state.teamID,
             }
           );
-          getEvents();
+          removeOldEvents(
+            {
+              start: start,
+              end: end,
+              title: "",
+              allDay: false,
+            },
+            docRef.id
+          );
         }
       })();
     }
   };
 
-  const onSelectSlot = (e: slotInfo) => {
+  const removeOldEvents = (newEvent: EventInfo, newID: string) => {
+    (async () => {
+      if (props.state.db && newEvent) {
+        const q = query(
+          collection(props.state.db, "work_blocks"),
+          where("userID", "==", props.state.userID)
+        );
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((block) => {
+          (async () => {
+            if (props.state.db) {
+              console.log("OLD START", block.data().start.toDate().getTime());
+              console.log("NEW START", newEvent.start.getTime());
+              console.log("OLD END", block.data().end.toDate().getTime());
+              console.log("NEW END", newEvent.end.getTime());
+              if (
+                block.data().end.toDate().getTime() >=
+                  newEvent.start.getTime() &&
+                block.data().start.toDate().getTime() <=
+                  newEvent.end.getTime() &&
+                block.id !== newID
+              ) {
+                const blockRef = block.ref;
+                await deleteDoc(blockRef);
+              }
+            }
+          })();
+        });
+      }
+      getEvents();
+    })();
+  };
+
+  const onSelectSlot = (e: SlotInfo) => {
     const startDate: Date = new Date(e.start);
     const endDate: Date = new Date(e.end);
     setFormInfo({
@@ -199,16 +249,20 @@ const Declarations = (props: {
   };
 
   const eventPropGetter = (
-    event: eventInfo,
+    event: EventInfo,
     start: stringOrDate,
     end: stringOrDate,
     isSelected: boolean
   ) => {
     if (event === events["tmp" as keyof typeof events]) {
-      return { style: { background: "rgba(50, 50, 50, 0.65)" } };
+      return { style: { background: "rgb(43, 33, 24, 0.65)" } };
     }
-    return { style: { background: "blue" } };
+    return { style: { background: "#3066BE" } };
   };
+
+  const submitHandler = () => {
+    addEvent(props.state, formInfo);
+  }
 
   return (
     <div
@@ -217,36 +271,45 @@ const Declarations = (props: {
         height: "100%",
       }}
     >
-      <div style={{ zIndex: 90000 }}>
-        <DatePicker
-          selected={formInfo.day}
-          onChange={(date) => {
-            setFormInfo({ ...formInfo, day: date as Date });
-          }}
-        />
-        <TimePicker
-          showSecond={false}
-          value={moment(formInfo.start)}
-          onChange={(moment) => {
-            setFormInfo({ ...formInfo, start: moment.toDate() });
-          }}
-          format={"hh:mm a"}
-          use12Hours
-          inputReadOnly
-        />
-        <TimePicker
-          showSecond={false}
-          value={moment(formInfo.end)}
-          onChange={(moment) => {
-            setFormInfo({ ...formInfo, end: moment.toDate() });
-          }}
-          format={"hh:mm a"}
-          use12Hours
-          inputReadOnly
-        />
-        <button type="button" onClick={addEvent}>
-          SUBMIT
-        </button>
+      <div style={{ zIndex: 90000, height: "10%" }}>
+        <div>
+          <TimePicker
+            showSecond={false}
+            value={moment(formInfo.start)}
+            onChange={(moment) => {
+              setFormInfo({ ...formInfo, start: moment.toDate() });
+            }}
+            format={"hh:mm a"}
+            use12Hours
+            inputReadOnly
+          />
+          <TimePicker
+            showSecond={false}
+            value={moment(formInfo.end)}
+            onChange={(moment) => {
+              setFormInfo({ ...formInfo, end: moment.toDate() });
+            }}
+            format={"hh:mm a"}
+            use12Hours
+            inputReadOnly
+          />
+        </div>
+        <div>
+          <DatePicker
+            selected={formInfo.day}
+            onChange={(date) => {
+              setFormInfo({ ...formInfo, day: date as Date });
+            }}
+          />
+          <button
+            type="button"
+            onClick={submitHandler}
+            className="miscButton--main"
+            style={{ fontSize: "1rem" }}
+          >
+            SUBMIT
+          </button>
+        </div>
       </div>
       <div
         style={{ zIndex: 100, height: "90%" }}
@@ -260,7 +323,7 @@ const Declarations = (props: {
           }
           selectable={true}
           onSelectSlot={onSelectSlot}
-          onSelectEvent={(event: eventInfo, e: SyntheticEvent) => {
+          onSelectEvent={(event: EventInfo, e: SyntheticEvent) => {
             setSelected(event);
             setTimeout(() => setIsPopUpOpen(true), 0);
           }}
@@ -269,8 +332,8 @@ const Declarations = (props: {
             (key) => events[key as keyof typeof events]
           )}
           step={60}
-          defaultView="week"
-          views={["week", "month"]}
+          defaultView="work_week"
+          views={["day", "work_week", "week", "month"]}
           defaultDate={moment().toDate()}
           style={{ height: "100%" }}
           startAccessor="start"

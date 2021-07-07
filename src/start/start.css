@@ -1,15 +1,26 @@
 .start--layout {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .start--hidden {
-    display: none;
+  display: none;
 }
 
 .start {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .start--layout {
+    flex-direction: column;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .start--layout {
+    flex-direction: row;
+  }
 }

@@ -1,3 +1,7 @@
 .rbc-month-view {
     height: 100vh;
 }
+
+.rbc-timeslot-group {   
+    min-height: 30px;
+}

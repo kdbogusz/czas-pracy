@@ -1,6 +1,17 @@
 .calendar {
     height: 100%;
     width: 100%;
+    position: fixed;
+    top: 8vh;
+    left: 0;
+}
+
+.calendar--noNames {
+    height: 100%;
+    width: calc(100% + 100px);
+    position: fixed;
+    top: 8vh;
+    left: -100px;
 }
 
 .react-calendar-timeline .rct-header-root {

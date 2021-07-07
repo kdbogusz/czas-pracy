@@ -9,12 +9,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -42,3 +36,19 @@
   height: 92vh;
   width: 100vw;
 }
+
+
+/*
+background: FFF8F0
+  background darker: FFECD6
+white: F5F5F5
+  white darker: E0E0E0
+  white darkest: C4C4C4
+black: 2B2118
+main: 3066BE
+  main darker: 2958A3
+  main darkest: 214683
+secondary: F08700
+  secondary darker: CC7400
+  secondary darkest: A35C00
+*/
