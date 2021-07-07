@@ -1,7 +1,11 @@
 import React from "react";
 import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
 import { State, Action, ActionType } from "../common/reducer";
-import { timeDiffString } from "../declarations/Declarations";
+import {
+  timeDiffString,
+  removeOldEvents,
+  EventInfo,
+} from "../declarations/Declarations";
 
 import {
   collection,
@@ -193,23 +197,43 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     return () => clearInterval(interval);
   }, [pressed]);
 
+  React.useEffect(() => {
+    if (["join", "login", "register"].includes(props.state.stage)) {
+      setPressed(StampType.Out);
+      setStamps([]);
+      setTimeElapsedWorkDisplay("");
+      setTimeElapsedBreakDisplay("");
+    }
+  }, [props.state.stage])
+
   const addBlock = (start: Date, end: Date) => {
     if (timeDiffString(start, end) !== "00:00") {
-          (async () => {
-            if (props.state.db) {
-              const docRef = await addDoc(
-                collection(props.state.db, "work_blocks"),
-                {
-                  start: Timestamp.fromDate(start),
-                  end: Timestamp.fromDate(end),
-                  userID: props.state.userID,
-                  teamID: props.state.teamID,
-                }
-              );
+      (async () => {
+        if (props.state.db) {
+          const docRef = await addDoc(
+            collection(props.state.db, "work_blocks"),
+            {
+              start: Timestamp.fromDate(start),
+              end: Timestamp.fromDate(end),
+              userID: props.state.userID,
+              teamID: props.state.teamID,
             }
-          })();
+          );
+          removeOldEvents(
+            {
+              title: "",
+              allDay: false,
+              start: start,
+              end: end,
+            },
+            docRef.id,
+            props.state.userID,
+            props.state.db
+          );
         }
-  }
+      })();
+    }
+  };
 
   const submitHandler = () => {
     let lastStamp: Stamp;
@@ -223,8 +247,8 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         addBlock(start, end);
         lastStamp = stamp;
       }
-    });    
-  }
+    });
+  };
 
   return (
     <div
@@ -248,7 +272,11 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         style={pressed === StampType.Out ? buttonStylePressed : buttonStyle}
         onClick={outHandler}
       />
-      <button type="button" className="miscButton--main" onClick={submitHandler}>
+      <button
+        type="button"
+        className="miscButton--main"
+        onClick={submitHandler}
+      >
         SUBMIT
       </button>
     </div>

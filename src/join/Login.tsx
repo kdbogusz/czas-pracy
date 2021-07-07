@@ -98,6 +98,12 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     setMessage("");
   }, [props.state.stage]);
 
+  const keyDownHandler = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === "Enter") {
+      submitHandler(e);
+    }
+  }
+
   return (
     <div
       className="login"
@@ -106,7 +112,7 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       }}
     >
     <h1>ZALOGUJ SIĘ:</h1>
-      <form className="login__form" onSubmit={submitHandler}>
+      <form className="login__form" onSubmit={submitHandler} onKeyDown={keyDownHandler}>
         <div className="login__field">
           <label htmlFor="loginName" className="login__label">Nazwa użytkownika:</label>
           <input

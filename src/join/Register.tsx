@@ -8,6 +8,8 @@ import {
   query,
   where,
   addDoc,
+  getDoc,
+  DocumentData,
 } from "firebase/firestore";
 
 import "./login.css";
@@ -50,10 +52,24 @@ const Register = (props: {
             type: ActionType.SetUserID,
             payload: docRef.id,
           });
-          props.dispatch({
-            type: ActionType.SetStageStart,
-            payload: "",
-          });
+          const docSnap = await getDoc(docRef);
+          if (docSnap.data()) {
+            if ((docSnap.data() as DocumentData).teamID) {
+              props.dispatch({
+                type: ActionType.SetTeamID,
+                payload: (docSnap.data() as DocumentData).teamID,
+              });
+              props.dispatch({
+                type: ActionType.SetStageStart,
+                payload: "",
+              });
+            } else {
+              props.dispatch({
+                type: ActionType.SetStageNoTeam,
+                payload: "",
+              });
+            }
+          }
         } catch (e) {
           setTemporaryMessage("Rejestracja nie powiodła się");
         }
@@ -68,11 +84,16 @@ const Register = (props: {
     });
   }
 
-
   React.useEffect(() => {
     setCreds({ name: "", password: "", passwordCheck: "" });
     setMessage("");
   }, [props.state.stage]);
+
+  const keyDownHandler = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === "Enter") {
+      submitHandler(e);
+    }
+  }
 
   return (
     <div
@@ -82,7 +103,7 @@ const Register = (props: {
       }}
     >
     <h1>ZAREJESTRUJ SIĘ:</h1>
-      <form className="login__form" onSubmit={submitHandler}>
+      <form className="login__form" onSubmit={submitHandler} onKeyDown={keyDownHandler}>
         <div className="login__field">
           <label htmlFor="loginName" className="login__label">Nazwa użytkownika:</label>
           <input

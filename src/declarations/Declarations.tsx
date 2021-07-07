@@ -21,6 +21,7 @@ import {
   Timestamp,
   doc,
   deleteDoc,
+  FirebaseFirestore,
 } from "firebase/firestore";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -38,9 +39,9 @@ type FormInfo = {
   day: Date;
   start: Date;
   end: Date;
-}
+};
 
-type EventInfo = {
+export type EventInfo = {
   title: string;
   allDay: boolean;
   start: Date;
@@ -48,18 +49,52 @@ type EventInfo = {
 };
 
 export const timeDiffString = (start: Date, end: Date) => {
-    const timeDiff: number = end.getTime() - start.getTime();
-    const dateDiff = new Date(timeDiff);
-    const hourDiff = dateDiff.getUTCHours();
-    const minuteDiff = dateDiff.getUTCMinutes();
-    return (
-      (hourDiff < 10 ? "0" : "") +
-      String(hourDiff) +
-      ":" +
-      (minuteDiff < 10 ? "0" : "") +
-      String(minuteDiff)
-    );
-  };
+  const timeDiff: number = end.getTime() - start.getTime();
+  const dateDiff = new Date(timeDiff);
+  const hourDiff = dateDiff.getUTCHours();
+  const minuteDiff = dateDiff.getUTCMinutes();
+  return (
+    (hourDiff < 10 ? "0" : "") +
+    String(hourDiff) +
+    ":" +
+    (minuteDiff < 10 ? "0" : "") +
+    String(minuteDiff)
+  );
+};
+
+export const removeOldEvents = (
+  newEvent: EventInfo,
+  newID: string,
+  userID: string,
+  db: FirebaseFirestore | undefined,
+  after?: () => Promise<void>
+) => {
+  (async () => {
+    if (db && newEvent) {
+      const q = query(
+        collection(db, "work_blocks"),
+        where("userID", "==", userID)
+      );
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((block) => {
+        (async () => {
+          if (db) {
+            if (
+              block.data().end.toDate().getTime() >= newEvent.start.getTime() &&
+              block.data().start.toDate().getTime() <= newEvent.end.getTime() &&
+              block.id !== newID
+            ) {
+              const blockRef = block.ref;
+              await deleteDoc(blockRef);
+            }
+          }
+        })();
+        if (after) after();
+      });
+    }
+  })();
+};
 
 const Declarations = (props: {
   state: State;
@@ -77,8 +112,6 @@ const Declarations = (props: {
 
   moment.locale("en-GB");
   const localizer = momentLocalizer(moment);
-
-  
 
   const getEvents = () =>
     (async () => {
@@ -156,15 +189,12 @@ const Declarations = (props: {
     if (timeDiffString(start, end) !== "00:00") {
       (async () => {
         if (state.db) {
-          const docRef = await addDoc(
-            collection(state.db, "work_blocks"),
-            {
-              start: Timestamp.fromDate(start),
-              end: Timestamp.fromDate(end),
-              userID: state.userID,
-              teamID: state.teamID,
-            }
-          );
+          const docRef = await addDoc(collection(state.db, "work_blocks"), {
+            start: Timestamp.fromDate(start),
+            end: Timestamp.fromDate(end),
+            userID: state.userID,
+            teamID: state.teamID,
+          });
           removeOldEvents(
             {
               start: start,
@@ -172,45 +202,14 @@ const Declarations = (props: {
               title: "",
               allDay: false,
             },
-            docRef.id
+            docRef.id,
+            props.state.userID,
+            props.state.db,
+            getEvents
           );
         }
       })();
     }
-  };
-
-  const removeOldEvents = (newEvent: EventInfo, newID: string) => {
-    (async () => {
-      if (props.state.db && newEvent) {
-        const q = query(
-          collection(props.state.db, "work_blocks"),
-          where("userID", "==", props.state.userID)
-        );
-        const querySnapshot = await getDocs(q);
-
-        querySnapshot.forEach((block) => {
-          (async () => {
-            if (props.state.db) {
-              console.log("OLD START", block.data().start.toDate().getTime());
-              console.log("NEW START", newEvent.start.getTime());
-              console.log("OLD END", block.data().end.toDate().getTime());
-              console.log("NEW END", newEvent.end.getTime());
-              if (
-                block.data().end.toDate().getTime() >=
-                  newEvent.start.getTime() &&
-                block.data().start.toDate().getTime() <=
-                  newEvent.end.getTime() &&
-                block.id !== newID
-              ) {
-                const blockRef = block.ref;
-                await deleteDoc(blockRef);
-              }
-            }
-          })();
-        });
-      }
-      getEvents();
-    })();
   };
 
   const onSelectSlot = (e: SlotInfo) => {
@@ -262,7 +261,7 @@ const Declarations = (props: {
 
   const submitHandler = () => {
     addEvent(props.state, formInfo);
-  }
+  };
 
   return (
     <div
