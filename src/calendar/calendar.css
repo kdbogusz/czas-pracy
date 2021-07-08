@@ -1,6 +1,6 @@
 .calendar {
     height: 100%;
-    width: 100%;
+    width: 100vw;
     position: fixed;
     top: 8vh;
     left: 0;
@@ -8,12 +8,30 @@
 
 .calendar--noNames {
     height: 100%;
-    width: calc(100% + 100px);
+    width: calc(100vw + 100px);
     position: fixed;
     top: 8vh;
     left: -100px;
 }
 
 .react-calendar-timeline .rct-header-root {
-    background: chartreuse;
+    background: #3066BE;
+    color: #2B2118;
+}
+
+.react-calendar-timeline .rct-dateHeader-primary {
+    color: #F5F5F5;
+}
+
+.calendar__button {
+    position: fixed;
+    top: 8vh;
+    left: 0;
+    height: 61px;
+    width: 100px;
+    background: #FFF8F0;
+    z-index: 999999;
+    border-style: solid;
+    border-width: 0px 1px 1px 0px;
+    border-color: #bbb;
 }

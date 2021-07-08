@@ -54,6 +54,22 @@ const Menu = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     hideMenu();
   };
 
+  const setTeamCallback = () => {
+    props.dispatch({
+      type: ActionType.SetStageTeam,
+      payload: "",
+    });
+    hideMenu();
+  };
+
+  const setNoTeamCallback = () => {
+    props.dispatch({
+      type: ActionType.SetStageNoTeam,
+      payload: "",
+    });
+    hideMenu();
+  };
+
   return (
     <OutsideClickHandler
       onOutsideClick={() =>
@@ -63,7 +79,7 @@ const Menu = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       <div
         className={props.state.isMenuVisible ? "menu menu--visible" : "menu menu--hidden"}
       >
-        {props.state.userID ? (
+        {props.state.userID ? ( props.state.teamID ? (
           <>
             <NavbarButton text="START" callback={setStartCallback} />
             <NavbarButton text="KALENDARZ" callback={setCalendarCallback} />
@@ -71,8 +87,13 @@ const Menu = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
               text="DEKLARACJE"
               callback={setDeclerationsCallback}
             />
+            <NavbarButton
+              text="TEAM"
+              callback={setTeamCallback}
+            />
           </>
-        ) : (
+        ) : <>
+        <NavbarButton text="START" callback={setNoTeamCallback} /></> ): (
           <>
             <NavbarButton text="LOGIN" callback={setLoginCallback} />
             <NavbarButton text="REJESTRACJA" callback={setRegisterCallback} />

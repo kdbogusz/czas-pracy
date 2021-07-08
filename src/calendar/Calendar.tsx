@@ -1,7 +1,12 @@
 import React from "react";
-import Timeline, { TimelineHeaders, DateHeader } from "react-calendar-timeline";
+import Timeline, {
+  TimelineHeaders,
+  DateHeader,
+  TimelineContext,
+} from "react-calendar-timeline";
 import moment, { Moment } from "moment";
 import { State, Action, ActionType } from "../common/reducer";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 import "react-calendar-timeline/lib/Timeline.css";
 import "./calendar.css";
@@ -23,6 +28,12 @@ type singleItem = {
   title: string;
   start_time: Moment;
   end_time: Moment;
+  itemProps: {
+    style: {
+      background: string;
+      boxShadow: string;
+    };
+  };
 };
 
 type singleGroup = {
@@ -36,7 +47,7 @@ const Calendar = (props: {
 }) => {
   const [groups, setGroups] = React.useState<singleGroup[]>([]);
   const [items, setItems] = React.useState<singleItem[]>([]);
-  const [isNamesVisible, setIsNamesVisible] = React.useState(true);
+  const [isNamesVisible, setIsNamesVisible] = React.useState(false);
 
   const getItems = () =>
     (async () => {
@@ -74,6 +85,12 @@ const Calendar = (props: {
               title: "",
               start_time: moment(doc.data().start.toDate()),
               end_time: moment(doc.data().end.toDate()),
+              itemProps: {
+                style: {
+                  background: "#3066BE",
+                  boxShadow: "none",
+                },
+              },
             },
           ];
         });
@@ -83,6 +100,9 @@ const Calendar = (props: {
 
   React.useEffect(() => {
     getItems();
+    if (props.state.stage === "calendar" && !isNamesVisible) {
+      setIsNamesVisible(true);
+    }
   }, [props.state.stage]);
 
   // const getPasscode = () => {
@@ -96,30 +116,41 @@ const Calendar = (props: {
 
   return (
     <div
-      className={isNamesVisible ? "calendar" : "calendar--noNames"}
+      // className={isNamesVisible ? "calendar" : "calendar--noNames"}
+
+      className={"calendar"}
       style={{ display: props.state.stage === "calendar" ? "initial" : "none" }}
     >
+      {isNamesVisible ? (
+        <FaChevronLeft
+          className="calendar__button"
+          onClick={() => {
+            setIsNamesVisible(!isNamesVisible);
+          }}
+        />
+      ) : (
+        <FaChevronRight
+          className="calendar__button"
+          onClick={() => {
+            setIsNamesVisible(!isNamesVisible);
+          }}
+        />
+      )}
       {/* {props.state.isTeamLeader ? getPasscode() : ""} */}
       <Timeline
         lineHeight={60}
         itemHeightRatio={0.85}
-        sidebarWidth={100}
-        traditionalZoom={true}
+        sidebarWidth={isNamesVisible ? 100 : 0}
+        traditionalZoom={false}
         canResize={false}
         canMove={false}
         groups={groups}
         items={items}
-        defaultTimeStart={moment().add(-12, "hour")}
-        defaultTimeEnd={moment().add(12, "hour")}
+        defaultTimeStart={moment().add(-4, "day")}
+        defaultTimeEnd={moment().add(4, "day")}
+        onItemSelect={() => {}}
+        minZoom={24 * 60 * 60 * 1000}
       />
-      <button
-        type="button"
-        onClick={() => {
-          setIsNamesVisible(!isNamesVisible);
-        }}
-      >
-        PRESS
-      </button>
     </div>
   );
 };

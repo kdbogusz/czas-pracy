@@ -21,6 +21,7 @@ const Navbar = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     props.dispatch({ type: ActionType.SetTeamID, payload: "" });
     props.dispatch({ type: ActionType.SetIsTeamLeader, payload: false });
     props.dispatch({ type: ActionType.SetUserID, payload: "" });
+    props.dispatch({ type: ActionType.SetTeamPasscode, payload: "" });
   };
 
   return (

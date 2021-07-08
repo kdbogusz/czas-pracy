@@ -13,10 +13,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-import "./start.css";
+import "../start/start.css";
 import "../common/common.css";
 
-const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   const [passcode, setPasscode] = React.useState("");
 
   const buttonStyle = {
@@ -90,4 +90,4 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   );
 };
 
-export default Start;
+export default NoTeam;

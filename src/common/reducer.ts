@@ -9,6 +9,7 @@ export type State = {
   userID: string;
   teamID: string;
   isTeamLeader: boolean;
+  teamPasscode: string;
 };
 
 export enum ActionType {
@@ -21,11 +22,13 @@ export enum ActionType {
   SetStageLogin = "SET_STAGE_LOGIN",
   SetStageRegister = "SET_STAGE_REGISTER",
   SetStageNoTeam = "SET_STAGE_NO_TEAM",
+  SetStageTeam = "SET_STAGE_TEAM",
   SetFirebaseApp = "SET_FIREBASE_APP",
   SetDB = "SET_DB",
   SetUserID = "SET_USER_ID",
   SetTeamID = "SET_TEAM_ID",
   SetIsTeamLeader = "SET_IS_TEAM_LEADER",
+  SetTeamPasscode = "SET_TEAM_PASSCODE",
 }
 
 export type Action = {
@@ -41,6 +44,7 @@ export const initialState: State = {
   userID: "",
   teamID: "",
   isTeamLeader: false,
+  teamPasscode: "",
 };
 
 export function reducer(state: State, action: Action): State {
@@ -80,6 +84,11 @@ export function reducer(state: State, action: Action): State {
         ...state,
         stage: "noTeam",
       };
+    case ActionType.SetStageTeam:
+      return {
+        ...state,
+        stage: "team",
+      };
     case ActionType.HideMenu:
       return {
         ...state,
@@ -114,6 +123,11 @@ export function reducer(state: State, action: Action): State {
       return {
         ...state,
         isTeamLeader: action.payload as boolean,
+      };
+    case ActionType.SetTeamPasscode:
+      return {
+        ...state,
+        teamPasscode: action.payload as string,
       };
     default:
       return state;

@@ -236,18 +236,26 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   };
 
   const submitHandler = () => {
-    let lastStamp: Stamp;
+    console.log(stamps)
+    let lastStamp: Stamp | undefined;
     stamps.forEach((stamp) => {
-      if (!lastStamp && stamp.stampType !== StampType.Out) lastStamp = stamp;
-      else if (!lastStamp && stamp.stampType === StampType.Out) return;
+      if (lastStamp === undefined && stamp.stampType !== StampType.Out) lastStamp = stamp;
+      else if (lastStamp === undefined && stamp.stampType === StampType.Out) return;
       else if (stamp.stampType !== StampType.Out) return;
-      else if (stamp.stampType === StampType.Out) {
+      else if (lastStamp !== undefined && stamp.stampType === StampType.Out) {
         const start = lastStamp.moment;
         const end = stamp.moment;
         addBlock(start, end);
         lastStamp = stamp;
       }
     });
+
+    if (lastStamp !== undefined && lastStamp.stampType !== StampType.Out) {
+      const start = lastStamp.moment;
+      const end = moment().toDate();
+      addBlock(start, end);
+      console.log(start.toTimeString(), end.toTimeString())
+    }
   };
 
   return (

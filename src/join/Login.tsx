@@ -75,6 +75,14 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
                   type: ActionType.SetIsTeamLeader,
                   payload: !teamsQuerySnapshot.empty,
                 });
+                if (!teamsQuerySnapshot.empty) {
+                  teamsQuerySnapshot.forEach((team) => {
+                    props.dispatch({
+                      type: ActionType.SetTeamPasscode,
+                      payload: team.data().passcode
+                    });
+                  })
+                }
               })();
             }
           } else {

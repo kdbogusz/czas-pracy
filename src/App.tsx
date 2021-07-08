@@ -9,7 +9,8 @@ import Declarations from "./declarations/Declarations";
 import Join from "./join/Join";
 import Login from "./join/Login";
 import Register from "./join/Register";
-import NoTeam from "./start/NoTeam";
+import NoTeam from "./team/NoTeam";
+import Team from "./team/Team";
 
 import { initialState, reducer } from "./common/reducer";
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
@@ -52,6 +53,7 @@ const App = () => {
         <Join state={state} dispatch={dispatch} />
         <Login state={state} dispatch={dispatch} />
         <Register state={state} dispatch={dispatch} />
+        <Team state={state} dispatch={dispatch} />
       </div>
     </div>
   );

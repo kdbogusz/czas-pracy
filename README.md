@@ -7,10 +7,12 @@ Aplikacja działa na [http://localhost:3000](http://localhost:3000).
 
 * Poprawić wizualnie ekrany poza Join, Login i Register
 * Zrobić Navbar responsywny
-* Poprawić chowanie się paska bocznego w Calendar bez zmiany rozdzielczości
 * Routery
 * Loadery
 * Potencjalnie zrobić brakujący czas pracy w przeciągu miesiąca
 * Dodać wiadomość w NoTeam
 * Dodać wyświetlanie passcode'u
 * Uniemożliwić rejestrację na tą samą nazwę po raz kolejny
+* Stworzyć dodawanie teamów w NoTeam
+* Opuszczanie teamów (?)
+* Dodać reset do Start

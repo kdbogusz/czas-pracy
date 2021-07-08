@@ -33,3 +33,19 @@
 .miscButton--cancel:active {
     background: #C4C4C4;
 }
+
+.miscButton--delete {
+    background: #DC4151;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-style: none;
+    color: #ECF0F1;
+}
+
+.miscButton--delete:hover {
+    background: #CF2637;
+}
+
+.miscButton--delete:active {
+    background: #AC202E;
+}
