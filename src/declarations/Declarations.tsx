@@ -116,15 +116,15 @@ const Declarations = (props: {
   const getEvents = () =>
     (async () => {
       if (props.state.db) {
-        const q = query(
+        const blockQuery = query(
           collection(props.state.db, "work_blocks"),
           where("userID", "==", props.state.userID)
         );
-        const querySnapshot = await getDocs(q);
+        const blockQuerySnapshot = await getDocs(blockQuery);
 
         let newEvents = {};
 
-        querySnapshot.forEach((doc) => {
+        blockQuerySnapshot.forEach((doc) => {
           newEvents = {
             ...newEvents,
             [doc.data().start.toDate().toString()]: {
@@ -138,6 +138,25 @@ const Declarations = (props: {
             },
           };
         });
+
+        const vacationQuery = query(
+          collection(props.state.db, "vacations"),
+          where("userID", "==", props.state.userID)
+        );
+        const vacationQuerySnapshot = await getDocs(vacationQuery);
+
+        vacationQuerySnapshot.forEach((doc) => {
+          newEvents = {
+            ...newEvents,
+            [doc.data().date.toDate().toString()]: {
+              title: "URLOP",
+              allDay: false,
+              start: doc.data().date.toDate(),
+              end: doc.data().date.toDate(),
+            },
+          };
+        });
+
         setEvents(newEvents);
       }
     })();
@@ -195,10 +214,57 @@ const Declarations = (props: {
             userID: state.userID,
             teamID: state.teamID,
           });
+
           removeOldEvents(
             {
               start: start,
               end: end,
+              title: "",
+              allDay: false,
+            },
+            "",
+            props.state.userID,
+            props.state.db,
+            getEvents
+          );
+        }
+      })();
+    } else if (start.getHours() == 0 && start.getMinutes() == 0 && end.getHours() == 0 && end.getMinutes() == 0) {
+      (async () => {
+        if (state.db) {
+          const docRef = await addDoc(collection(state.db, "vacations"), {
+            date: Timestamp.fromDate(start),
+            userID: state.userID,
+            teamID: state.teamID,
+          });
+
+          (async () => {
+            if (props.state.db) {
+              const q = query(
+                collection(props.state.db, "vacations"),
+                where("userID", "==", props.state.userID)
+              );
+              const querySnapshot = await getDocs(q);
+        
+              querySnapshot.forEach((block) => {
+                (async () => {
+                  if (props.state.db) {
+                    if (
+                      start.getTime() === block.data().date.toDate().getTime() && docRef.id !== block.id
+                    ) {
+                      const blockRef = block.ref;
+                      await deleteDoc(blockRef);
+                    }
+                  }
+                })();
+              });
+            }
+          })();
+
+          removeOldEvents(
+            {
+              start: start,
+              end: moment(start).add(1, "day").toDate(),
               title: "",
               allDay: false,
             },

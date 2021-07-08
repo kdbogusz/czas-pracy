@@ -9,10 +9,11 @@ Aplikacja działa na [http://localhost:3000](http://localhost:3000).
 * Zrobić Navbar responsywny
 * Routery
 * Loadery
-* Potencjalnie zrobić brakujący czas pracy w przeciągu miesiąca
 * Dodać wiadomość w NoTeam
-* Dodać wyświetlanie passcode'u
 * Uniemożliwić rejestrację na tą samą nazwę po raz kolejny
-* Stworzyć dodawanie teamów w NoTeam
-* Opuszczanie teamów (?)
+* Stworzyć tworzenie teamów w NoTeam
 * Dodać reset do Start
+* Obcinanie białych znaków przy formularzach
+* Ogarnąć zliczanie czasu z urlopów
+* Naprawić dodawanie bloków czasu
+* Dodać czyszczenie urlopów po dodaniu nowego bloku 
