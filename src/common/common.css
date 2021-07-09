@@ -1,9 +1,9 @@
 .miscButton--main {
-    background: #3066BE;
-    font-weight: bold;
+    background: #3498db;
     font-size: 1.5rem;
     border-style: none;
     color: #ECF0F1;
+
 }
 
 .miscButton--main:hover {

@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  flex-direction: column;
 }
 
 .start--hidden {
@@ -12,15 +13,30 @@
   height: 100%;
   width: 100%;
 }
+.start-icon{
+  color: #fff;
+  font-size: 5rem;
+}
+.start-container__timer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem;
+}
+.start-container__timer p{
+  font-size: 3rem;
+  color: #bdc6c7;
+  padding-left: 2rem;
+  margin: 10px;
 
+}
+.start-btn{
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+}
 @media screen and (max-width: 768px) {
   .start--layout {
     flex-direction: column;
   }
 }
 
-@media screen and (min-width: 768px) {
-  .start--layout {
-    flex-direction: row;
-  }
-}

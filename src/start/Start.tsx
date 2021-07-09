@@ -44,21 +44,18 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   moment.locale("en-GB");
 
   const buttonStyle = {
-    height: "20vw",
-    width: "20vw",
-    background: "#F08700",
+    background: "#3498db",
     padding: "1.5rem 1.5rem 1.5rem 1.5rem",
-    borderRadius: "3rem",
+    borderRadius: "5rem",
     boxShadow: "0px 0px 10px 1px rgb(43, 33, 24, 0.4)",
   };
 
   const buttonStylePressed = {
-    height: "20vw",
-    width: "20vw",
-    background: "#A35C00",
+
+    background: "#105e91",
     padding: "1.5rem 1.5rem 1.5rem 1.5rem",
-    borderRadius: "3rem",
-    boxShadow: "0px 0px 10px 1px rgb(163, 53, 0, 0.8)",
+    borderRadius: "5rem",
+    boxShadow: "3px 5px 20px 5px rgba(16,94,145,0.61)"
   };
 
   const workHandler = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
@@ -266,26 +263,35 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           : "start start--hidden"
       }
     >
-      <FaBriefcase
-        style={pressed === StampType.Work ? buttonStylePressed : buttonStyle}
-        onClick={workHandler}
-      />
-      {timeElapsedWorkDisplay}
-      <FaMugHot
-        style={pressed === StampType.Break ? buttonStylePressed : buttonStyle}
-        onClick={breakHandler}
-      />
-      {timeElapsedBreakDisplay}
-      <FaBed
-        style={pressed === StampType.Out ? buttonStylePressed : buttonStyle}
-        onClick={outHandler}
-      />
+      <div>
+        <div className="start-container__timer">
+          <FaBriefcase className="start-icon"
+            style={pressed === StampType.Work ? buttonStylePressed : buttonStyle}
+            onClick={workHandler}
+          />
+          <p>{timeElapsedWorkDisplay}</p>
+        </div>
+        <div className="start-container__timer">
+          <FaMugHot className="start-icon"
+            style={pressed === StampType.Break ? buttonStylePressed : buttonStyle}
+            onClick={breakHandler}
+          />
+          <p>{timeElapsedBreakDisplay}</p>
+        </div>
+        <div className="start-container__timer">
+          <FaBed className="start-icon"
+            style={pressed === StampType.Out ? buttonStylePressed : buttonStyle}
+            onClick={outHandler}
+          />
+          <p></p>
+        </div>
+      </div>
       <button
         type="button"
-        className="miscButton--main"
+        className="miscButton--main start-btn"
         onClick={submitHandler}
       >
-        SUBMIT
+        Submit
       </button>
     </div>
   );
