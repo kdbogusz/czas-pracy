@@ -119,7 +119,7 @@ const Register = (props: {
             name="loginName"
             className="login__input"
             value={creds.name}
-            onChange={(e) => setCreds({ ...creds, name: e.target.value })}
+            onChange={(e) => setCreds({ ...creds, name: e.target.value.split(/\s/).join('') })}
           ></input>
         </div>
 
@@ -131,7 +131,7 @@ const Register = (props: {
             name="loginPassword"
             className="login__input"
             value={creds.password}
-            onChange={(e) => setCreds({ ...creds, password: e.target.value })}
+            onChange={(e) => setCreds({ ...creds, password: e.target.value.split(/\s/).join('') })}
           ></input>
         </div>
 
@@ -144,7 +144,7 @@ const Register = (props: {
             className="login__input"
             value={creds.passwordCheck}
             onChange={(e) =>
-              setCreds({ ...creds, passwordCheck: e.target.value })
+              setCreds({ ...creds, passwordCheck: e.target.value.split(/\s/).join('') })
             }
           ></input>
         </div>

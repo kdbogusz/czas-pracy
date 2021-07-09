@@ -254,6 +254,9 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       addBlock(start, end);
       console.log(start.toTimeString(), end.toTimeString())
     }
+    setTimeElapsedWorkDisplay(timeElapsedWork([]));
+    setTimeElapsedBreakDisplay(timeElapsedBreak([]));
+
   };
 
   return (
