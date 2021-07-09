@@ -6,6 +6,7 @@ import {
   removeOldEvents,
   EventInfo,
 } from "../declarations/Declarations";
+import work from '../assets/img/work.svg'
 
 import {
   collection,
@@ -264,6 +265,7 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       }
     >
       <div>
+      <div>
         <div className="start-container__timer">
           <FaBriefcase className="start-icon"
             style={pressed === StampType.Work ? buttonStylePressed : buttonStyle}
@@ -293,6 +295,11 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       >
         Submit
       </button>
+      </div>
+      <div className="start-container__img">
+        <img src={work} alt="work"></img>
+      </div>
+
     </div>
   );
 };

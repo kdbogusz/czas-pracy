@@ -1,6 +1,6 @@
 import React from "react";
 import { State, Action, ActionType } from "../common/reducer";
-
+import work from '../assets/img/login.svg'
 import "../common/common.css";
 import "./join.css";
 
@@ -26,21 +26,21 @@ const Join = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         display: props.state.stage === "join" ? "flex" : "none",
       }}
     >
-      <img src="../../logo512.png" className="join__logo" />
+      <img className="join-img" src={work} />
       <div className="join__buttons">
         <button
           type="button"
           onClick={setLoginStage}
           className="miscButton--main miscButton--shadow join__button"
         >
-          LOGOWANIE
+          Logowanie
         </button>
         <button
           type="button"
           onClick={setRegisterStage}
           className="miscButton--main miscButton--shadow join__button"
         >
-          REJESTRACJA
+          Rejestracja
         </button>
       </div>
     </div>

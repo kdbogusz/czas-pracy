@@ -33,8 +33,9 @@
 }
 
 .app__body {
-  height: 92vh;
+  min-height: 92vh;
   width: 100vw;
+
 }
 
 

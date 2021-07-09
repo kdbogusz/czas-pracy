@@ -87,7 +87,7 @@ const Calendar = (props: {
               end_time: moment(doc.data().end.toDate()),
               itemProps: {
                 style: {
-                  background: "#3066BE",
+                  background: "#3498db",
                   boxShadow: "none",
                 },
               },

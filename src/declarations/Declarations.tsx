@@ -330,7 +330,7 @@ const Declarations = (props: {
   };
 
   return (
-    <div
+    <div className="declarations-container"
       style={{
         display: props.state.stage === "declarations" ? "initial" : "none",
         height: "100%",
@@ -372,7 +372,7 @@ const Declarations = (props: {
             className="miscButton--main"
             style={{ fontSize: "1rem" }}
           >
-            SUBMIT
+            Submit
           </button>
         </div>
       </div>

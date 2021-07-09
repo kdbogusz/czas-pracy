@@ -15,7 +15,8 @@
 }
 
 .react-calendar-timeline .rct-header-root {
-    background: #3066BE;
+    background: #ecf0f1;
+    border: none;
     color: #2B2118;
 }
 
