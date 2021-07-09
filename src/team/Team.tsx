@@ -1,7 +1,7 @@
 import React from "react";
 import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
 import { State, Action, ActionType } from "../common/reducer";
-
+import './teamInfo.css'
 import {
   collection,
   documentId,
@@ -125,30 +125,33 @@ const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     <div
       className={
         props.state.stage === "team"
-          ? "start start--layout"
+          ? "start start--layout teamInfo"
           : "start start--hidden"
       }
     >
+      <div className="team-container">
         <TeamInfo state={props.state} dispatch={props.dispatch} />
-      <div>
-        {props.state.isTeamLeader ? (
-          <button
-            type="button"
-            className="miscButton--delete miscButton--shadow"
-            onClick={deleteHandler}
-          >
-            USUŃ TEAM
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="miscButton--delete miscButton--shadow"
-            onClick={() => leaveHandler(props.state.userID)}
-          >
-            OPUŚĆ TEAM
-          </button>
-        )}
+        <div>
+          {props.state.isTeamLeader ? (
+            <button
+              type="button"
+              className="miscButton--delete miscButton--shadow"
+              onClick={deleteHandler}
+            >
+              USUŃ TEAM
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="miscButton--delete miscButton--shadow"
+              onClick={() => leaveHandler(props.state.userID)}
+            >
+              OPUŚĆ TEAM
+            </button>
+          )}
+        </div>
       </div>
+
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
 import { State, Action, ActionType } from "../common/reducer";
-
+import './teamInfo.css'
 import {
   collection,
   documentId,
@@ -161,7 +161,7 @@ const TeamInfo = (props: {
   }, [props.state.stage]);
 
   return (
-    <div
+    <div className="teamInfo-container"
     //   className={
     //     props.state.stage === "team"
     //       ? "start start--layout"
@@ -171,24 +171,33 @@ const TeamInfo = (props: {
       <div>
         {props.state.isTeamLeader ? (
           <>
-            <h3> {`PASSCODE: ${props.state.teamPasscode}`} </h3>
-
-            {Object.keys(users)
-              .reverse()
-              .map((key) => {
-                return (
-                  <ul>
-                    <li>{(users[key as keyof typeof users] as User).name}</li>
-                    <li>
-                      {(users[key as keyof typeof users] as User).timeString} /{" "}
-                      {
+            <table className="teamInfo-table" width="100%" cellSpacing="0">
+                    <caption>{`PASSCODE: ${props.state.teamPasscode}`}</caption>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Hours worked</th>
+                            <th>All hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.keys(users)
+                          .reverse().map((key)=> <tr>
+                            <td>
+                              {(users[key as keyof typeof users] as User).name}
+                            </td>
+                            <td>
+                              {(users[key as keyof typeof users] as User).timeString}
+                            </td>
+                            <td>
+                            {
                         (users[key as keyof typeof users] as User)
                           .totalTimeString
                       }
-                    </li>
-                  </ul>
-                );
-              })}
+                            </td>
+                          </tr>)}
+                    </tbody>
+                </table>
           </>
         ) : (
           <></>

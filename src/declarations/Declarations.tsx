@@ -337,7 +337,7 @@ const Declarations = (props: {
       }}
     >
       <div style={{ zIndex: 90000, height: "10%" }}>
-        <div>
+        <div className="declarations-container__picker">
           <TimePicker
             showSecond={false}
             value={moment(formInfo.start)}
@@ -358,8 +358,6 @@ const Declarations = (props: {
             use12Hours
             inputReadOnly
           />
-        </div>
-        <div>
           <DatePicker
             selected={formInfo.day}
             onChange={(date) => {

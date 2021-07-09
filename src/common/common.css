@@ -30,17 +30,15 @@
 }
 
 .miscButton--delete {
-    background: #DC4151;
-    font-weight: bold;
-    font-size: 1.5rem;
+    background: #3498db;;
     border-style: none;
+    padding: 1rem 2rem;
     color: #ECF0F1;
+    font-weight: 500;
+    border-radius: 0.8rem;
+    cursor: pointer;
 }
 
 .miscButton--delete:hover {
-    background: #CF2637;
-}
-
-.miscButton--delete:active {
-    background: #AC202E;
+    background: #2983c0;;
 }

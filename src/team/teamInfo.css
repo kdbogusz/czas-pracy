@@ -1,0 +1,34 @@
+.teamInfo-container{
+width: 50% !important;
+}
+.team-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.teamInfo-table{
+    margin: 1rem 0;
+}
+.teamInfo-table th{
+ background-color: #3498db;
+ color: #fff;   
+ height: 3rem;
+}
+.teamInfo-table caption{
+    height: 3rem;
+    font-weight: 600;
+}
+.teamInfo-table tr {
+    height: 3rem;
+}
+.teamInfo-table tr:nth-of-type(odd) {
+    background: #fff;
+}
+.teamInfo{
+    width: 100%;
+    display: block;
+}
+.teamInfo div{
+    width: 100%;
+}
