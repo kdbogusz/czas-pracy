@@ -16,6 +16,7 @@ import {
 import "../start/start.css";
 import "../common/common.css";
 import { useState } from "react";
+import CreateTeam from "./CreateTeam";
 
 const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   const [passcode, setPasscode] = React.useState("");
@@ -88,6 +89,7 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         <button type="submit">SUBMIT</button>
       </form>
       <p>{errorMessage}</p>
+      <CreateTeam state={props.state} dispatch={props.dispatch}/>
     </div>
   );
 };
