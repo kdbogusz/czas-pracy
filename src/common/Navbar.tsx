@@ -26,7 +26,7 @@ const Navbar = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
 
   return (
     <div className="navbar">
-      <FaBars className="navbarButton--size miscButton--main" onClick={toggleMenu} />
+      <FaBars className="navbarButton--size miscButton--main navbar-btn__hamburger" onClick={toggleMenu} />
       {!["join", "login", "register"].includes(props.state.stage) && (
         <FaPowerOff className="navbarButton--size miscButton--main" onClick={logOut} />
       )}

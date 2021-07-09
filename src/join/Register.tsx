@@ -43,33 +43,40 @@ const Register = (props: {
     (async () => {
       if (props.state.db) {
         try {
-          const docRef = await addDoc(collection(props.state.db, "users"), {
-            name: creds.name,
-            password: creds.password,
-          });
-
-          props.dispatch({
-            type: ActionType.SetUserID,
-            payload: docRef.id,
-          });
-          const docSnap = await getDoc(docRef);
-          if (docSnap.data()) {
-            if ((docSnap.data() as DocumentData).teamID) {
+          const userQuery = query(
+            collection(props.state.db, "users"),
+            where("name", "==", creds.name));
+          const teamQuerySnapshot = await getDocs(userQuery);
+            if(teamQuerySnapshot.size===0){
+              const docRef = await addDoc(collection(props.state.db, "users"), {
+                name: creds.name,
+                password: creds.password,
+              })
               props.dispatch({
-                type: ActionType.SetTeamID,
-                payload: (docSnap.data() as DocumentData).teamID,
+                type: ActionType.SetUserID,
+                payload: docRef.id,
               });
-              props.dispatch({
-                type: ActionType.SetStageStart,
-                payload: "",
-              });
-            } else {
-              props.dispatch({
-                type: ActionType.SetStageNoTeam,
-                payload: "",
-              });
+              const docSnap = await getDoc(docRef);
+              if (docSnap.data()) {
+                if ((docSnap.data() as DocumentData).teamID) {
+                  props.dispatch({
+                    type: ActionType.SetTeamID,
+                    payload: (docSnap.data() as DocumentData).teamID,
+                  });
+                  props.dispatch({
+                    type: ActionType.SetStageStart,
+                    payload: "",
+                  });
+                } else {
+                  props.dispatch({
+                    type: ActionType.SetStageNoTeam,
+                    payload: "",
+                  });
+                }
+              }
+            }else{
+              setMessage("Konto juz istnieje!")
             }
-          }
         } catch (e) {
           setTemporaryMessage("Rejestracja nie powiodła się");
         }

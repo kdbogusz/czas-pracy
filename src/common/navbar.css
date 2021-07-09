@@ -59,3 +59,8 @@
     /* visibility: hidden; */
     transform: translate3d(calc(-50vw - 6px), 0, 0);
 }
+@media only screen and (min-width: 992px) {
+    .navbar-btn__hamburger{
+        display: none;
+    }
+} 

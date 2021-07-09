@@ -15,9 +15,11 @@ import {
 
 import "../start/start.css";
 import "../common/common.css";
+import { useState } from "react";
 
 const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   const [passcode, setPasscode] = React.useState("");
+  const [errorMessage, setErrorMessage]=React.useState("");
 
   const buttonStyle = {
     height: "25vw",
@@ -35,7 +37,7 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           where("passcode", "==", passcode)
         );
         const teamQuerySnapshot = await getDocs(teamQuery);
-
+          teamQuerySnapshot.size===0 && setErrorMessage("Wrong code!!!")
         teamQuerySnapshot.forEach((team) => {
           props.dispatch({
             type: ActionType.SetTeamID,
@@ -58,7 +60,6 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
                 payload: "",
               });
             } catch (e) {
-              // TODO
             }
           })();
         });
@@ -86,6 +87,7 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         ></input>
         <button type="submit">SUBMIT</button>
       </form>
+      <p>{errorMessage}</p>
     </div>
   );
 };
