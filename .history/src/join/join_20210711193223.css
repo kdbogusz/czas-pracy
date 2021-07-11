@@ -1,0 +1,36 @@
+.join {
+  min-height: calc( 100vh - 8vh);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap-reverse;
+}
+
+
+.join__text{
+ color: #bdc6c7;
+ font-size: 3rem;
+}
+
+.join-img{
+  max-width: 80%;
+  max-height: 90%;
+}
+.join-container{
+  max-width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .join__button {
+    width: 70%;
+    height: 30%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .join__button {
+    width: 50%;
+    height: 25%;
+  }
+}

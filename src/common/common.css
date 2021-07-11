@@ -1,8 +1,7 @@
 .miscButton--main {
-    background: #3498db;
     font-size: 1.5rem;
     border-style: none;
-    color: #ECF0F1;
+    color: #3498db;
     cursor: pointer;
 
 }
@@ -35,10 +34,10 @@
     padding: 1rem 2rem;
     color: #ECF0F1;
     font-weight: 500;
-    border-radius: 0.8rem;
+    border-radius: 2rem;
     cursor: pointer;
 }
 
 .miscButton--delete:hover {
-    background: #2983c0;;
+    background: #2983c0;
 }

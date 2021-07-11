@@ -1,5 +1,5 @@
 .navbar {
-    background: #3498db;
+    background: #fff;
     height: 8vh;
     width: 100vw;
     z-index: 99999;
@@ -8,6 +8,26 @@
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 0 15px 0 rgb(43, 33, 24, 0.6); 
+}
+.navbar-btn {
+    background: #fff;
+    height: 8vh;
+    width: 100vw;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    box-shadow: 0 0 15px 0 rgb(43, 33, 24, 0.6);
+}
+.navbar-btn button{
+    color: #2983c0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+.navbar-btn button:hover{
+    color: rgb(16, 94, 145) ;
 }
 
 .navbarButton--size {

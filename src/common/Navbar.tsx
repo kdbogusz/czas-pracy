@@ -23,14 +23,33 @@ const Navbar = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     props.dispatch({ type: ActionType.SetUserID, payload: "" });
     props.dispatch({ type: ActionType.SetTeamPasscode, payload: "" });
   };
+  const setLoginStage = () => {
+    props.dispatch({
+      type: ActionType.SetStageLogin,
+      payload: "",
+    });
+  };
+
+  const setRegisterStage = () => {
+    props.dispatch({
+      type: ActionType.SetStageRegister,
+      payload: "",
+    });
+  };
 
   return (
-    <div className="navbar">
+    <>
+    {props.state.ShowNavBar ? <div className="navbar">
       <FaBars className="navbarButton--size miscButton--main navbar-btn__hamburger" onClick={toggleMenu} />
       {!["join", "login", "register"].includes(props.state.stage) && (
         <FaPowerOff className="navbarButton--size miscButton--main" onClick={logOut} />
       )}
-    </div>
+    </div>:
+    <div className="navbar-btn">
+     <button onClick={setLoginStage}>Logowanie</button>
+     <button onClick={setRegisterStage}>Rejestracja</button>
+  </div>}
+    </>
   );
 };
 

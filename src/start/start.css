@@ -9,12 +9,13 @@
 }
 
 .start {
-  height: 92vh;
+  min-height: 92vh;
   width: 100%;
 }
 .start-icon{
   color: #fff;
   font-size: 5rem;
+  cursor: pointer;
 }
 .start-container__timer{
   display: flex;
@@ -31,8 +32,10 @@
 }
 .start-btn{
   padding: 1rem 2rem;
-  border-radius: 0.5rem;
+  border-radius: 3rem;
   margin-top: 2rem;
+  background-color: #3498db;
+  color: #fff;
 }
 .start-btn:hover{
   background-color: rgb(16, 94, 145) ;

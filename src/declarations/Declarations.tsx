@@ -367,7 +367,7 @@ const Declarations = (props: {
           <button
             type="button"
             onClick={submitHandler}
-            className="miscButton--main"
+            className="miscButton--main declarations-btn"
             style={{ fontSize: "1rem" }}
           >
             Submit

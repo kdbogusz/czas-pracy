@@ -1,0 +1,105 @@
+
+
+.login {
+    height: 92vh;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: "100%";
+  }
+  
+  .login__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+  }
+  
+  .login__field {
+    width: 100%;
+    height: 15%;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+  }
+  
+  .login__label {
+    font-size: 14px;
+  }
+  
+  .login__buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .login__button {
+    width: 30%;
+    height: 30%;
+    font-size: 1rem;
+  }
+  
+  .login__message {
+    height: 10%;
+    width: 75%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .login__message--visible {
+    color: rgba(226, 65, 81, 0.8);
+  }
+
+  @media screen and (max-width: 768px) {
+    .login__form {
+      height: 60%;
+      width: 75%;
+      margin: 0 0 0 25%;
+  
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-around;
+    }
+  
+    .login__input {
+      width: calc(200% / 3);
+      height: 50%;
+      font-size: 20px;
+    }
+  
+    .login__buttons {
+      height: 20%;
+      width: 75%;
+    }
+  }
+  
+  @media screen and (min-width: 768px) {
+    .login__form {
+      height: 60%;
+      width: calc(200% / 3);
+      margin: 0 0 0 calc(100% / 3);
+  
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-around;
+    }
+  
+    .login__input {
+        width: 50%;
+      height: 50%;
+      font-size: 20px;
+    }
+  
+    .login__buttons {
+      height: 20%;
+      width: calc(100% / 3);
+    }
+  }

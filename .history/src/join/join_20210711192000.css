@@ -1,0 +1,47 @@
+.join {
+  height: calc( 100vh - 8vh);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.join__logo {
+  max-height: min(50vh, 50vw);
+  max-width: min(50vh, 50vw);
+  margin-bottom: min(20vh, 20vw);
+}
+
+.join__buttons {
+  height: 30%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.join__text{
+ color: #bdc6c7;
+ font-size: 3rem;
+}
+.join-img{
+  max-width: 90%;
+  max-height: 0%;
+}
+
+@media screen and (max-width: 768px) {
+  .join__button {
+    width: 70%;
+    height: 30%;
+  }
+  .join-img{
+    display: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .join__button {
+    width: 50%;
+    height: 25%;
+  }
+}

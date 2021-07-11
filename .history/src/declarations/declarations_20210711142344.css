@@ -1,0 +1,15 @@
+.rbc-month-view {
+    height: 100vh;
+}
+
+.rbc-timeslot-group {   
+    min-height: 30px;
+}
+.declarations-container{
+    width: 100%;
+    margin: 1rem;
+}
+
+.declarations-container__picker{
+    padding: 2rem;
+}

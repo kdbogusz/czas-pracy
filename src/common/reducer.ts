@@ -10,9 +10,11 @@ export type State = {
   teamID: string;
   isTeamLeader: boolean;
   teamPasscode: string;
+  ShowNavBar: boolean
 };
 
 export enum ActionType {
+  ShowNavBar= "SHOW_NAVBAR",
   HideMenu = "HIDE_MENU",
   ShowMenu = "SHOW_MENU",
   SetStageStart = "SET_STAGE_START",
@@ -45,6 +47,7 @@ export const initialState: State = {
   teamID: "",
   isTeamLeader: false,
   teamPasscode: "",
+  ShowNavBar: false
 };
 
 export function reducer(state: State, action: Action): State {
@@ -129,6 +132,16 @@ export function reducer(state: State, action: Action): State {
         ...state,
         teamPasscode: action.payload as string,
       };
+       case ActionType.SetTeamPasscode:
+      return {
+        ...state,
+        teamPasscode: action.payload as string,
+      };
+      case ActionType.ShowNavBar:
+        return {
+          ...state,
+          ShowNavBar: action.payload as boolean,
+        };
     default:
       return state;
   }

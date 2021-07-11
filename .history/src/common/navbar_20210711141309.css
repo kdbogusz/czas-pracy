@@ -1,0 +1,62 @@
+.navbar {
+    background: #fff;
+    height: 8vh;
+    width: 100vw;
+    z-index: 99999;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 15px 0 rgb(43, 33, 24, 0.6); 
+}
+
+.navbarButton--size {
+    padding: 0.5vh 1.5vh 0.5vh 1.5vh;
+    height: 3vh;
+    width: 3vh;
+    color: #fdfdfd;
+}
+
+.menuButton:hover {
+    color: rgb(16, 94, 145) ;
+    cursor: pointer;
+    background-color: rgb(238, 238, 238);
+
+}
+
+.menuButton {
+    padding-left: 0.5rem; 
+    padding: 1rem 0rem 1rem 0.5em; 
+    text-align: left;
+    user-select: none
+    /* font-weight: bold; */
+}
+
+.menu {
+    background-color: #fff;
+    width: 50vw;
+    padding: 0.2rem 0rem 0.2rem 0rem; 
+    position: fixed;
+    left: 0;
+    top: 8vh;
+    transition: transform 0.25s ease-in-out;
+    z-index: 9999;
+    box-shadow: 3px 3px 3px 3px rgb(43, 33, 24, 0.2); 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.menu--visible {
+    /* visibility: visible; */
+    transform: translate3d(0vw, 0, 0);
+}
+
+.menu--hidden {
+    /* visibility: hidden; */
+    transform: translate3d(calc(-50vw - 6px), 0, 0);
+}
+@media only screen and (min-width: 992px) {
+
+} 

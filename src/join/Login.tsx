@@ -58,6 +58,10 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
                 type: ActionType.SetStageStart,
                 payload: "",
               });
+              props.dispatch({
+                type: ActionType.ShowMenu,
+                payload: "",
+              });
             } else {
               props.dispatch({
                 type: ActionType.SetStageNoTeam,

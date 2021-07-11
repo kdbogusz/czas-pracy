@@ -1,23 +1,11 @@
 import React from "react";
 import { State, Action, ActionType } from "../common/reducer";
-import work from '../assets/img/login.svg'
+import calendar from '../assets/img/calendar.svg'
 import "../common/common.css";
 import "./join.css";
 
 const Join = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
-  const setLoginStage = () => {
-    props.dispatch({
-      type: ActionType.SetStageLogin,
-      payload: "",
-    });
-  };
 
-  const setRegisterStage = () => {
-    props.dispatch({
-      type: ActionType.SetStageRegister,
-      payload: "",
-    });
-  };
 
   return (
     <div
@@ -26,22 +14,11 @@ const Join = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         display: props.state.stage === "join" ? "flex" : "none",
       }}
     >
-      <img className="join-img" src={work} />
-      <div className="join__buttons">
-        <button
-          type="button"
-          onClick={setLoginStage}
-          className="miscButton--main miscButton--shadow join__button"
-        >
-          Logowanie
-        </button>
-        <button
-          type="button"
-          onClick={setRegisterStage}
-          className="miscButton--main miscButton--shadow join__button"
-        >
-          Rejestracja
-        </button>
+      <div className="join-container">
+        <img className="join-img" src={calendar} />
+      </div>
+      <div className="join-container join__text">
+       <h3>Organizacja pracy.</h3>
       </div>
     </div>
   );

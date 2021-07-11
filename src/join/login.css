@@ -9,7 +9,7 @@
     justify-content: space-around;
     width: "100%";
   }
-  
+
   .login__form {
     display: flex;
     flex-direction: column;
@@ -33,9 +33,6 @@
   
   .login__buttons {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
   }
   
   .login__button {
