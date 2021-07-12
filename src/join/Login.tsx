@@ -59,8 +59,8 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
                 payload: "",
               });
               props.dispatch({
-                type: ActionType.ShowMenu,
-                payload: "",
+                type: ActionType.ShowNavBar,
+                payload: true,
               });
             } else {
               props.dispatch({
@@ -167,14 +167,14 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         <button
           type="button"
           onClick={cancelHandler}
-          className="miscButton--cancel miscButton--shadow login__button"
+          className="miscButton--cancel miscButton--shadow login__button "
         >
           ANULUJ
         </button>
         <button
           type="button"
           onClick={submitHandler}
-          className="miscButton--main miscButton--shadow login__button"
+          className="miscButton--main miscButton--shadow login__button login-btn__login"
         >
           ZALOGUJ
         </button>

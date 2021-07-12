@@ -33,6 +33,7 @@
   
   .login__buttons {
     display: flex;
+    justify-content: space-between;
   }
   
   .login__button {
@@ -52,7 +53,10 @@
   .login__message--visible {
     color: rgba(226, 65, 81, 0.8);
   }
-
+.login-btn__login{
+  background-color: #2983c0 ;
+  color: #fff !important;
+}
   @media screen and (max-width: 768px) {
     .login__form {
       height: 60%;

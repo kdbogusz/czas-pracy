@@ -48,6 +48,10 @@ const CreateTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) =
                                 type: ActionType.SetIsTeamLeader,
                                 payload: true,
                               });
+                              props.dispatch({
+                                type: ActionType.SetTeamPasscode,
+                                payload: document.data().passcode
+                              });
                           }
 
                       })
