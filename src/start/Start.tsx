@@ -194,7 +194,7 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       setTimeElapsedBreakDisplay(timeElapsedBreak(stamps));
     }, 1000);
     return () => clearInterval(interval);
-  }, [pressed]);
+  }, [stamps]);
 
   React.useEffect(() => {
     if (["join", "login", "register"].includes(props.state.stage)) {
