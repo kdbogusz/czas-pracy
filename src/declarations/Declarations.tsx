@@ -90,7 +90,8 @@ export const removeOldEvents = (
             }
           }
         })();
-        if (after) after();
+        if (after)
+        after();
       });
     }
   })();
@@ -204,7 +205,6 @@ const Declarations = (props: {
       formInfo.end.getSeconds(),
       formInfo.end.getMilliseconds()
     );
-
     if (timeDiffString(start, end) !== "00:00") {
       (async () => {
         if (state.db) {
@@ -214,7 +214,7 @@ const Declarations = (props: {
             userID: state.userID,
             teamID: state.teamID,
           });
-
+/*
           removeOldEvents(
             {
               start: start,
@@ -226,7 +226,9 @@ const Declarations = (props: {
             props.state.userID,
             props.state.db,
             getEvents
-          );
+          )
+          */
+         getEvents()
         }
       })();
     } else if (start.getHours() == 0 && start.getMinutes() == 0 && end.getHours() == 0 && end.getMinutes() == 0) {
