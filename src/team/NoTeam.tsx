@@ -72,23 +72,26 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     <div
       className={
         props.state.stage === "noTeam"
-          ? "start start--layout"
+          ? "start start--layout noteam"
           : "start start--hidden"
       }
     >
-      DOŁĄCZ DO TEAMU
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="passcode">Passcode</label>
-        <input
-          type="text"
-          id="passcode"
-          name="passcode"
-          value={passcode}
-          onChange={(e) => setPasscode(e.target.value)}
-        ></input>
-        <button type="submit">SUBMIT</button>
-      </form>
-      <p>{errorMessage}</p>
+      <div className="noteam-container__card">
+        <div className="noteam-hole"></div>
+        DOŁĄCZ DO TEAMU
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            id="passcode"
+            placeholder="passcode..."
+            name="passcode"
+            value={passcode}
+            onChange={(e) => setPasscode(e.target.value)}
+          ></input>
+          <button type="submit">SUBMIT</button>
+        </form>
+        <p>{errorMessage}</p>
+      </div>
       <CreateTeam state={props.state} dispatch={props.dispatch}/>
     </div>
   );

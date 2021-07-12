@@ -26,16 +26,15 @@
 .react-calendar-timeline .rct-dateHeader-primary {
     color: #F5F5F5;
 }
-
+.react-calendar-timeline .rct-dateHeader{
+    background-color: #f8f9fc;
+    border: 1px solid #e3e6f0;
+}
 .calendar__button {
-
-    top: 8vh;
-    left: 0;
-    height: 61px;
+    height: 2.5rem;
     width: 100px;
     z-index: 999999;
-
-    margin-top: 1rem;
+    color: #3498db;
 }
 
 .react-calendar-timeline .rct-calendar-header {
@@ -46,11 +45,11 @@
     background-color: #fff;
 
 }
-.react-calendar-timeline .rct-dateHeader-primary {
-    color: #000;
+.react-calendar-timeline .rct-sidebar .rct-sidebar-row, .react-calendar-timeline .rct-horizontal-lines .rct-hl-even{
+    border: 1px solid #e3e6f0;
 }
-.react-calendar-timeline .rct-sidebar .rct-sidebar-row{
-    border: 1px solid #bbb;
+.react-calendar-timeline .rct-sidebar .rct-sidebar-row.rct-sidebar-row-even{
+    background-color: #f8f9fc;
 }
 .card-header {
     padding: 0.75rem 1.25rem;

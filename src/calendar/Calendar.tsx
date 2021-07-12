@@ -127,21 +127,36 @@ const Calendar = (props: {
             <h6 className="m-0 font-weight-bold text-primary">Calendar</h6>
         </div>
         <div className="card-body">
-           {isNamesVisible ? (
+           {isNamesVisible ?
+      <>
+      <FaChevronRight
+        className="calendar__button"
+        onClick={() => {
+          setIsNamesVisible(!isNamesVisible);
+        }}
+      />
+      <FaChevronLeft
+        className="calendar__button"
+        onClick={() => {
+          setIsNamesVisible(!isNamesVisible);
+        }}
+      />
+      </>
+      :
+      <>
         <FaChevronLeft
           className="calendar__button"
           onClick={() => {
             setIsNamesVisible(!isNamesVisible);
           }}
         />
-      ) : (
         <FaChevronRight
           className="calendar__button"
           onClick={() => {
             setIsNamesVisible(!isNamesVisible);
           }}
         />
-      )}
+        </>}
         <Timeline
             lineHeight={60}
             itemHeightRatio={0.85}

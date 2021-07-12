@@ -2,7 +2,7 @@ import { addDoc, collection, doc, getDocs, query, updateDoc, where } from 'fireb
 import React from 'react'
 import { useState } from 'react';
 import { State, Action, ActionType } from "../common/reducer";
-
+import './teamInfo.css'
 
 const CreateTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     const [nameofTeams, setNameofTeams]=useState("")
@@ -66,11 +66,13 @@ const CreateTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) =
 
     }
     return (
-        <div>
+        <div className="noteam-container__card">
+          <div className="noteam-hole"></div>
+          STWÓRZ TEAM
             <form onSubmit={addTeam}>
-                <input type="text" placeholder="nazwa zespołu"
+                <input type="text" placeholder="nazwa zespołu..."
                 value={nameofTeams} onChange={(e)=>setNameofTeams(e.target.value)}></input>
-                <input type="submit" value="Submit"></input>
+                <input type="submit" value="SUBMIT"></input>
             </form>
         </div>
     )

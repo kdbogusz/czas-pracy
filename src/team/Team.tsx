@@ -140,7 +140,7 @@ const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           {props.state.isTeamLeader ? (
             <button
               type="button"
-              className="miscButton--delete miscButton--shadow"
+              className="miscButton--delete"
               onClick={deleteHandler}
             >
               USUŃ TEAM
@@ -148,7 +148,7 @@ const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           ) : (
             <button
               type="button"
-              className="miscButton--delete miscButton--shadow"
+              className="miscButton--delete "
               onClick={() => leaveHandler(props.state.userID)}
             >
               OPUŚĆ TEAM

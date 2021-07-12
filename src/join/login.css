@@ -9,6 +9,21 @@
     justify-content: space-around;
     width: "100%";
   }
+  .login-container__card{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    min-height: 90%;
+    background-color: #34495e;
+    border-radius: 2rem;
+    color: #fff;
+  }
+  .login-hole{
+    background-color: #ecf0f1;
+    width: 3rem;
+    height: 1rem;
+    border-radius: 0.4rem;
+  }
 
   .login__form {
     display: flex;
