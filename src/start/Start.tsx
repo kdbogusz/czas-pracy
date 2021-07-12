@@ -37,7 +37,6 @@ type Stamp = {
 };
 
 const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
-  const interval=useRef(null)
   const [pressed, setPressed] = React.useState(StampType.Out);
   const [stamps, setStamps] = React.useState<Stamp[]>([]);
   const [timeElapsedWorkDisplay, setTimeElapsedWorkDisplay] =
@@ -256,9 +255,13 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       addBlock(start, end);
       console.log(start.toTimeString(), end.toTimeString())
     }
+    setStamps([])
     setTimeElapsedWorkDisplay(timeElapsedWork([]));
     setTimeElapsedBreakDisplay(timeElapsedBreak([]));
-    setStamps([])
+    setTimeElapsedWorkDisplay("");
+    setTimeElapsedBreakDisplay("");
+    
+
 
 
   };
