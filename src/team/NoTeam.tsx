@@ -49,6 +49,10 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
                 type: ActionType.SetStageStart,
                 payload: "",
               });
+              props.dispatch({
+                type: ActionType.ShowNavBar,
+                payload: true,
+              });
             } catch (e) {
             }
           })();

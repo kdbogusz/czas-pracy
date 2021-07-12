@@ -11,9 +11,13 @@ width: 70% !important;
     margin: 1rem 0;
 }
 .teamInfo-table th{
- background-color: #3498db;
- color: #fff;   
+ background-color: #f8f9fc;
+ color: #4e73df;   
  height: 3rem;
+ border: 1px solid #e3e6f0;
+}
+.teamInfo-table td{
+    border: 1px solid #e3e6f0;
 }
 .teamInfo-table caption{
     height: 3rem;
@@ -21,6 +25,7 @@ width: 70% !important;
 }
 .teamInfo-table tr {
     height: 3rem;
+    
 }
 .teamInfo-table tr:nth-of-type(odd) {
     background: #fff;
