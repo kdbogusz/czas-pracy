@@ -361,44 +361,49 @@ const Declarations = (props: {
   return (
     <div className="declarations-container"
       style={{
-        display: props.state.stage === "declarations" ? "initial" : "none",
+        display: props.state.stage === "declarations" ? "block" : "none",
         height: "100%",
       }}
     >
-      <div style={{ zIndex: 90000, height: "10%" }}>
-        <div className="declarations-container__picker">
-          <TimePicker
-            showSecond={false}
-            value={moment(formInfo.start)}
-            onChange={(moment) => {
-              setFormInfo({ ...formInfo, start: moment.toDate() });
-            }}
-            format={"hh:mm a"}
-            use12Hours
-            inputReadOnly
-          />
-          <TimePicker
-            showSecond={false}
-            value={moment(formInfo.end)}
-            onChange={(moment) => {
-              setFormInfo({ ...formInfo, end: moment.toDate() });
-            }}
-            format={"hh:mm a"}
-            use12Hours
-            inputReadOnly
-          />
-          <DatePicker
-            selected={formInfo.day}
-            onChange={(date) => {
-              setFormInfo({ ...formInfo, day: date as Date });
-            }}
-          />
-          <button
-            type="button"
-            onClick={submitHandler}
-            className="miscButton--main declarations-btn"
-            style={{ fontSize: "1rem" }}
-          >
+      <div className="card shadow mb-4">
+        <div className="card-header py-3">
+            <h6 className="m-0 font-weight-bold text-primary">Deklaracje</h6>
+        </div>
+      <div className="card-body">
+        <div style={{ zIndex: 90000, height: "10%", width: "90%"}}>
+          <div className="declarations-container__picker">
+            <TimePicker
+              showSecond={false}
+              value={moment(formInfo.start)}
+              onChange={(moment) => {
+                setFormInfo({ ...formInfo, start: moment.toDate() });
+              }}
+              format={"hh:mm a"}
+              use12Hours
+              inputReadOnly
+            />
+            <TimePicker
+              showSecond={false}
+              value={moment(formInfo.end)}
+              onChange={(moment) => {
+                setFormInfo({ ...formInfo, end: moment.toDate() });
+              }}
+              format={"hh:mm a"}
+              use12Hours
+              inputReadOnly
+            />
+            <DatePicker
+              selected={formInfo.day}
+              onChange={(date) => {
+                setFormInfo({ ...formInfo, day: date as Date });
+              }}
+            />
+            <button
+              type="button"
+              onClick={submitHandler}
+              className="miscButton--main declarations-btn"
+              style={{ fontSize: "1rem" }}
+            >
             Submit
           </button>
         </div>
@@ -450,8 +455,11 @@ const Declarations = (props: {
           </button>
         </Popup>
       </div>
+</div>
+</div>
     </div>
   );
 };
 
 export default Declarations;
+

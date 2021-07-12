@@ -52,6 +52,10 @@ const CreateTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) =
                                 type: ActionType.SetTeamPasscode,
                                 payload: document.data().passcode
                               });
+                              props.dispatch({
+                                type: ActionType.ShowNavBar,
+                                payload: true
+                              });
                           }
 
                       })

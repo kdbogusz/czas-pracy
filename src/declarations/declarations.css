@@ -6,9 +6,9 @@
     min-height: 30px;
 }
 .declarations-container{
-    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
 }
-
 .declarations-container__picker{
     padding: 2rem;
 }

@@ -121,7 +121,13 @@ const Calendar = (props: {
       className={"calendar"}
       style={{ display: props.state.stage === "calendar" ? "initial" : "none" }}
     >
-      {isNamesVisible ? (
+      {/* {props.state.isTeamLeader ? getPasscode() : ""} */}
+      <div className="card shadow mb-4">
+        <div className="card-header py-3">
+            <h6 className="m-0 font-weight-bold text-primary">Calendar</h6>
+        </div>
+        <div className="card-body">
+           {isNamesVisible ? (
         <FaChevronLeft
           className="calendar__button"
           onClick={() => {
@@ -136,21 +142,23 @@ const Calendar = (props: {
           }}
         />
       )}
-      {/* {props.state.isTeamLeader ? getPasscode() : ""} */}
-      <Timeline
-        lineHeight={60}
-        itemHeightRatio={0.85}
-        sidebarWidth={isNamesVisible ? 100 : 0}
-        traditionalZoom={false}
-        canResize={false}
-        canMove={false}
-        groups={groups}
-        items={items}
-        defaultTimeStart={moment().add(-4, "day")}
-        defaultTimeEnd={moment().add(4, "day")}
-        onItemSelect={() => {}}
-        minZoom={24 * 60 * 60 * 1000}
-      />
+        <Timeline
+            lineHeight={60}
+            itemHeightRatio={0.85}
+            sidebarWidth={isNamesVisible ? 100 : 0}
+            traditionalZoom={false}
+            canResize={false}
+            canMove={false}
+            groups={groups}
+            items={items}
+            defaultTimeStart={moment().add(-4, "day")}
+            defaultTimeEnd={moment().add(4, "day")}
+            onItemSelect={() => {}}
+            minZoom={24 * 60 * 60 * 1000}
+          />
+        </div>
+    </div>
+      
     </div>
   );
 };

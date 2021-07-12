@@ -28,7 +28,7 @@ width: 50% !important;
 .teamInfo{
     width: 100%;
     display: block;
+    padding: 1rem;
+    box-sizing: border-box;
 }
-.teamInfo div{
-    width: 100%;
-}
+

@@ -129,7 +129,12 @@ const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           : "start start--hidden"
       }
     >
-      <div className="team-container">
+       <div className="card shadow mb-4">
+        <div className="card-header py-3">
+            <h6 className="m-0 font-weight-bold text-primary">Team</h6>
+        </div>
+        <div className="card-body">
+        <div className="team-container">
         <TeamInfo state={props.state} dispatch={props.dispatch} />
         <div>
           {props.state.isTeamLeader ? (
@@ -151,6 +156,8 @@ const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           )}
         </div>
       </div>
+        </div>
+    </div>
 
     </div>
   );

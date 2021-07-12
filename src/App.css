@@ -1,13 +1,13 @@
 .App {
   text-align: center;
   color: #2B2118;
-  background: #ecf0f1;
+  background: #f8f9fc;
 }
 .main-page{
   height: 100vh;
   text-align: center;
   color: #2B2118;
-  background: #ecf0f1;
+  background: #f8f9fc;
 }
 .App-logo {
   height: 40vmin;
@@ -39,7 +39,7 @@
 
 .app__body {
   min-height: 92vh;
-  width: 100vw;
+  width: 100%;
 
 }
 
