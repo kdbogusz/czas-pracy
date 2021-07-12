@@ -13,9 +13,8 @@ import NoTeam from "./team/NoTeam";
 import Team from "./team/Team";
 
 import { initialState, reducer } from "./common/reducer";
-import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
-import { FirebaseFirestore, getFirestore } from "firebase/firestore";
-import { collection, addDoc } from "firebase/firestore";
+import { initializeApp, getApps, getApp} from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const App = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);

@@ -1,18 +1,11 @@
 import React from "react";
-import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
-import { State, Action, ActionType } from "../common/reducer";
+import { State, Action } from "../common/reducer";
 import './teamInfo.css'
 import {
   collection,
-  documentId,
   getDocs,
   query,
-  where,
-  writeBatch,
-  doc,
-  updateDoc,
-  deleteDoc,
-  deleteField,
+  where
 } from "firebase/firestore";
 
 import "../start/start.css";

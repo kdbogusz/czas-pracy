@@ -1,11 +1,7 @@
 import React from "react";
-import Timeline, {
-  TimelineHeaders,
-  DateHeader,
-  TimelineContext,
-} from "react-calendar-timeline";
+import Timeline from "react-calendar-timeline";
 import moment, { Moment } from "moment";
-import { State, Action, ActionType } from "../common/reducer";
+import { State, Action } from "../common/reducer";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 import "react-calendar-timeline/lib/Timeline.css";
@@ -14,13 +10,10 @@ import "../common/common.css";
 
 import {
   collection,
-  documentId,
   getDocs,
   query,
   where,
-  doc,
 } from "firebase/firestore";
-import { groupEnd } from "console";
 
 type singleItem = {
   id: number;

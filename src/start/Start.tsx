@@ -1,29 +1,21 @@
 import React from "react";
 import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
-import { State, Action, ActionType } from "../common/reducer";
+import { State, Action } from "../common/reducer";
 import {
   timeDiffString,
   removeOldEvents,
-  EventInfo,
 } from "../declarations/Declarations";
 import work from '../assets/img/work.svg'
 
 import {
   collection,
-  documentId,
-  getDocs,
-  query,
-  where,
   addDoc,
   Timestamp,
-  doc,
-  deleteDoc,
 } from "firebase/firestore";
 
 import "./start.css";
 import "../common/common.css";
-import moment, { now } from "moment";
-import { useRef } from "react";
+import moment from "moment";
 
 enum StampType {
   Work = "work",

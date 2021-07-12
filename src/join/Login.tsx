@@ -1,9 +1,8 @@
-import React, { FormEventHandler, MouseEventHandler } from "react";
+import React from "react";
 import { State, Action, ActionType } from "../common/reducer";
 
 import {
   collection,
-  documentId,
   getDocs,
   query,
   where,

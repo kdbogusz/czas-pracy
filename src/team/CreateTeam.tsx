@@ -19,7 +19,7 @@ const CreateTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) =
     const addTeam=async (e:React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
         if(props.state.db){
-            const docRef = await addDoc(collection(props.state.db, "teams"), {
+            await addDoc(collection(props.state.db, "teams"), {
                 leaderID: props.state.userID,
                 name: nameofTeams, 
                 passcode: makeid(15)

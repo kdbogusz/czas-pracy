@@ -1,14 +1,11 @@
 import React from "react";
-import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
 import { State, Action, ActionType } from "../common/reducer";
 import './teamInfo.css'
 import {
   collection,
-  documentId,
   getDocs,
   query,
   where,
-  writeBatch,
   doc,
   updateDoc,
   deleteDoc,
@@ -20,15 +17,6 @@ import "../common/common.css";
 import TeamInfo from "./TeamInfo";
 
 const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
-  const [passcode, setPasscode] = React.useState("");
-
-  const buttonStyle = {
-    height: "25vw",
-    width: "25vw",
-    background: "yellow",
-    padding: "1rem 1rem 1rem 1rem",
-  };
-
   const leaveHandler = (userID: string) => {
     (async () => {
       if (props.state.db) {

@@ -3,7 +3,6 @@ import { State, Action, ActionType } from "../common/reducer";
 
 import {
   collection,
-  documentId,
   getDocs,
   query,
   where,

@@ -132,11 +132,6 @@ export function reducer(state: State, action: Action): State {
         ...state,
         teamPasscode: action.payload as string,
       };
-       case ActionType.SetTeamPasscode:
-      return {
-        ...state,
-        teamPasscode: action.payload as string,
-      };
       case ActionType.ShowNavBar:
         return {
           ...state,

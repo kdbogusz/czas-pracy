@@ -1,25 +1,22 @@
-import React, { HTMLAttributes, SyntheticEvent } from "react";
-import { State, Action, ActionType } from "../common/reducer";
+import React, {  SyntheticEvent } from "react";
+import { State, Action } from "../common/reducer";
 import {
   Calendar,
-  EventPropGetter,
   momentLocalizer,
   stringOrDate,
 } from "react-big-calendar";
 import moment from "moment";
-import DatePicker, { CalendarContainer } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import TimePicker from "rc-time-picker";
 import Popup from "reactjs-popup";
 
 import {
   collection,
-  documentId,
   getDocs,
   query,
   where,
   addDoc,
   Timestamp,
-  doc,
   deleteDoc,
   FirebaseFirestore,
 } from "firebase/firestore";

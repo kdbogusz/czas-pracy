@@ -1,33 +1,22 @@
 import React from "react";
-import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
 import { State, Action, ActionType } from "../common/reducer";
 
 import {
   collection,
-  documentId,
   getDocs,
   query,
   where,
-  writeBatch,
   doc,
   updateDoc,
 } from "firebase/firestore";
 
 import "../start/start.css";
 import "../common/common.css";
-import { useState } from "react";
 import CreateTeam from "./CreateTeam";
 
 const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   const [passcode, setPasscode] = React.useState("");
   const [errorMessage, setErrorMessage]=React.useState("");
-
-  const buttonStyle = {
-    height: "25vw",
-    width: "25vw",
-    background: "yellow",
-    padding: "1rem 1rem 1rem 1rem",
-  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

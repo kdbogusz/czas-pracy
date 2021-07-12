@@ -1,5 +1,5 @@
 import React from "react";
-import { State, Action, ActionType } from "../common/reducer";
+import { State, Action } from "../common/reducer";
 import calendar from '../assets/img/calendar.svg'
 import "../common/common.css";
 import "./join.css";
@@ -15,7 +15,7 @@ const Join = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       }}
     >
       <div className="join-container">
-        <img className="join-img" src={calendar} />
+        <img className="join-img" src={calendar} alt="calendar"/>
       </div>
       <div className="join-container join__text">
        <h3>Organizacja pracy.</h3>
