@@ -96,6 +96,19 @@ const TeamInfo = (props: {
               moment().toDate().getTime() - doc.data().start.toDate().getTime();
           }
         });
+        const vacationsQuery = query(
+          collection(props.state.db, "vacations"),
+          where("teamID", "==", props.state.teamID)
+        );
+        const vacationsQuerySnapshot = await getDocs(vacationsQuery);
+        vacationsQuerySnapshot.forEach((doc) => {
+          console.log("qa",(newUsers[doc.data().userID as keyof typeof newUsers] as User).totalTimeString);
+            (
+              newUsers[doc.data().userID as keyof typeof newUsers] as User
+            ).totalTimeString =(parseInt((newUsers[doc.data().userID as keyof typeof newUsers] as User).totalTimeString.substr(0,3))-8).toString()+":00"
+        });
+
+        
 
         Object.keys(newUsers).forEach((newUserKey) => {
           (newUsers[newUserKey as keyof typeof newUsers] as User).timeString =

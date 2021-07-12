@@ -258,9 +258,6 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     setStamps([])
     setTimeElapsedWorkDisplay(timeElapsedWork([]));
     setTimeElapsedBreakDisplay(timeElapsedBreak([]));
-    setTimeElapsedWorkDisplay("");
-    setTimeElapsedBreakDisplay("");
-    
 
 
 
