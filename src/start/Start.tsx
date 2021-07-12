@@ -49,15 +49,14 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     background: "#3498db",
     padding: "1.5rem 1.5rem 1.5rem 1.5rem",
     borderRadius: "5rem",
-    boxShadow: "0px 0px 10px 1px rgb(43, 33, 24, 0.4)",
+    color: "#ecf0f1"
   };
 
   const buttonStylePressed = {
-
-    background: "#105e91",
+    background: "#fff",
     padding: "1.5rem 1.5rem 1.5rem 1.5rem",
     borderRadius: "5rem",
-    boxShadow: "3px 5px 20px 5px rgba(16,94,145,0.61)"
+    boxShadow: "0px 0px 10px 1px rgb(43, 33, 24, 0.4)",
   };
 
   const workHandler = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
@@ -271,8 +270,9 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           : "start start--hidden"
       }
     >
-      <div>
-      <div>
+
+      <div className="start-container">
+        <div className="start-hole"></div>
         <div className="start-container__timer">
           <FaBriefcase className="start-icon"
             style={pressed === StampType.Work ? buttonStylePressed : buttonStyle}
@@ -294,8 +294,7 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           />
           <p></p>
         </div>
-      </div>
-      <button
+        <button
         type="button"
         className="miscButton--main start-btn"
         onClick={submitHandler}
