@@ -4,6 +4,7 @@ import { FaBars, FaPowerOff } from "react-icons/fa";
 import { useTranslation } from "react-i18next"
 import "./navbar.css";
 import "../common/common.css";
+import NavbarButton from "./NavbarButton";
 
 const Navbar = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   const { t } = useTranslation();
@@ -38,10 +39,53 @@ const Navbar = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       payload: "",
     });
   };
+  const setStartCallback = () => {
+    props.dispatch({
+      type: ActionType.SetStageStart,
+      payload: "",
+    });
+  };
 
+  const setCalendarCallback = () => {
+    props.dispatch({
+      type: ActionType.SetStageCalendar,
+      payload: "",
+    });
+  };
+
+  const setDeclerationsCallback = () => {
+    props.dispatch({
+      type: ActionType.SetStageDeclarations,
+      payload: "",
+    });
+  };
+  const setTeamCallback = () => {
+    props.dispatch({
+      type: ActionType.SetStageTeam,
+      payload: "",
+    });
+  };
   return (
     <>
     {props.state.ShowNavBar ? <div className="navbar">
+    <div className="menu-container">
+      <NavbarButton 
+        text={`${t("start")}`} 
+        callback={setStartCallback}
+        classes="navbar-btn__link" />
+      <NavbarButton 
+        text={`${t("calendar")}`} 
+        callback={setCalendarCallback} 
+        classes="navbar-btn__link"/>
+      <NavbarButton
+        text={`${t("declarations")}`}
+        callback={setDeclerationsCallback}
+        classes="navbar-btn__link"/>
+      <NavbarButton
+        text={`${t("team")}`}
+        callback={setTeamCallback}
+        classes="navbar-btn__link"/>
+    </div>
       <FaBars className="navbarButton--size miscButton--main navbar-btn__hamburger" onClick={toggleMenu} />
       {!["join", "login", "register"].includes(props.state.stage) && (
         <FaPowerOff className="navbarButton--size miscButton--main" onClick={logOut} />

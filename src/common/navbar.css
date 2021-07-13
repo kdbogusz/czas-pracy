@@ -77,6 +77,32 @@
     /* visibility: hidden; */
     transform: translate3d(calc(-50vw - 6px), 0, 0);
 }
+.menu-container{
+    display: flex;
+}
+.navbar-btn__link{
+    color: #2983c0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 2rem;
+}
+.navbar-btn__link:hover{
+    color: rgb(16, 94, 145) ;
+}
 @media only screen and (min-width: 992px) {
-
+    .navbar-btn__hamburger{
+    display: none;
+    }
+    .menu-container{
+        display: flex;
+    }
+} 
+@media only screen and (max-width: 992px) {
+    .navbar-btn__hamburger{
+    display: block;
+    }
+    .menu-container{
+        display: none;
+    }
 } 
