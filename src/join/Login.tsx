@@ -9,8 +9,10 @@ import {
 } from "firebase/firestore";
 
 import "./login.css";
+import { useTranslation } from "react-i18next";
 
 const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const { t } = useTranslation();
   const [creds, setCreds] = React.useState({
     name: "",
     password: "",
@@ -122,10 +124,10 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         display: props.state.stage === "login" ? "flex" : "none",
       }}
     >
-    <h1>ZALOGUJ SIĘ:</h1>
+    <h1>{t("signIn")}:</h1>
       <form className="login__form" onSubmit={submitHandler} onKeyDown={keyDownHandler}>
         <div className="login__field">
-          <label htmlFor="loginName" className="login__label">Nazwa użytkownika:</label>
+          <label htmlFor="loginName" className="login__label">{t("userName")}:</label>
           <input
             type="text"
             id="loginName"
@@ -137,7 +139,7 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         </div>
 
         <div className="login__field">
-          <label htmlFor="loginName" className="login__label">Hasło:</label>
+          <label htmlFor="loginName" className="login__label">{t("password")}:</label>
           <input
             type="password"
             id="loginPassword"
@@ -149,7 +151,7 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         </div>
 
         <div className="login__field">
-          <label htmlFor="loginName" className="login__label">Powtórz hasło:</label>
+          <label htmlFor="loginName" className="login__label">{t("repeatPassword")}:</label>
           <input
             type="password"
             id="loginPasswordCheck"
@@ -168,14 +170,14 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           onClick={cancelHandler}
           className="miscButton--cancel miscButton--shadow login__button "
         >
-          ANULUJ
+          {t("cancel")}
         </button>
         <button
           type="button"
           onClick={submitHandler}
           className="miscButton--main miscButton--shadow login__button login-btn__login"
         >
-          ZALOGUJ
+          {t("signIn")}
         </button>
       </div>
 

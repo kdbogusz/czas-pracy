@@ -1,11 +1,12 @@
 import React from "react";
 import { State, Action, ActionType } from "./reducer";
 import { FaBars, FaPowerOff } from "react-icons/fa";
-
+import { useTranslation } from "react-i18next"
 import "./navbar.css";
 import "../common/common.css";
 
 const Navbar = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const { t } = useTranslation();
   const toggleMenu = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
     e.preventDefault();
 
@@ -47,8 +48,8 @@ const Navbar = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       )}
     </div>:
     <div className="navbar-btn">
-     <button onClick={setLoginStage}>Logowanie</button>
-     <button onClick={setRegisterStage}>Rejestracja</button>
+     <button onClick={setLoginStage}>{t('login')}</button>
+     <button onClick={setRegisterStage}>{t("registration")}</button>
   </div>}
     </>
   );

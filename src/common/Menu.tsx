@@ -5,8 +5,11 @@ import OutsideClickHandler from "react-outside-click-handler";
 import "./navbar.css";
 
 import NavbarButton from "./NavbarButton";
+import { useTranslation } from "react-i18next";
 
 const Menu = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const { t } = useTranslation();
+
   const hideMenu = () => {
     props.dispatch({
       type: ActionType.HideMenu,
@@ -81,22 +84,22 @@ const Menu = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       >
         {props.state.userID ? ( props.state.teamID ? (
           <>
-            <NavbarButton text="START" callback={setStartCallback} />
-            <NavbarButton text="KALENDARZ" callback={setCalendarCallback} />
+            <NavbarButton text={`${t("start")}`} callback={setStartCallback} />
+            <NavbarButton text={`${t("calendar")}`} callback={setCalendarCallback} />
             <NavbarButton
-              text="DEKLARACJE"
+              text={`${t("declarations")}`}
               callback={setDeclerationsCallback}
             />
             <NavbarButton
-              text="TEAM"
+              text={`${t("team")}`}
               callback={setTeamCallback}
             />
           </>
         ) : <>
-        <NavbarButton text="START" callback={setNoTeamCallback} /></> ): (
+        <NavbarButton text={`${t("start")}`} callback={setNoTeamCallback} /></> ): (
           <>
-            <NavbarButton text="LOGIN" callback={setLoginCallback} />
-            <NavbarButton text="REJESTRACJA" callback={setRegisterCallback} />
+            <NavbarButton text={`${t("login")}`} callback={setLoginCallback} />
+            <NavbarButton text={`${t("registartion")}`} callback={setRegisterCallback} />
           </>
         )}
       </div>

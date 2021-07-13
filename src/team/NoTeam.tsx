@@ -13,11 +13,12 @@ import {
 import "../start/start.css";
 import "../common/common.css";
 import CreateTeam from "./CreateTeam";
+import { useTranslation } from "react-i18next";
 
 const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   const [passcode, setPasscode] = React.useState("");
   const [errorMessage, setErrorMessage]=React.useState("");
-
+  const { t } = useTranslation();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
@@ -71,17 +72,17 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     >
       <div className="noteam-container__card">
         <div className="noteam-hole"></div>
-        DOŁĄCZ DO TEAMU
+        {t("joinTheTeam")}
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             id="passcode"
-            placeholder="passcode..."
+            placeholder={`${t("passcode")}...`}
             name="passcode"
             value={passcode}
             onChange={(e) => setPasscode(e.target.value)}
           ></input>
-          <button type="submit">SUBMIT</button>
+          <button type="submit">{t("submit")}</button>
         </form>
         <p>{errorMessage}</p>
       </div>

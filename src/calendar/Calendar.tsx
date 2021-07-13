@@ -14,6 +14,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { useTranslation } from "react-i18next";
 
 type singleItem = {
   id: number;
@@ -38,6 +39,7 @@ const Calendar = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
+  const { t } = useTranslation();
   const [groups, setGroups] = React.useState<singleGroup[]>([]);
   const [items, setItems] = React.useState<singleItem[]>([]);
   const [isNamesVisible, setIsNamesVisible] = React.useState(false);
@@ -117,7 +119,7 @@ const Calendar = (props: {
       {/* {props.state.isTeamLeader ? getPasscode() : ""} */}
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-            <h6 className="m-0 font-weight-bold text-primary">Calendar</h6>
+            <h6 className="m-0 font-weight-bold text-primary">{t("calendar")}</h6>
         </div>
         <div className="card-body">
            {isNamesVisible ?

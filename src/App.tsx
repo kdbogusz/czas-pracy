@@ -11,13 +11,21 @@ import Login from "./join/Login";
 import Register from "./join/Register";
 import NoTeam from "./team/NoTeam";
 import Team from "./team/Team";
-
+import { useTranslation } from "react-i18next"
 import { initialState, reducer } from "./common/reducer";
 import { initializeApp, getApps, getApp} from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import moment from "moment";
+import 'moment/locale/en-gb' 
+import 'moment/locale/pl' 
 
 const App = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+  const { t, i18n } = useTranslation();
+  const lang = (navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;
+  moment.locale(lang)
+  
+  React.useEffect(() => {i18n.changeLanguage(lang)}, [])
 
   React.useEffect(() => {
     state.firebaseApp = !getApps().length

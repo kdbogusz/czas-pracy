@@ -15,8 +15,10 @@ import {
 import "../start/start.css";
 import "../common/common.css";
 import TeamInfo from "./TeamInfo";
+import { useTranslation } from "react-i18next";
 
 const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const { t } = useTranslation();
   const leaveHandler = (userID: string) => {
     (async () => {
       if (props.state.db) {
@@ -119,7 +121,7 @@ const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     >
        <div className="card shadow mb-4">
         <div className="card-header py-3">
-            <h6 className="m-0 font-weight-bold text-primary">Team</h6>
+            <h6 className="m-0 font-weight-bold text-primary">{t("team")}</h6>
         </div>
         <div className="card-body">
         <div className="team-container">
@@ -131,7 +133,7 @@ const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
               className="miscButton--delete"
               onClick={deleteHandler}
             >
-              USUŃ TEAM
+              {t("deleteTeam")}
             </button>
           ) : (
             <button
@@ -139,7 +141,7 @@ const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
               className="miscButton--delete "
               onClick={() => leaveHandler(props.state.userID)}
             >
-              OPUŚĆ TEAM
+              {t("leaveTeam")}
             </button>
           )}
         </div>

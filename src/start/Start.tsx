@@ -16,6 +16,7 @@ import {
 import "./start.css";
 import "../common/common.css";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 enum StampType {
   Work = "work",
@@ -29,6 +30,7 @@ type Stamp = {
 };
 
 const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const { t } = useTranslation();
   const [pressed, setPressed] = React.useState(StampType.Out);
   const [stamps, setStamps] = React.useState<Stamp[]>([]);
   const [timeElapsedWorkDisplay, setTimeElapsedWorkDisplay] =
@@ -291,7 +293,7 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         className="miscButton--main start-btn"
         onClick={submitHandler}
       >
-        Submit
+        {t("submit")}
       </button>
       </div>
       <div className="start-container__img">

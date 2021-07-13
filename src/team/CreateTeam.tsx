@@ -1,11 +1,13 @@
 import { addDoc, collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import React from 'react'
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { State, Action, ActionType } from "../common/reducer";
 import './teamInfo.css'
 
 const CreateTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     const [nameofTeams, setNameofTeams]=useState("")
+    const { t } = useTranslation();
     const makeid=(length:number)=> {
         var result           = '';
         var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -68,11 +70,11 @@ const CreateTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) =
     return (
         <div className="noteam-container__card">
           <div className="noteam-hole"></div>
-          STWÓRZ TEAM
+          {t("createTeam")}
             <form onSubmit={addTeam}>
-                <input type="text" placeholder="nazwa zespołu..."
+                <input type="text" placeholder={`${t("teamName")}...`}
                 value={nameofTeams} onChange={(e)=>setNameofTeams(e.target.value)}></input>
-                <input type="submit" value="SUBMIT"></input>
+                <input type="submit" value={`${t("submit")}`}></input>
             </form>
         </div>
     )

@@ -12,11 +12,14 @@ import {
 } from "firebase/firestore";
 
 import "./login.css";
+import { useTranslation } from "react-i18next";
 
 const Register = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
+  const { t } = useTranslation();
+
   const [creds, setCreds] = React.useState({
     name: "",
     password: "",
@@ -108,10 +111,10 @@ const Register = (props: {
         display: props.state.stage === "register" ? "flex" : "none",
       }}
     >
-    <h1>ZAREJESTRUJ SIĘ:</h1>
+    <h1>{t("register")}</h1>
       <form className="login__form" onSubmit={submitHandler} onKeyDown={keyDownHandler}>
         <div className="login__field">
-          <label htmlFor="loginName" className="login__label">Nazwa użytkownika:</label>
+          <label htmlFor="loginName" className="login__label">{t("userName")}:</label>
           <input
             type="text"
             id="loginName"
@@ -123,7 +126,7 @@ const Register = (props: {
         </div>
 
         <div className="login__field">
-          <label htmlFor="loginName" className="login__label">Hasło:</label>
+          <label htmlFor="loginName" className="login__label">{t("password")}:</label>
           <input
             type="password"
             id="loginPassword"
@@ -135,7 +138,7 @@ const Register = (props: {
         </div>
 
         <div className="login__field">
-          <label htmlFor="loginName" className="login__label">Powtórz hasło:</label>
+          <label htmlFor="loginName" className="login__label">{t("repeatPassword")}:</label>
           <input
             type="password"
             id="loginPasswordCheck"
@@ -155,10 +158,10 @@ const Register = (props: {
           onClick={cancelHandler}
           className="miscButton--cancel miscButton--shadow login__button"
         >
-          ANULUJ
+          {t("cancel")}
         </button>
               
-        <button type="button" onClick={submitHandler} className="miscButton--main miscButton--shadow login__button">SUBMIT</button>
+        <button type="button" onClick={submitHandler} className="miscButton--main miscButton--shadow login__button">{t("submit")}</button>
             </div>
 
       <h2 className={message === "" ? "login__message" : "login__message login__message--visible"}>{message}</h2>

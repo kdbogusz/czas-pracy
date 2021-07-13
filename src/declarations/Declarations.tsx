@@ -26,6 +26,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "rc-time-picker/assets/index.css";
 import "../common/common.css";
 import "./declarations.css";
+import { useTranslation } from "react-i18next";
 
 type SlotInfo = {
   start: stringOrDate;
@@ -98,6 +99,7 @@ const Declarations = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
+  const { t } = useTranslation();
   const [formInfo, setFormInfo] = React.useState<FormInfo>({
     day: new Date(),
     start: new Date(),
@@ -364,7 +366,7 @@ const Declarations = (props: {
     >
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-            <h6 className="m-0 font-weight-bold text-primary">Deklaracje</h6>
+            <h6 className="m-0 font-weight-bold text-primary">{t("declarations")}</h6>
         </div>
       <div className="card-body">
         <div style={{ zIndex: 90000, height: "10%", width: "90%"}}>
@@ -401,7 +403,7 @@ const Declarations = (props: {
               className="miscButton--main declarations-btn"
               style={{ fontSize: "1rem" }}
             >
-            Submit
+            {t("submit")}
           </button>
         </div>
       </div>

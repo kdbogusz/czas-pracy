@@ -11,6 +11,7 @@ import {
 import "../start/start.css";
 import "../common/common.css";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 type User = {
   name: string;
@@ -37,6 +38,7 @@ const TeamInfo = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
+  const { t } = useTranslation();
   const [users, setUsers] = React.useState({});
   const [minutesPerDay, setMinutesPerDay] = React.useState(8 * 60);
 
@@ -178,12 +180,12 @@ const TeamInfo = (props: {
         {props.state.isTeamLeader ? (
           <>
             <table className="teamInfo-table" width="100%" cellSpacing="0">
-                    <caption>{`PASSCODE: ${props.state.teamPasscode}`}</caption>
+                    <caption>{`${t("passcode")}: ${props.state.teamPasscode}`}</caption>
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Hours worked</th>
-                            <th>All hours</th>
+                            <th>{t("name")}</th>
+                            <th>{t("hoursWorked")}</th>
+                            <th>{t("allHours")}</th>
                         </tr>
                     </thead>
                     <tbody>
