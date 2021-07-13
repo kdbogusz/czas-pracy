@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { State, Action, ActionType } from "../common/reducer";
 
 import {
@@ -14,14 +14,17 @@ import "../start/start.css";
 import "../common/common.css";
 import CreateTeam from "./CreateTeam";
 import { useTranslation } from "react-i18next";
+import Loader from "react-loader-spinner";
 
 const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
   const [passcode, setPasscode] = React.useState("");
   const [errorMessage, setErrorMessage]=React.useState("");
   const { t } = useTranslation();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
+      setPromiseInProgress(true)
       if (props.state.db) {
         const teamQuery = query(
           collection(props.state.db, "teams"),
@@ -59,6 +62,7 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           })();
         });
       }
+      setPromiseInProgress(false)
     })();
   };
 
@@ -84,9 +88,11 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           ></input>
           <button type="submit">{t("submit")}</button>
         </form>
+        {promiseInProgress && <Loader type="ThreeDots" color="#ffffff" height="100" width="100" />}
         <p>{errorMessage}</p>
       </div>
       <CreateTeam state={props.state} dispatch={props.dispatch}/>
+ 
     </div>
   );
 };

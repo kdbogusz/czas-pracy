@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Timeline from "react-calendar-timeline";
 import moment, { Moment } from "moment";
 import { State, Action } from "../common/reducer";
@@ -15,6 +15,8 @@ import {
   where,
 } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
+import { usePromiseTracker } from "react-promise-tracker";
+import Loader from "react-loader-spinner";
 
 type singleItem = {
   id: number;
@@ -39,6 +41,7 @@ const Calendar = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
+  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
   const { t } = useTranslation();
   const [groups, setGroups] = React.useState<singleGroup[]>([]);
   const [items, setItems] = React.useState<singleItem[]>([]);
@@ -46,6 +49,7 @@ const Calendar = (props: {
 
   const getItems = () =>
     (async () => {
+      setPromiseInProgress(true);
       if (props.state.db) {
         const userQuery = query(
           collection(props.state.db, "users"),
@@ -90,6 +94,7 @@ const Calendar = (props: {
           ];
         });
         setItems(newItems);
+        setPromiseInProgress(false);
       }
     })();
 
@@ -116,6 +121,7 @@ const Calendar = (props: {
       className={"calendar"}
       style={{ display: props.state.stage === "calendar" ? "initial" : "none" }}
     >
+      {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
       {/* {props.state.isTeamLeader ? getPasscode() : ""} */}
       <div className="card shadow mb-4">
         <div className="card-header py-3">

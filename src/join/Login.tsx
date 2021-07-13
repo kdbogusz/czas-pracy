@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { State, Action, ActionType } from "../common/reducer";
 
 import {
@@ -10,8 +10,10 @@ import {
 
 import "./login.css";
 import { useTranslation } from "react-i18next";
+import Loader from "react-loader-spinner";
 
 const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
   const { t } = useTranslation();
   const [creds, setCreds] = React.useState({
     name: "",
@@ -39,6 +41,7 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
 
     (async () => {
       if (props.state.db) {
+        setPromiseInProgress(true);
         const userQuery = query(
           collection(props.state.db, "users"),
           where("name", "==", creds.name)
@@ -88,6 +91,7 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
                     });
                   })
                 }
+                setPromiseInProgress(false);
               })();
             }
           } else {
@@ -180,7 +184,7 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           {t("signIn")}
         </button>
       </div>
-
+        {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
       <h2 className={message === "" ? "login__message" : "login__message login__message--visible"}>{message}</h2>
     </div>
   );

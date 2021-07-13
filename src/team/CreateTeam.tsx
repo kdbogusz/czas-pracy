@@ -2,10 +2,12 @@ import { addDoc, collection, doc, getDocs, query, updateDoc, where } from 'fireb
 import React from 'react'
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Loader from 'react-loader-spinner';
 import { State, Action, ActionType } from "../common/reducer";
 import './teamInfo.css'
 
 const CreateTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
     const [nameofTeams, setNameofTeams]=useState("")
     const { t } = useTranslation();
     const makeid=(length:number)=> {
@@ -26,6 +28,7 @@ const CreateTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) =
                 name: nameofTeams, 
                 passcode: makeid(15)
               }).then(async()=>{
+                setPromiseInProgress(true);
                   if(props.state.db){
                     const userQuery = query(
                         collection(props.state.db, "teams"),
@@ -58,10 +61,11 @@ const CreateTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) =
                                 type: ActionType.ShowNavBar,
                                 payload: true
                               });
+                              setPromiseInProgress(false);  
                           }
 
                       })
-                  }     
+                  }  
               })
 
         }
@@ -76,6 +80,7 @@ const CreateTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) =
                 value={nameofTeams} onChange={(e)=>setNameofTeams(e.target.value)}></input>
                 <input type="submit" value={`${t("submit")}`}></input>
             </form>
+            {promiseInProgress && <Loader type="ThreeDots" color="#ffffff" height="100" width="100" />}
         </div>
     )
 }

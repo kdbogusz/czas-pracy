@@ -13,11 +13,14 @@ import {
 
 import "./login.css";
 import { useTranslation } from "react-i18next";
+import Loader from "react-loader-spinner";
+import { useState } from "react";
 
 const Register = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
+  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
   const { t } = useTranslation();
 
   const [creds, setCreds] = React.useState({
@@ -43,6 +46,7 @@ const Register = (props: {
     }
 
     (async () => {
+      setPromiseInProgress(true)
       if (props.state.db) {
         try {
           const userQuery = query(
@@ -79,6 +83,7 @@ const Register = (props: {
             }else{
               setMessage("Konto juz istnieje!")
             }
+            setPromiseInProgress(false)
         } catch (e) {
           setTemporaryMessage("Rejestracja nie powiodła się");
         }
@@ -163,6 +168,7 @@ const Register = (props: {
               
         <button type="button" onClick={submitHandler} className="miscButton--main miscButton--shadow login__button">{t("submit")}</button>
             </div>
+            {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
 
       <h2 className={message === "" ? "login__message" : "login__message login__message--visible"}>{message}</h2>
     </div>

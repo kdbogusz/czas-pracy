@@ -7,11 +7,13 @@ import {
   query,
   where
 } from "firebase/firestore";
-
+import Loader from 'react-loader-spinner';
+import { usePromiseTracker } from "react-promise-tracker";
 import "../start/start.css";
 import "../common/common.css";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 type User = {
   name: string;
@@ -38,12 +40,16 @@ const TeamInfo = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
+  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
+
   const { t } = useTranslation();
   const [users, setUsers] = React.useState({});
   const [minutesPerDay, setMinutesPerDay] = React.useState(8 * 60);
-
+  const [loader, setLoader]=useState("")
   const getUsers = () => {
+    setLoader("Loading");
     (async () => {
+      setPromiseInProgress(true);
       if (props.state.db) {
         const userQuery = query(
           collection(props.state.db, "users"),
@@ -116,6 +122,7 @@ const TeamInfo = (props: {
         });
 
         setUsers(newUsers);
+        setPromiseInProgress(false);
       }
     })();
   };
@@ -176,6 +183,7 @@ const TeamInfo = (props: {
     //       : "start start--hidden"
     //   }
     >
+      {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
       <div>
         {props.state.isTeamLeader ? (
           <>

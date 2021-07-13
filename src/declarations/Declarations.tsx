@@ -1,4 +1,4 @@
-import React, {  SyntheticEvent } from "react";
+import React, {  SyntheticEvent, useState } from "react";
 import { State, Action } from "../common/reducer";
 import {
   Calendar,
@@ -27,6 +27,7 @@ import "rc-time-picker/assets/index.css";
 import "../common/common.css";
 import "./declarations.css";
 import { useTranslation } from "react-i18next";
+import Loader from "react-loader-spinner";
 
 type SlotInfo = {
   start: stringOrDate;
@@ -99,6 +100,8 @@ const Declarations = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
+  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
+
   const { t } = useTranslation();
   const [formInfo, setFormInfo] = React.useState<FormInfo>({
     day: new Date(),
@@ -116,6 +119,7 @@ const Declarations = (props: {
   const getEvents = () =>
     (async () => {
       if (props.state.db) {
+        setPromiseInProgress(true);
         const blockQuery = query(
           collection(props.state.db, "work_blocks"),
           where("userID", "==", props.state.userID)
@@ -158,6 +162,7 @@ const Declarations = (props: {
         });
 
         setEvents(newEvents);
+        setPromiseInProgress(false);
       }
     })();
 
@@ -364,6 +369,7 @@ const Declarations = (props: {
         height: "100%",
       }}
     >
+      {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
       <div className="card shadow mb-4">
         <div className="card-header py-3">
             <h6 className="m-0 font-weight-bold text-primary">{t("declarations")}</h6>
