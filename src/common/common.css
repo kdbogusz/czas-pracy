@@ -13,20 +13,16 @@
 }
 
 .miscButton--cancel {
-    background: #F5F5F5;
-    font-weight: bold;
-    font-size: 1.5rem;
-    border-style: solid;
-    border-color: #3066BE;
+    color: #2980b9;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 .miscButton--cancel:hover {
-    background: #E0E0E0;
+    text-decoration: underline;
 }
 
-.miscButton--cancel:active {
-    background: #C4C4C4;
-}
 
 .miscButton--delete {
     background: #3498db;;

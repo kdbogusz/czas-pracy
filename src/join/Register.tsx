@@ -15,6 +15,7 @@ import "./login.css";
 import { useTranslation } from "react-i18next";
 import Loader from "react-loader-spinner";
 import { useState } from "react";
+import register from '../assets/img/register.svg'
 
 const Register = (props: {
   state: State;
@@ -116,61 +117,67 @@ const Register = (props: {
         display: props.state.stage === "register" ? "flex" : "none",
       }}
     >
-    <h1>{t("register")}</h1>
-      <form className="login__form" onSubmit={submitHandler} onKeyDown={keyDownHandler}>
-        <div className="login__field">
-          <label htmlFor="loginName" className="login__label">{t("userName")}:</label>
-          <input
-            type="text"
-            id="loginName"
-            name="loginName"
-            className="login__input"
-            value={creds.name}
-            onChange={(e) => setCreds({ ...creds, name: e.target.value.split(/\s/).join('') })}
-          ></input>
+      <div className="login-container__login">
+      <h1>{t("register")}</h1>
+        <form className="login__form" onSubmit={submitHandler} onKeyDown={keyDownHandler}>
+          <div className="login__field">
+            <label htmlFor="loginName" className="login__label">{t("userName")}:</label>
+            <input
+              type="text"
+              id="loginName"
+              name="loginName"
+              className="login__input"
+              value={creds.name}
+              onChange={(e) => setCreds({ ...creds, name: e.target.value.split(/\s/).join('') })}
+            ></input>
+          </div>
+
+          <div className="login__field">
+            <label htmlFor="loginName" className="login__label">{t("password")}:</label>
+            <input
+              type="password"
+              id="loginPassword"
+              name="loginPassword"
+              className="login__input"
+              value={creds.password}
+              onChange={(e) => setCreds({ ...creds, password: e.target.value.split(/\s/).join('') })}
+            ></input>
+          </div>
+
+          <div className="login__field">
+            <label htmlFor="loginName" className="login__label">{t("repeatPassword")}:</label>
+            <input
+              type="password"
+              id="loginPasswordCheck"
+              name="loginPasswordCheck"
+              className="login__input"
+              value={creds.passwordCheck}
+              onChange={(e) =>
+                setCreds({ ...creds, passwordCheck: e.target.value.split(/\s/).join('') })
+              }
+            ></input>
+          </div>
+        </form>
+        <div className="login__buttons">
+            <button 
+            type="button" 
+            onClick={submitHandler} 
+            className="miscButton--main miscButton--shadow login__button login-btn__login">
+              {t("submit")}
+            </button>
+            <button
+            type="button"
+            onClick={cancelHandler}
+            className="miscButton--cancel login__button">
+              {t("cancel")}
+            </button>
         </div>
-
-        <div className="login__field">
-          <label htmlFor="loginName" className="login__label">{t("password")}:</label>
-          <input
-            type="password"
-            id="loginPassword"
-            name="loginPassword"
-            className="login__input"
-            value={creds.password}
-            onChange={(e) => setCreds({ ...creds, password: e.target.value.split(/\s/).join('') })}
-          ></input>
-        </div>
-
-        <div className="login__field">
-          <label htmlFor="loginName" className="login__label">{t("repeatPassword")}:</label>
-          <input
-            type="password"
-            id="loginPasswordCheck"
-            name="loginPasswordCheck"
-            className="login__input"
-            value={creds.passwordCheck}
-            onChange={(e) =>
-              setCreds({ ...creds, passwordCheck: e.target.value.split(/\s/).join('') })
-            }
-          ></input>
-        </div>
-      </form>
-
-            <div className="login__buttons">
-        <button
-          type="button"
-          onClick={cancelHandler}
-          className="miscButton--cancel miscButton--shadow login__button"
-        >
-          {t("cancel")}
-        </button>
-              
-        <button type="button" onClick={submitHandler} className="miscButton--main miscButton--shadow login__button">{t("submit")}</button>
-            </div>
-            {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
-
-      <h2 className={message === "" ? "login__message" : "login__message login__message--visible"}>{message}</h2>
+        {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
+        <h2 className={message === "" ? "login__message" : "login__message login__message--visible"}>{message}</h2>
+      </div>
+      <div className="login-container__img">
+        <img src={register} alt="register"></img>
+      </div>
     </div>
   );
 };

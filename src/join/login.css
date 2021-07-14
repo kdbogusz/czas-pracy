@@ -2,12 +2,24 @@
 
 .login {
     height: 92vh;
-  
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-sizing: border-box;
+  }
+  .login-container__login{
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
-    width: "100%";
+    justify-content: center;
+    margin: 1rem;
+  }
+  .login-container__img{
+    box-sizing: border-box;
+  }
+  .login-container__img img{ 
+    max-width: 90%;
   }
   .login-container__card{
     width: 30%;
@@ -28,18 +40,23 @@
   .login__form {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: center;
   }
   
   .login__field {
     width: 100%;
     height: 15%;
-  
+    margin: 1rem 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-around;
+  }
+  .login__field input{
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+    border: 1px solid #000
   }
   
   .login__label {
@@ -49,12 +66,19 @@
   .login__buttons {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .login__buttons button {
+    border-radius: 0.5rem;
   }
   
   .login__button {
-    width: 30%;
-    height: 30%;
+    width: 100%;
+    padding: 0.5rem 1rem;
     font-size: 1rem;
+    margin: 0.5rem 0;
   }
   
   .login__message {
@@ -75,47 +99,34 @@
   @media screen and (max-width: 768px) {
     .login__form {
       height: 60%;
-      width: 75%;
-      margin: 0 0 0 25%;
-  
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-around;
     }
   
     .login__input {
-      width: calc(200% / 3);
       height: 50%;
       font-size: 20px;
     }
   
     .login__buttons {
       height: 20%;
-      width: 75%;
     }
   }
   
   @media screen and (min-width: 768px) {
     .login__form {
       height: 60%;
-      width: calc(200% / 3);
-      margin: 0 0 0 calc(100% / 3);
-  
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-around;
     }
   
     .login__input {
-        width: 50%;
       height: 50%;
       font-size: 20px;
     }
   
     .login__buttons {
       height: 20%;
-      width: calc(100% / 3);
+    }
+  }
+  @media screen and (max-width: 966px) {
+    .login-container__img{
+      display: none;
     }
   }
