@@ -35,7 +35,7 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    if (creds.password !== creds.passwordCheck) {
+    if (creds.password !== creds.passwordCheck || creds.name==="" || creds.password==="") {
       setTemporaryMessage("Logowanie nie powiodło się");
       return;
     }
@@ -188,7 +188,7 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
             </button>
           </div>
             {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
-          <h2 className={message === "" ? "login__message" : "login__message login__message--visible"}>{message}</h2>
+          <p className={message === "" ? "login__message" : "login__message login__message--visible"}>{message}</p>
       </div>
       <div className="login-container__img">
         <img src={login} alt="login"></img>
