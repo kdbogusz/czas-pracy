@@ -1,14 +1,11 @@
 import React from "react";
-import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
 import { State, Action, ActionType } from "../common/reducer";
-
+import './teamInfo.css'
 import {
   collection,
-  documentId,
   getDocs,
   query,
   where,
-  writeBatch,
   doc,
   updateDoc,
   deleteDoc,
@@ -18,17 +15,10 @@ import {
 import "../start/start.css";
 import "../common/common.css";
 import TeamInfo from "./TeamInfo";
+import { useTranslation } from "react-i18next";
 
 const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
-  const [passcode, setPasscode] = React.useState("");
-
-  const buttonStyle = {
-    height: "25vw",
-    width: "25vw",
-    background: "yellow",
-    padding: "1rem 1rem 1rem 1rem",
-  };
-
+  const { t } = useTranslation();
   const leaveHandler = (userID: string) => {
     (async () => {
       if (props.state.db) {
@@ -125,30 +115,40 @@ const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     <div
       className={
         props.state.stage === "team"
-          ? "start start--layout"
+          ? "start start--layout teamInfo"
           : "start start--hidden"
       }
     >
-        <TeamInfo state={props.state} dispatch={props.dispatch} />
-      <div>
-        {props.state.isTeamLeader ? (
-          <button
-            type="button"
-            className="miscButton--delete miscButton--shadow"
-            onClick={deleteHandler}
-          >
-            USUŃ TEAM
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="miscButton--delete miscButton--shadow"
-            onClick={() => leaveHandler(props.state.userID)}
-          >
-            OPUŚĆ TEAM
-          </button>
-        )}
+      <div className="card shadow mb-4">
+        <div className="card-header py-3">
+          <h6 className="m-0 font-weight-bold text-primary">{t("team")}</h6>
+        </div>
+        <div className="card-body">
+          <div className="team-container">
+            <TeamInfo state={props.state} dispatch={props.dispatch} />
+            <div>
+              {props.state.isTeamLeader ? (
+                <button
+                  type="button"
+                  className="miscButton--delete"
+                  onClick={deleteHandler}
+                >
+                  {t("deleteTeam")}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="miscButton--delete "
+                  onClick={() => leaveHandler(props.state.userID)}
+                >
+                  {t("leaveTeam")}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
+
     </div>
   );
 };

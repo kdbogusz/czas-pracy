@@ -1,0 +1,63 @@
+.App {
+  text-align: center;
+  color: #2B2118;
+  background: #ecf0f1;
+}
+.main-page{
+  height: 100vh;
+  text-align: center;
+  color: #2B2118;
+  background: #ecf0f1;
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.app__body {
+  min-height: 92vh;
+  width: 100vw;
+
+}
+
+
+/*
+background: FFF8F0
+  background darker: FFECD6
+white: F5F5F5
+  white darker: E0E0E0
+  white darkest: C4C4C4
+black: 2B2118
+main: 3066BE
+  main darker: 2958A3
+  main darkest: 214683
+secondary: F08700
+  secondary darker: CC7400
+  secondary darkest: A35C00
+red: DC4151
+  red darker: CF2637
+  red darkest: AC202E
+*/

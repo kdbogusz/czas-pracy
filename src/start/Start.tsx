@@ -1,27 +1,22 @@
 import React from "react";
 import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
-import { State, Action, ActionType } from "../common/reducer";
+import { State, Action } from "../common/reducer";
 import {
   timeDiffString,
   removeOldEvents,
-  EventInfo,
 } from "../declarations/Declarations";
+import work from '../assets/img/work.svg'
 
 import {
   collection,
-  documentId,
-  getDocs,
-  query,
-  where,
   addDoc,
   Timestamp,
-  doc,
-  deleteDoc,
 } from "firebase/firestore";
 
 import "./start.css";
 import "../common/common.css";
-import moment, { now } from "moment";
+import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 enum StampType {
   Work = "work",
@@ -35,6 +30,7 @@ type Stamp = {
 };
 
 const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const { t } = useTranslation();
   const [pressed, setPressed] = React.useState(StampType.Out);
   const [stamps, setStamps] = React.useState<Stamp[]>([]);
   const [timeElapsedWorkDisplay, setTimeElapsedWorkDisplay] =
@@ -47,15 +43,14 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     background: "#3498db",
     padding: "1.5rem 1.5rem 1.5rem 1.5rem",
     borderRadius: "5rem",
-    boxShadow: "0px 0px 10px 1px rgb(43, 33, 24, 0.4)",
+    color: "#ecf0f1"
   };
 
   const buttonStylePressed = {
-
-    background: "#105e91",
+    background: "#fff",
     padding: "1.5rem 1.5rem 1.5rem 1.5rem",
     borderRadius: "5rem",
-    boxShadow: "3px 5px 20px 5px rgba(16,94,145,0.61)"
+    boxShadow: "0px 0px 10px 1px rgb(43, 33, 24, 0.4)",
   };
 
   const workHandler = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
@@ -134,13 +129,10 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     }
     const totalTimeDate = new Date(totalTime);
 
-    return `${
-      totalTimeDate.getUTCHours() < 10 ? "0" : ""
-    }${totalTimeDate.getUTCHours()}${
-      totalTimeDate.getUTCMinutes() < 10 ? ":0" : ":"
-    }${totalTimeDate.getUTCMinutes()}${
-      totalTimeDate.getUTCSeconds() < 10 ? ":0" : ":"
-    }${totalTimeDate.getUTCSeconds()}`;
+    return `${totalTimeDate.getUTCHours() < 10 ? "0" : ""
+      }${totalTimeDate.getUTCHours()}${totalTimeDate.getUTCMinutes() < 10 ? ":0" : ":"
+      }${totalTimeDate.getUTCMinutes()}${totalTimeDate.getUTCSeconds() < 10 ? ":0" : ":"
+      }${totalTimeDate.getUTCSeconds()}`;
   };
 
   const timeElapsedBreak = (stamps: Stamp[]) => {
@@ -176,13 +168,10 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     }
     const totalTimeDate = new Date(totalTime);
 
-    return `${
-      totalTimeDate.getUTCHours() < 10 ? "0" : ""
-    }${totalTimeDate.getUTCHours()}${
-      totalTimeDate.getUTCMinutes() < 10 ? ":0" : ":"
-    }${totalTimeDate.getUTCMinutes()}${
-      totalTimeDate.getUTCSeconds() < 10 ? ":0" : ":"
-    }${totalTimeDate.getUTCSeconds()}`;
+    return `${totalTimeDate.getUTCHours() < 10 ? "0" : ""
+      }${totalTimeDate.getUTCHours()}${totalTimeDate.getUTCMinutes() < 10 ? ":0" : ":"
+      }${totalTimeDate.getUTCMinutes()}${totalTimeDate.getUTCSeconds() < 10 ? ":0" : ":"
+      }${totalTimeDate.getUTCSeconds()}`;
   };
 
   React.useEffect(() => {
@@ -192,7 +181,7 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       setTimeElapsedBreakDisplay(timeElapsedBreak(stamps));
     }, 1000);
     return () => clearInterval(interval);
-  }, [pressed]);
+  }, [stamps]);
 
   React.useEffect(() => {
     if (["join", "login", "register"].includes(props.state.stage)) {
@@ -253,6 +242,12 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       addBlock(start, end);
       console.log(start.toTimeString(), end.toTimeString())
     }
+    setStamps([])
+    setTimeElapsedWorkDisplay(timeElapsedWork([]));
+    setTimeElapsedBreakDisplay(timeElapsedBreak([]));
+
+
+
   };
 
   return (
@@ -263,7 +258,9 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           : "start start--hidden"
       }
     >
-      <div>
+
+      <div className="start-container">
+        <div className="start-hole"></div>
         <div className="start-container__timer">
           <FaBriefcase className="start-icon"
             style={pressed === StampType.Work ? buttonStylePressed : buttonStyle}
@@ -285,14 +282,18 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           />
           <p></p>
         </div>
+        <button
+          type="button"
+          className="miscButton--main start-btn"
+          onClick={submitHandler}
+        >
+          {t("submit")}
+        </button>
       </div>
-      <button
-        type="button"
-        className="miscButton--main start-btn"
-        onClick={submitHandler}
-      >
-        Submit
-      </button>
+      <div className="start-container__img">
+        <img src={work} alt="work"></img>
+      </div>
+
     </div>
   );
 };

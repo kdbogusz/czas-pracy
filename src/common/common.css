@@ -1,51 +1,56 @@
 .miscButton--main {
-    background: #3498db;
     font-size: 1.5rem;
     border-style: none;
-    color: #ECF0F1;
+    color: #3498db;
+    cursor: pointer;
 
 }
 
-.miscButton--main:hover {
-    background: #2958A3;
-}
 
-.miscButton--main:active {
-    background: #214683;
-}
 
 .miscButton--shadow {
     box-shadow: 0px 0px 10px 1px rgb(43, 33, 24, 0.4); 
 }
 
 .miscButton--cancel {
-    background: #F5F5F5;
-    font-weight: bold;
-    font-size: 1.5rem;
-    border-style: solid;
-    border-color: #3066BE;
+    color: #2980b9;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 .miscButton--cancel:hover {
-    background: #E0E0E0;
+    text-decoration: underline;
 }
 
-.miscButton--cancel:active {
-    background: #C4C4C4;
-}
 
 .miscButton--delete {
-    background: #DC4151;
-    font-weight: bold;
-    font-size: 1.5rem;
+    background: #3498db;;
     border-style: none;
+    padding: 1rem 2rem;
     color: #ECF0F1;
+    font-weight: 500;
+    border-radius: 2rem;
+    cursor: pointer;
 }
 
 .miscButton--delete:hover {
-    background: #CF2637;
+    background: #2983c0;
 }
-
-.miscButton--delete:active {
-    background: #AC202E;
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #e3e6f0;
+    border-radius: 0.35rem;
+  }
+  .shadow {
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+  }
+  .mb-4 {
+  margin-bottom: 1.5rem !important;
 }

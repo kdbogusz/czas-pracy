@@ -5,8 +5,11 @@ import OutsideClickHandler from "react-outside-click-handler";
 import "./navbar.css";
 
 import NavbarButton from "./NavbarButton";
+import { useTranslation } from "react-i18next";
 
 const Menu = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const { t } = useTranslation();
+
   const hideMenu = () => {
     props.dispatch({
       type: ActionType.HideMenu,
@@ -71,36 +74,34 @@ const Menu = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   };
 
   return (
-    <OutsideClickHandler
-      onOutsideClick={() =>
-        !props.state.isMenuVisible ? hideMenu() : setTimeout(hideMenu, 0)
-      }
-    >
-      <div
-        className={props.state.isMenuVisible ? "menu menu--visible" : "menu menu--hidden"}
-      >
-        {props.state.userID ? ( props.state.teamID ? (
-          <>
-            <NavbarButton text="START" callback={setStartCallback} />
-            <NavbarButton text="KALENDARZ" callback={setCalendarCallback} />
-            <NavbarButton
-              text="DEKLARACJE"
-              callback={setDeclerationsCallback}
-            />
-            <NavbarButton
-              text="TEAM"
-              callback={setTeamCallback}
-            />
-          </>
-        ) : <>
-        <NavbarButton text="START" callback={setNoTeamCallback} /></> ): (
-          <>
-            <NavbarButton text="LOGIN" callback={setLoginCallback} />
-            <NavbarButton text="REJESTRACJA" callback={setRegisterCallback} />
-          </>
-        )}
-      </div>
-    </OutsideClickHandler>
+    <>
+      <OutsideClickHandler
+        onOutsideClick={() =>
+          !props.state.isMenuVisible ? hideMenu() : setTimeout(hideMenu, 0)}>
+        <div className={props.state.isMenuVisible ? "menu menu--visible" : "menu menu--hidden"}>
+          {props.state.userID && (props.state.teamID && (
+            <>
+              <NavbarButton
+                text={`${t("start")}`}
+                callback={setStartCallback}
+                classes="menuButton" />
+              <NavbarButton
+                text={`${t("calendar")}`}
+                callback={setCalendarCallback}
+                classes="menuButton" />
+              <NavbarButton
+                text={`${t("declarations")}`}
+                callback={setDeclerationsCallback}
+                classes="menuButton" />
+              <NavbarButton
+                text={`${t("team")}`}
+                callback={setTeamCallback}
+                classes="menuButton" />
+            </>
+          ))}
+        </div>
+      </OutsideClickHandler>
+    </>
   );
 };
 

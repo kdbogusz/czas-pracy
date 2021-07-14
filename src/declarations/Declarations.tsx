@@ -1,25 +1,22 @@
-import React, { HTMLAttributes, SyntheticEvent } from "react";
-import { State, Action, ActionType } from "../common/reducer";
+import React, { SyntheticEvent, useState } from "react";
+import { State, Action } from "../common/reducer";
 import {
   Calendar,
-  EventPropGetter,
   momentLocalizer,
   stringOrDate,
 } from "react-big-calendar";
 import moment from "moment";
-import DatePicker, { CalendarContainer } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import TimePicker from "rc-time-picker";
 import Popup from "reactjs-popup";
 
 import {
   collection,
-  documentId,
   getDocs,
   query,
   where,
   addDoc,
   Timestamp,
-  doc,
   deleteDoc,
   FirebaseFirestore,
 } from "firebase/firestore";
@@ -29,6 +26,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import "rc-time-picker/assets/index.css";
 import "../common/common.css";
 import "./declarations.css";
+import { useTranslation } from "react-i18next";
+import Loader from "react-loader-spinner";
 
 type SlotInfo = {
   start: stringOrDate;
@@ -90,7 +89,8 @@ export const removeOldEvents = (
             }
           }
         })();
-        if (after) after();
+        if (after)
+          after();
       });
     }
   })();
@@ -100,6 +100,9 @@ const Declarations = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
+  const [promiseInProgress, setPromiseInProgress] = useState(false);
+
+  const { t } = useTranslation();
   const [formInfo, setFormInfo] = React.useState<FormInfo>({
     day: new Date(),
     start: new Date(),
@@ -116,6 +119,7 @@ const Declarations = (props: {
   const getEvents = () =>
     (async () => {
       if (props.state.db) {
+        setPromiseInProgress(true);
         const blockQuery = query(
           collection(props.state.db, "work_blocks"),
           where("userID", "==", props.state.userID)
@@ -158,6 +162,7 @@ const Declarations = (props: {
         });
 
         setEvents(newEvents);
+        setPromiseInProgress(false);
       }
     })();
 
@@ -204,7 +209,6 @@ const Declarations = (props: {
       formInfo.end.getSeconds(),
       formInfo.end.getMilliseconds()
     );
-
     if (timeDiffString(start, end) !== "00:00") {
       (async () => {
         if (state.db) {
@@ -215,20 +219,49 @@ const Declarations = (props: {
             teamID: state.teamID,
           });
 
-          removeOldEvents(
-            {
-              start: start,
-              end: end,
-              title: "",
-              allDay: false,
-            },
-            "",
-            props.state.userID,
-            props.state.db,
-            getEvents
-          );
+
+          /*
+                    removeOldEvents(
+                      {
+                        start: start,
+                        end: end,
+                        title: "",
+                        allDay: false,
+                      },
+                      "",
+                      props.state.userID,
+                      props.state.db,
+                      getEvents
+                    )
+                    */
+          (async () => {
+            if (state.db) {
+              const q = query(
+                collection(state.db, "vacations"),
+                where("userID", "==", state.userID)
+              );
+              const querySnapshot = await getDocs(q);
+
+              querySnapshot.forEach((block) => {
+                (async () => {
+                  if (state.db) {
+                    if (
+                      block.data().date.toDate().getDay() === Timestamp.fromDate(start).toDate().getDay() &&
+                      block.data().date.toDate().getMonth() === Timestamp.fromDate(start).toDate().getMonth() &&
+                      block.data().date.toDate().getFullYear() === Timestamp.fromDate(start).toDate().getFullYear()
+                    ) {
+                      const blockRef = block.ref;
+                      await deleteDoc(blockRef);
+                    }
+                  }
+                })();
+              });
+            }
+            getEvents();
+          })();
         }
       })();
+
     } else if (start.getHours() == 0 && start.getMinutes() == 0 && end.getHours() == 0 && end.getMinutes() == 0) {
       (async () => {
         if (state.db) {
@@ -245,7 +278,7 @@ const Declarations = (props: {
                 where("userID", "==", props.state.userID)
               );
               const querySnapshot = await getDocs(q);
-        
+
               querySnapshot.forEach((block) => {
                 (async () => {
                   if (props.state.db) {
@@ -330,101 +363,108 @@ const Declarations = (props: {
   };
 
   return (
-    <div
+    <div className="declarations-container"
       style={{
-        display: props.state.stage === "declarations" ? "initial" : "none",
+        display: props.state.stage === "declarations" ? "block" : "none",
         height: "100%",
       }}
     >
-      <div style={{ zIndex: 90000, height: "10%" }}>
-        <div>
-          <TimePicker
-            showSecond={false}
-            value={moment(formInfo.start)}
-            onChange={(moment) => {
-              setFormInfo({ ...formInfo, start: moment.toDate() });
-            }}
-            format={"hh:mm a"}
-            use12Hours
-            inputReadOnly
-          />
-          <TimePicker
-            showSecond={false}
-            value={moment(formInfo.end)}
-            onChange={(moment) => {
-              setFormInfo({ ...formInfo, end: moment.toDate() });
-            }}
-            format={"hh:mm a"}
-            use12Hours
-            inputReadOnly
-          />
+      {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
+      <div className="card shadow mb-4">
+        <div className="card-header py-3">
+          <h6 className="m-0 font-weight-bold text-primary">{t("declarations")}</h6>
         </div>
-        <div>
-          <DatePicker
-            selected={formInfo.day}
-            onChange={(date) => {
-              setFormInfo({ ...formInfo, day: date as Date });
+        <div className="card-body">
+          <div style={{ zIndex: 90000, height: "10%", width: "90%" }}>
+            <div className="declarations-container__picker">
+              <TimePicker
+                showSecond={false}
+                value={moment(formInfo.start)}
+                onChange={(moment) => {
+                  setFormInfo({ ...formInfo, start: moment.toDate() });
+                }}
+                format={"hh:mm a"}
+                use12Hours
+                inputReadOnly
+              />
+              <TimePicker
+                showSecond={false}
+                value={moment(formInfo.end)}
+                onChange={(moment) => {
+                  setFormInfo({ ...formInfo, end: moment.toDate() });
+                }}
+                format={"hh:mm a"}
+                use12Hours
+                inputReadOnly
+              />
+              <DatePicker
+                selected={formInfo.day}
+                onChange={(date) => {
+                  setFormInfo({ ...formInfo, day: date as Date });
+                }}
+              />
+              <button
+                type="button"
+                onClick={submitHandler}
+                className="miscButton--main declarations-btn"
+                style={{ fontSize: "1rem" }}
+              >
+                {t("submit")}
+              </button>
+            </div>
+          </div>
+          <div
+            style={{ zIndex: 100, height: "90%" }}
+            onClick={(e) => {
+              setPopUpPosition({ x: e.pageX, y: e.pageY });
             }}
-          />
-          <button
-            type="button"
-            onClick={submitHandler}
-            className="miscButton--main"
-            style={{ fontSize: "1rem" }}
           >
-            SUBMIT
-          </button>
+            <Calendar
+              eventPropGetter={(event, start, end, isSelected) =>
+                eventPropGetter(event, start, end, isSelected)
+              }
+              selectable={true}
+              onSelectSlot={onSelectSlot}
+              onSelectEvent={(event: EventInfo, e: SyntheticEvent) => {
+                setSelected(event);
+                setTimeout(() => setIsPopUpOpen(true), 0);
+              }}
+              localizer={localizer}
+              events={Object.keys(events).map(
+                (key) => events[key as keyof typeof events]
+              )}
+              step={60}
+              defaultView="work_week"
+              views={["day", "work_week", "week", "month"]}
+              defaultDate={moment().toDate()}
+              style={{ height: "100%" }}
+              startAccessor="start"
+              endAccessor="end"
+            />
+            <Popup
+              open={isPopUpOpen}
+              closeOnDocumentClick
+              onClose={() => {
+                setIsPopUpOpen(false);
+              }}
+              contentStyle={{
+                padding: "20px",
+                background: "red",
+                position: "fixed",
+                left: popUpPosition.x,
+                top: popUpPosition.y,
+              }}
+            >
+              <button type="button" onClick={deleteHandler}>
+                DELETE
+              </button>
+            </Popup>
+          </div>
         </div>
-      </div>
-      <div
-        style={{ zIndex: 100, height: "90%" }}
-        onClick={(e) => {
-          setPopUpPosition({ x: e.pageX, y: e.pageY });
-        }}
-      >
-        <Calendar
-          eventPropGetter={(event, start, end, isSelected) =>
-            eventPropGetter(event, start, end, isSelected)
-          }
-          selectable={true}
-          onSelectSlot={onSelectSlot}
-          onSelectEvent={(event: EventInfo, e: SyntheticEvent) => {
-            setSelected(event);
-            setTimeout(() => setIsPopUpOpen(true), 0);
-          }}
-          localizer={localizer}
-          events={Object.keys(events).map(
-            (key) => events[key as keyof typeof events]
-          )}
-          step={60}
-          defaultView="work_week"
-          views={["day", "work_week", "week", "month"]}
-          defaultDate={moment().toDate()}
-          style={{ height: "100%" }}
-          startAccessor="start"
-          endAccessor="end"
-        />
-        <Popup
-          open={isPopUpOpen}
-          closeOnDocumentClick
-          onClose={() => {
-            setIsPopUpOpen(false);
-          }}
-          contentStyle={{
-            padding: "20px",
-            background: "red",
-            position: "fixed",
-            left: popUpPosition.x,
-            top: popUpPosition.y,
-          }}
-        >
-          <button type="button" onClick={deleteHandler}>
-            DELETE
-          </button>
-        </Popup>
       </div>
     </div>
   );
 };
 
 export default Declarations;
+

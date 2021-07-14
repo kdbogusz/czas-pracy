@@ -1,41 +1,37 @@
-import React from "react";
-import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
+import React, { useState } from "react";
 import { State, Action, ActionType } from "../common/reducer";
 
 import {
   collection,
-  documentId,
   getDocs,
   query,
   where,
-  writeBatch,
   doc,
   updateDoc,
 } from "firebase/firestore";
 
 import "../start/start.css";
 import "../common/common.css";
+import CreateTeam from "./CreateTeam";
+import { useTranslation } from "react-i18next";
+import Loader from "react-loader-spinner";
 
 const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const [promiseInProgress, setPromiseInProgress] = useState(false);
   const [passcode, setPasscode] = React.useState("");
-
-  const buttonStyle = {
-    height: "25vw",
-    width: "25vw",
-    background: "yellow",
-    padding: "1rem 1rem 1rem 1rem",
-  };
-
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const { t } = useTranslation();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (async () => {
+      setPromiseInProgress(true)
       if (props.state.db) {
         const teamQuery = query(
           collection(props.state.db, "teams"),
           where("passcode", "==", passcode)
         );
         const teamQuerySnapshot = await getDocs(teamQuery);
-
+        teamQuerySnapshot.size === 0 && setErrorMessage("Wrong code!!!")
         teamQuerySnapshot.forEach((team) => {
           props.dispatch({
             type: ActionType.SetTeamID,
@@ -57,12 +53,16 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
                 type: ActionType.SetStageStart,
                 payload: "",
               });
+              props.dispatch({
+                type: ActionType.ShowNavBar,
+                payload: true,
+              });
             } catch (e) {
-              // TODO
             }
           })();
         });
       }
+      setPromiseInProgress(false)
     })();
   };
 
@@ -70,22 +70,29 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     <div
       className={
         props.state.stage === "noTeam"
-          ? "start start--layout"
+          ? "start start--layout noteam"
           : "start start--hidden"
       }
     >
-      DOŁĄCZ DO TEAMU
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="passcode">Passcode</label>
-        <input
-          type="text"
-          id="passcode"
-          name="passcode"
-          value={passcode}
-          onChange={(e) => setPasscode(e.target.value)}
-        ></input>
-        <button type="submit">SUBMIT</button>
-      </form>
+      <div className="noteam-container__card">
+        <div className="noteam-hole"></div>
+        {t("joinTheTeam")}
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            id="passcode"
+            placeholder={`${t("passcode")}...`}
+            name="passcode"
+            value={passcode}
+            onChange={(e) => setPasscode(e.target.value)}
+          ></input>
+          <button type="submit">{t("submit")}</button>
+        </form>
+        {promiseInProgress && <Loader type="ThreeDots" color="#ffffff" height="100" width="100" />}
+        <p>{errorMessage}</p>
+      </div>
+      <CreateTeam state={props.state} dispatch={props.dispatch} />
+
     </div>
   );
 };

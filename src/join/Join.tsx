@@ -1,23 +1,12 @@
 import React from "react";
-import { State, Action, ActionType } from "../common/reducer";
-
+import { State, Action } from "../common/reducer";
+import calendar from '../assets/img/calendar.svg'
 import "../common/common.css";
 import "./join.css";
+import { useTranslation } from "react-i18next";
 
 const Join = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
-  const setLoginStage = () => {
-    props.dispatch({
-      type: ActionType.SetStageLogin,
-      payload: "",
-    });
-  };
-
-  const setRegisterStage = () => {
-    props.dispatch({
-      type: ActionType.SetStageRegister,
-      payload: "",
-    });
-  };
+  const { t } = useTranslation();
 
   return (
     <div
@@ -26,22 +15,11 @@ const Join = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         display: props.state.stage === "join" ? "flex" : "none",
       }}
     >
-      <img src="../../logo512.png" className="join__logo" />
-      <div className="join__buttons">
-        <button
-          type="button"
-          onClick={setLoginStage}
-          className="miscButton--main miscButton--shadow join__button"
-        >
-          LOGOWANIE
-        </button>
-        <button
-          type="button"
-          onClick={setRegisterStage}
-          className="miscButton--main miscButton--shadow join__button"
-        >
-          REJESTRACJA
-        </button>
+      <div className="join-container">
+        <img className="join-img" src={calendar} alt="calendar" />
+      </div>
+      <div className="join-container join__text">
+        <h3>{t("organizationOfWork")}.</h3>
       </div>
     </div>
   );

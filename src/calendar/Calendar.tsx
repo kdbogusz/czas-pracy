@@ -1,11 +1,7 @@
-import React from "react";
-import Timeline, {
-  TimelineHeaders,
-  DateHeader,
-  TimelineContext,
-} from "react-calendar-timeline";
+import React, { useState } from "react";
+import Timeline from "react-calendar-timeline";
 import moment, { Moment } from "moment";
-import { State, Action, ActionType } from "../common/reducer";
+import { State, Action } from "../common/reducer";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 import "react-calendar-timeline/lib/Timeline.css";
@@ -14,13 +10,13 @@ import "../common/common.css";
 
 import {
   collection,
-  documentId,
   getDocs,
   query,
   where,
-  doc,
 } from "firebase/firestore";
-import { groupEnd } from "console";
+import { useTranslation } from "react-i18next";
+import { usePromiseTracker } from "react-promise-tracker";
+import Loader from "react-loader-spinner";
 
 type singleItem = {
   id: number;
@@ -45,12 +41,15 @@ const Calendar = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
+  const [promiseInProgress, setPromiseInProgress] = useState(false);
+  const { t } = useTranslation();
   const [groups, setGroups] = React.useState<singleGroup[]>([]);
   const [items, setItems] = React.useState<singleItem[]>([]);
   const [isNamesVisible, setIsNamesVisible] = React.useState(false);
 
   const getItems = () =>
     (async () => {
+      setPromiseInProgress(true);
       if (props.state.db) {
         const userQuery = query(
           collection(props.state.db, "users"),
@@ -87,7 +86,7 @@ const Calendar = (props: {
               end_time: moment(doc.data().end.toDate()),
               itemProps: {
                 style: {
-                  background: "#3066BE",
+                  background: "#3498db",
                   boxShadow: "none",
                 },
               },
@@ -95,6 +94,7 @@ const Calendar = (props: {
           ];
         });
         setItems(newItems);
+        setPromiseInProgress(false);
       }
     })();
 
@@ -121,36 +121,60 @@ const Calendar = (props: {
       className={"calendar"}
       style={{ display: props.state.stage === "calendar" ? "initial" : "none" }}
     >
-      {isNamesVisible ? (
-        <FaChevronLeft
-          className="calendar__button"
-          onClick={() => {
-            setIsNamesVisible(!isNamesVisible);
-          }}
-        />
-      ) : (
-        <FaChevronRight
-          className="calendar__button"
-          onClick={() => {
-            setIsNamesVisible(!isNamesVisible);
-          }}
-        />
-      )}
+      {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
       {/* {props.state.isTeamLeader ? getPasscode() : ""} */}
-      <Timeline
-        lineHeight={60}
-        itemHeightRatio={0.85}
-        sidebarWidth={isNamesVisible ? 100 : 0}
-        traditionalZoom={false}
-        canResize={false}
-        canMove={false}
-        groups={groups}
-        items={items}
-        defaultTimeStart={moment().add(-4, "day")}
-        defaultTimeEnd={moment().add(4, "day")}
-        onItemSelect={() => {}}
-        minZoom={24 * 60 * 60 * 1000}
-      />
+      <div className="card shadow mb-4">
+        <div className="card-header py-3">
+          <h6 className="m-0 font-weight-bold text-primary">{t("calendar")}</h6>
+        </div>
+        <div className="card-body">
+          {isNamesVisible ?
+            <>
+              <FaChevronRight
+                className="calendar__button"
+                onClick={() => {
+                  setIsNamesVisible(!isNamesVisible);
+                }}
+              />
+              <FaChevronLeft
+                className="calendar__button"
+                onClick={() => {
+                  setIsNamesVisible(!isNamesVisible);
+                }}
+              />
+            </>
+            :
+            <>
+              <FaChevronLeft
+                className="calendar__button"
+                onClick={() => {
+                  setIsNamesVisible(!isNamesVisible);
+                }}
+              />
+              <FaChevronRight
+                className="calendar__button"
+                onClick={() => {
+                  setIsNamesVisible(!isNamesVisible);
+                }}
+              />
+            </>}
+          <Timeline
+            lineHeight={60}
+            itemHeightRatio={0.85}
+            sidebarWidth={isNamesVisible ? 100 : 0}
+            traditionalZoom={false}
+            canResize={false}
+            canMove={false}
+            groups={groups}
+            items={items}
+            defaultTimeStart={moment().add(-4, "day")}
+            defaultTimeEnd={moment().add(4, "day")}
+            onItemSelect={() => { }}
+            minZoom={24 * 60 * 60 * 1000}
+          />
+        </div>
+      </div>
+
     </div>
   );
 };

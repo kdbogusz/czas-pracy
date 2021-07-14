@@ -4,6 +4,9 @@
     position: fixed;
     top: 8vh;
     left: 0;
+    margin-top: 1rem;
+    box-sizing: border-box;
+    padding: 1rem;
 }
 
 .calendar--noNames {
@@ -15,23 +18,59 @@
 }
 
 .react-calendar-timeline .rct-header-root {
-    background: #3066BE;
+    background: #ecf0f1;
+    border: none;
     color: #2B2118;
 }
 
 .react-calendar-timeline .rct-dateHeader-primary {
     color: #F5F5F5;
 }
-
-.calendar__button {
-    position: fixed;
-    top: 8vh;
-    left: 0;
-    height: 61px;
-    width: 100px;
-    background: #FFF8F0;
-    z-index: 999999;
-    border-style: solid;
-    border-width: 0px 1px 1px 0px;
-    border-color: #bbb;
+.react-calendar-timeline .rct-dateHeader{
+    background-color: #f8f9fc;
+    border: 1px solid #e3e6f0;
 }
+.calendar__button {
+    height: 2.5rem;
+    width: 100px;
+    z-index: 999999;
+    color: #3498db;
+}
+
+.react-calendar-timeline .rct-calendar-header {
+    border: none;
+
+}
+.react-calendar-timeline .rct-header-root{
+    background-color: #fff;
+
+}
+.react-calendar-timeline .rct-sidebar .rct-sidebar-row, .react-calendar-timeline .rct-horizontal-lines .rct-hl-even{
+    border: 1px solid #e3e6f0;
+}
+.react-calendar-timeline .rct-sidebar .rct-sidebar-row.rct-sidebar-row-even{
+    background-color: #f8f9fc;
+}
+.card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: #f8f9fc;
+    border-bottom: 1px solid #e3e6f0;
+  }
+.py-3 {
+  padding-top: 1rem !important;
+}
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+  }
+  .font-weight-bold {
+    font-weight: 700 !important;
+  }
+  .text-primary {
+    color: #4e73df !important;
+  }
+  .m-0 {
+    margin: 0 !important;
+  }

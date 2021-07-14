@@ -1,17 +1,21 @@
-import React, { FormEventHandler, MouseEventHandler } from "react";
+import React, { useState } from "react";
 import { State, Action, ActionType } from "../common/reducer";
 
 import {
   collection,
-  documentId,
   getDocs,
   query,
   where,
 } from "firebase/firestore";
 
 import "./login.css";
+import { useTranslation } from "react-i18next";
+import Loader from "react-loader-spinner";
+import login from '../assets/img/login.svg'
 
 const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
+  const [promiseInProgress, setPromiseInProgress] = useState(false);
+  const { t } = useTranslation();
   const [creds, setCreds] = React.useState({
     name: "",
     password: "",
@@ -31,13 +35,14 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    if (creds.password !== creds.passwordCheck) {
+    if (creds.password !== creds.passwordCheck || creds.name === "" || creds.password === "") {
       setTemporaryMessage("Logowanie nie powiodło się");
       return;
     }
 
     (async () => {
       if (props.state.db) {
+        setPromiseInProgress(true);
         const userQuery = query(
           collection(props.state.db, "users"),
           where("name", "==", creds.name)
@@ -57,6 +62,10 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
               props.dispatch({
                 type: ActionType.SetStageStart,
                 payload: "",
+              });
+              props.dispatch({
+                type: ActionType.ShowNavBar,
+                payload: true,
               });
             } else {
               props.dispatch({
@@ -83,10 +92,12 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
                     });
                   })
                 }
+                setPromiseInProgress(false);
               })();
             }
           } else {
             setTemporaryMessage("Logowanie nie powiodło się");
+            setPromiseInProgress(false);
           }
           return;
         });
@@ -119,64 +130,69 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         display: props.state.stage === "login" ? "flex" : "none",
       }}
     >
-    <h1>ZALOGUJ SIĘ:</h1>
-      <form className="login__form" onSubmit={submitHandler} onKeyDown={keyDownHandler}>
-        <div className="login__field">
-          <label htmlFor="loginName" className="login__label">Nazwa użytkownika:</label>
-          <input
-            type="text"
-            id="loginName"
-            name="loginName"
-            className="login__input"
-            value={creds.name}
-            onChange={(e) => setCreds({ ...creds, name: e.target.value })}
-          ></input>
-        </div>
+      <div className="login-container__login">
+        <h1>{t("signIn")}:</h1>
+        <form className="login__form" onSubmit={submitHandler} onKeyDown={keyDownHandler}>
+          <div className="login__field">
+            <label htmlFor="loginName" className="login__label">{t("userName")}:</label>
+            <input
+              type="text"
+              id="loginName"
+              name="loginName"
+              className="login__input"
+              value={creds.name}
+              onChange={(e) => setCreds({ ...creds, name: e.target.value.split(/\s/).join('') })}
+            ></input>
+          </div>
 
-        <div className="login__field">
-          <label htmlFor="loginName" className="login__label">Hasło:</label>
-          <input
-            type="password"
-            id="loginPassword"
-            name="loginPassword"
-            className="login__input"
-            value={creds.password}
-            onChange={(e) => setCreds({ ...creds, password: e.target.value })}
-          ></input>
-        </div>
+          <div className="login__field">
+            <label htmlFor="loginName" className="login__label">{t("password")}:</label>
+            <input
+              type="password"
+              id="loginPassword"
+              name="loginPassword"
+              className="login__input"
+              value={creds.password}
+              onChange={(e) => setCreds({ ...creds, password: e.target.value.split(/\s/).join('') })}
+            ></input>
+          </div>
 
-        <div className="login__field">
-          <label htmlFor="loginName" className="login__label">Powtórz hasło:</label>
-          <input
-            type="password"
-            id="loginPasswordCheck"
-            name="loginPasswordCheck"
-            className="login__input"
-            value={creds.passwordCheck}
-            onChange={(e) =>
-              setCreds({ ...creds, passwordCheck: e.target.value })
-            }
-          ></input>
+          <div className="login__field">
+            <label htmlFor="loginName" className="login__label">{t("repeatPassword")}:</label>
+            <input
+              type="password"
+              id="loginPasswordCheck"
+              name="loginPasswordCheck"
+              className="login__input"
+              value={creds.passwordCheck}
+              onChange={(e) =>
+                setCreds({ ...creds, passwordCheck: e.target.value.split(/\s/).join('') })
+              }
+            ></input>
+          </div>
+        </form>
+        <div className="login__buttons">
+          <button
+            type="button"
+            onClick={submitHandler}
+            className="miscButton--main miscButton--shadow login__button login-btn__login"
+          >
+            {t("signIn")}
+          </button>
+          <button
+            type="button"
+            onClick={cancelHandler}
+            className="miscButton--cancel login__button "
+          >
+            {t("cancel")}
+          </button>
         </div>
-      </form>
-      <div className="login__buttons">
-        <button
-          type="button"
-          onClick={cancelHandler}
-          className="miscButton--cancel miscButton--shadow login__button"
-        >
-          ANULUJ
-        </button>
-        <button
-          type="button"
-          onClick={submitHandler}
-          className="miscButton--main miscButton--shadow login__button"
-        >
-          ZALOGUJ
-        </button>
+        {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
+        <p className={message === "" ? "login__message" : "login__message login__message--visible"}>{message}</p>
       </div>
-
-      <h2 className={message === "" ? "login__message" : "login__message login__message--visible"}>{message}</h2>
+      <div className="login-container__img">
+        <img src={login} alt="login"></img>
+      </div>
     </div>
   );
 };
