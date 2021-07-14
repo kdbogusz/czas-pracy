@@ -129,13 +129,10 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     }
     const totalTimeDate = new Date(totalTime);
 
-    return `${
-      totalTimeDate.getUTCHours() < 10 ? "0" : ""
-    }${totalTimeDate.getUTCHours()}${
-      totalTimeDate.getUTCMinutes() < 10 ? ":0" : ":"
-    }${totalTimeDate.getUTCMinutes()}${
-      totalTimeDate.getUTCSeconds() < 10 ? ":0" : ":"
-    }${totalTimeDate.getUTCSeconds()}`;
+    return `${totalTimeDate.getUTCHours() < 10 ? "0" : ""
+      }${totalTimeDate.getUTCHours()}${totalTimeDate.getUTCMinutes() < 10 ? ":0" : ":"
+      }${totalTimeDate.getUTCMinutes()}${totalTimeDate.getUTCSeconds() < 10 ? ":0" : ":"
+      }${totalTimeDate.getUTCSeconds()}`;
   };
 
   const timeElapsedBreak = (stamps: Stamp[]) => {
@@ -171,13 +168,10 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     }
     const totalTimeDate = new Date(totalTime);
 
-    return `${
-      totalTimeDate.getUTCHours() < 10 ? "0" : ""
-    }${totalTimeDate.getUTCHours()}${
-      totalTimeDate.getUTCMinutes() < 10 ? ":0" : ":"
-    }${totalTimeDate.getUTCMinutes()}${
-      totalTimeDate.getUTCSeconds() < 10 ? ":0" : ":"
-    }${totalTimeDate.getUTCSeconds()}`;
+    return `${totalTimeDate.getUTCHours() < 10 ? "0" : ""
+      }${totalTimeDate.getUTCHours()}${totalTimeDate.getUTCMinutes() < 10 ? ":0" : ":"
+      }${totalTimeDate.getUTCMinutes()}${totalTimeDate.getUTCSeconds() < 10 ? ":0" : ":"
+      }${totalTimeDate.getUTCSeconds()}`;
   };
 
   React.useEffect(() => {
@@ -289,12 +283,12 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           <p></p>
         </div>
         <button
-        type="button"
-        className="miscButton--main start-btn"
-        onClick={submitHandler}
-      >
-        {t("submit")}
-      </button>
+          type="button"
+          className="miscButton--main start-btn"
+          onClick={submitHandler}
+        >
+          {t("submit")}
+        </button>
       </div>
       <div className="start-container__img">
         <img src={work} alt="work"></img>

@@ -67,34 +67,34 @@ const Navbar = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   };
   return (
     <>
-    {props.state.ShowNavBar ? <div className="navbar">
-    <div className="menu-container">
-      <NavbarButton 
-        text={`${t("start")}`} 
-        callback={setStartCallback}
-        classes="navbar-btn__link" />
-      <NavbarButton 
-        text={`${t("calendar")}`} 
-        callback={setCalendarCallback} 
-        classes="navbar-btn__link"/>
-      <NavbarButton
-        text={`${t("declarations")}`}
-        callback={setDeclerationsCallback}
-        classes="navbar-btn__link"/>
-      <NavbarButton
-        text={`${t("team")}`}
-        callback={setTeamCallback}
-        classes="navbar-btn__link"/>
-    </div>
-      <FaBars className="navbarButton--size miscButton--main navbar-btn__hamburger" onClick={toggleMenu} />
-      {!["join", "login", "register"].includes(props.state.stage) && (
-        <FaPowerOff className="navbarButton--size miscButton--main" onClick={logOut} />
-      )}
-    </div>:
-    <div className="navbar-btn">
-     <button onClick={setLoginStage}>{t('login')}</button>
-     <button onClick={setRegisterStage}>{t("registration")}</button>
-  </div>}
+      {props.state.ShowNavBar ? <div className="navbar">
+        <div className="menu-container">
+          <NavbarButton
+            text={`${t("start")}`}
+            callback={setStartCallback}
+            classes="navbar-btn__link" />
+          <NavbarButton
+            text={`${t("calendar")}`}
+            callback={setCalendarCallback}
+            classes="navbar-btn__link" />
+          <NavbarButton
+            text={`${t("declarations")}`}
+            callback={setDeclerationsCallback}
+            classes="navbar-btn__link" />
+          <NavbarButton
+            text={`${t("team")}`}
+            callback={setTeamCallback}
+            classes="navbar-btn__link" />
+        </div>
+        <FaBars className="navbarButton--size miscButton--main navbar-btn__hamburger" onClick={toggleMenu} />
+        {!["join", "login", "register"].includes(props.state.stage) && (
+          <FaPowerOff className="navbarButton--size miscButton--main" onClick={logOut} />
+        )}
+      </div> :
+        <div className="navbar-btn">
+          <button onClick={setLoginStage}>{t('login')}</button>
+          <button onClick={setRegisterStage}>{t("registration")}</button>
+        </div>}
     </>
   );
 };

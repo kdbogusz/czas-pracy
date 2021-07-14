@@ -1,4 +1,4 @@
-import React, {  SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { State, Action } from "../common/reducer";
 import {
   Calendar,
@@ -90,7 +90,7 @@ export const removeOldEvents = (
           }
         })();
         if (after)
-        after();
+          after();
       });
     }
   })();
@@ -100,7 +100,7 @@ const Declarations = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
-  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
+  const [promiseInProgress, setPromiseInProgress] = useState(false);
 
   const { t } = useTranslation();
   const [formInfo, setFormInfo] = React.useState<FormInfo>({
@@ -220,45 +220,45 @@ const Declarations = (props: {
           });
 
 
-/*
-          removeOldEvents(
-            {
-              start: start,
-              end: end,
-              title: "",
-              allDay: false,
-            },
-            "",
-            props.state.userID,
-            props.state.db,
-            getEvents
-          )
-          */
-         (async () => {
-          if (state.db) {
-            const q = query(
-              collection(state.db, "vacations"),
-              where("userID", "==", state.userID)
-            );
-            const querySnapshot = await getDocs(q);
-      
-            querySnapshot.forEach((block) => {
-              (async () => {
-                if (state.db) {
-                  if (
-                    block.data().date.toDate().getDay() ===  Timestamp.fromDate(start).toDate().getDay() &&
-                    block.data().date.toDate().getMonth() ===  Timestamp.fromDate(start).toDate().getMonth() &&
-                    block.data().date.toDate().getFullYear() ===  Timestamp.fromDate(start).toDate().getFullYear()
-                  ) {
-                    const blockRef = block.ref;
-                    await deleteDoc(blockRef);
+          /*
+                    removeOldEvents(
+                      {
+                        start: start,
+                        end: end,
+                        title: "",
+                        allDay: false,
+                      },
+                      "",
+                      props.state.userID,
+                      props.state.db,
+                      getEvents
+                    )
+                    */
+          (async () => {
+            if (state.db) {
+              const q = query(
+                collection(state.db, "vacations"),
+                where("userID", "==", state.userID)
+              );
+              const querySnapshot = await getDocs(q);
+
+              querySnapshot.forEach((block) => {
+                (async () => {
+                  if (state.db) {
+                    if (
+                      block.data().date.toDate().getDay() === Timestamp.fromDate(start).toDate().getDay() &&
+                      block.data().date.toDate().getMonth() === Timestamp.fromDate(start).toDate().getMonth() &&
+                      block.data().date.toDate().getFullYear() === Timestamp.fromDate(start).toDate().getFullYear()
+                    ) {
+                      const blockRef = block.ref;
+                      await deleteDoc(blockRef);
+                    }
                   }
-                }
-              })();
-            });
-          }
-          getEvents();
-        })();
+                })();
+              });
+            }
+            getEvents();
+          })();
         }
       })();
 
@@ -278,7 +278,7 @@ const Declarations = (props: {
                 where("userID", "==", props.state.userID)
               );
               const querySnapshot = await getDocs(q);
-        
+
               querySnapshot.forEach((block) => {
                 (async () => {
                   if (props.state.db) {
@@ -372,96 +372,96 @@ const Declarations = (props: {
       {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-            <h6 className="m-0 font-weight-bold text-primary">{t("declarations")}</h6>
+          <h6 className="m-0 font-weight-bold text-primary">{t("declarations")}</h6>
         </div>
-      <div className="card-body">
-        <div style={{ zIndex: 90000, height: "10%", width: "90%"}}>
-          <div className="declarations-container__picker">
-            <TimePicker
-              showSecond={false}
-              value={moment(formInfo.start)}
-              onChange={(moment) => {
-                setFormInfo({ ...formInfo, start: moment.toDate() });
+        <div className="card-body">
+          <div style={{ zIndex: 90000, height: "10%", width: "90%" }}>
+            <div className="declarations-container__picker">
+              <TimePicker
+                showSecond={false}
+                value={moment(formInfo.start)}
+                onChange={(moment) => {
+                  setFormInfo({ ...formInfo, start: moment.toDate() });
+                }}
+                format={"hh:mm a"}
+                use12Hours
+                inputReadOnly
+              />
+              <TimePicker
+                showSecond={false}
+                value={moment(formInfo.end)}
+                onChange={(moment) => {
+                  setFormInfo({ ...formInfo, end: moment.toDate() });
+                }}
+                format={"hh:mm a"}
+                use12Hours
+                inputReadOnly
+              />
+              <DatePicker
+                selected={formInfo.day}
+                onChange={(date) => {
+                  setFormInfo({ ...formInfo, day: date as Date });
+                }}
+              />
+              <button
+                type="button"
+                onClick={submitHandler}
+                className="miscButton--main declarations-btn"
+                style={{ fontSize: "1rem" }}
+              >
+                {t("submit")}
+              </button>
+            </div>
+          </div>
+          <div
+            style={{ zIndex: 100, height: "90%" }}
+            onClick={(e) => {
+              setPopUpPosition({ x: e.pageX, y: e.pageY });
+            }}
+          >
+            <Calendar
+              eventPropGetter={(event, start, end, isSelected) =>
+                eventPropGetter(event, start, end, isSelected)
+              }
+              selectable={true}
+              onSelectSlot={onSelectSlot}
+              onSelectEvent={(event: EventInfo, e: SyntheticEvent) => {
+                setSelected(event);
+                setTimeout(() => setIsPopUpOpen(true), 0);
               }}
-              format={"hh:mm a"}
-              use12Hours
-              inputReadOnly
+              localizer={localizer}
+              events={Object.keys(events).map(
+                (key) => events[key as keyof typeof events]
+              )}
+              step={60}
+              defaultView="work_week"
+              views={["day", "work_week", "week", "month"]}
+              defaultDate={moment().toDate()}
+              style={{ height: "100%" }}
+              startAccessor="start"
+              endAccessor="end"
             />
-            <TimePicker
-              showSecond={false}
-              value={moment(formInfo.end)}
-              onChange={(moment) => {
-                setFormInfo({ ...formInfo, end: moment.toDate() });
+            <Popup
+              open={isPopUpOpen}
+              closeOnDocumentClick
+              onClose={() => {
+                setIsPopUpOpen(false);
               }}
-              format={"hh:mm a"}
-              use12Hours
-              inputReadOnly
-            />
-            <DatePicker
-              selected={formInfo.day}
-              onChange={(date) => {
-                setFormInfo({ ...formInfo, day: date as Date });
+              contentStyle={{
+                padding: "20px",
+                background: "red",
+                position: "fixed",
+                left: popUpPosition.x,
+                top: popUpPosition.y,
               }}
-            />
-            <button
-              type="button"
-              onClick={submitHandler}
-              className="miscButton--main declarations-btn"
-              style={{ fontSize: "1rem" }}
             >
-            {t("submit")}
-          </button>
+              <button type="button" onClick={deleteHandler}>
+                DELETE
+              </button>
+            </Popup>
+          </div>
         </div>
       </div>
-      <div
-        style={{ zIndex: 100, height: "90%" }}
-        onClick={(e) => {
-          setPopUpPosition({ x: e.pageX, y: e.pageY });
-        }}
-      >
-        <Calendar
-          eventPropGetter={(event, start, end, isSelected) =>
-            eventPropGetter(event, start, end, isSelected)
-          }
-          selectable={true}
-          onSelectSlot={onSelectSlot}
-          onSelectEvent={(event: EventInfo, e: SyntheticEvent) => {
-            setSelected(event);
-            setTimeout(() => setIsPopUpOpen(true), 0);
-          }}
-          localizer={localizer}
-          events={Object.keys(events).map(
-            (key) => events[key as keyof typeof events]
-          )}
-          step={60}
-          defaultView="work_week"
-          views={["day", "work_week", "week", "month"]}
-          defaultDate={moment().toDate()}
-          style={{ height: "100%" }}
-          startAccessor="start"
-          endAccessor="end"
-        />
-        <Popup
-          open={isPopUpOpen}
-          closeOnDocumentClick
-          onClose={() => {
-            setIsPopUpOpen(false);
-          }}
-          contentStyle={{
-            padding: "20px",
-            background: "red",
-            position: "fixed",
-            left: popUpPosition.x,
-            top: popUpPosition.y,
-          }}
-        >
-          <button type="button" onClick={deleteHandler}>
-            DELETE
-          </button>
-        </Popup>
-      </div>
-</div>
-</div>
     </div>
   );
 };

@@ -17,9 +17,9 @@ import { useTranslation } from "react-i18next";
 import Loader from "react-loader-spinner";
 
 const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
-  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
+  const [promiseInProgress, setPromiseInProgress] = useState(false);
   const [passcode, setPasscode] = React.useState("");
-  const [errorMessage, setErrorMessage]=React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
   const { t } = useTranslation();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           where("passcode", "==", passcode)
         );
         const teamQuerySnapshot = await getDocs(teamQuery);
-          teamQuerySnapshot.size===0 && setErrorMessage("Wrong code!!!")
+        teamQuerySnapshot.size === 0 && setErrorMessage("Wrong code!!!")
         teamQuerySnapshot.forEach((team) => {
           props.dispatch({
             type: ActionType.SetTeamID,
@@ -91,8 +91,8 @@ const NoTeam = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
         {promiseInProgress && <Loader type="ThreeDots" color="#ffffff" height="100" width="100" />}
         <p>{errorMessage}</p>
       </div>
-      <CreateTeam state={props.state} dispatch={props.dispatch}/>
- 
+      <CreateTeam state={props.state} dispatch={props.dispatch} />
+
     </div>
   );
 };

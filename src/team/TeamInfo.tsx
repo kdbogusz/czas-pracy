@@ -40,12 +40,12 @@ const TeamInfo = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
-  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
+  const [promiseInProgress, setPromiseInProgress] = useState(false);
 
   const { t } = useTranslation();
   const [users, setUsers] = React.useState({});
   const [minutesPerDay, setMinutesPerDay] = React.useState(8 * 60);
-  const [loader, setLoader]=useState("")
+  const [loader, setLoader] = useState("")
   const getUsers = () => {
     setLoader("Loading");
     (async () => {
@@ -103,13 +103,13 @@ const TeamInfo = (props: {
         );
         const vacationsQuerySnapshot = await getDocs(vacationsQuery);
         vacationsQuerySnapshot.forEach((doc) => {
-          console.log("qa",(newUsers[doc.data().userID as keyof typeof newUsers] as User).totalTimeString);
-            (
-              newUsers[doc.data().userID as keyof typeof newUsers] as User
-            ).totalTimeString =(parseInt((newUsers[doc.data().userID as keyof typeof newUsers] as User).totalTimeString.substr(0,3))-8).toString()+":00"
+          console.log("qa", (newUsers[doc.data().userID as keyof typeof newUsers] as User).totalTimeString);
+          (
+            newUsers[doc.data().userID as keyof typeof newUsers] as User
+          ).totalTimeString = (parseInt((newUsers[doc.data().userID as keyof typeof newUsers] as User).totalTimeString.substr(0, 3)) - 8).toString() + ":00"
         });
 
-        
+
 
         Object.keys(newUsers).forEach((newUserKey) => {
           (newUsers[newUserKey as keyof typeof newUsers] as User).timeString =
@@ -153,23 +153,23 @@ const TeamInfo = (props: {
     );
   };
 
-//   const totalVacationDaysInMonth = () => (async (date: Date) => {
-//       if (props.state.db) {
-//         const vacationQuery = query(
-//           collection(props.state.db, "vacations"),
-//           where("userID", "==", props.state.userID)
-//         );
-//         const vacationQuerySnapshot = await getDocs(vacationQuery);
+  //   const totalVacationDaysInMonth = () => (async (date: Date) => {
+  //       if (props.state.db) {
+  //         const vacationQuery = query(
+  //           collection(props.state.db, "vacations"),
+  //           where("userID", "==", props.state.userID)
+  //         );
+  //         const vacationQuerySnapshot = await getDocs(vacationQuery);
 
-//         let vacationDays = 0;
+  //         let vacationDays = 0;
 
-//         vacationQuerySnapshot.forEach((doc) => {
-//             vacationDays++;
-//         });
-//         return vacationDays;
-//       }
-//       return 0;
-//     })();
+  //         vacationQuerySnapshot.forEach((doc) => {
+  //             vacationDays++;
+  //         });
+  //         return vacationDays;
+  //       }
+  //       return 0;
+  //     })();
 
   React.useEffect(() => {
     getUsers();
@@ -188,32 +188,32 @@ const TeamInfo = (props: {
         {props.state.isTeamLeader ? (
           <>
             <table className="teamInfo-table" width="100%" cellSpacing="0">
-                    <caption>{`${t("passcode")}: ${props.state.teamPasscode}`}</caption>
-                    <thead>
-                        <tr>
-                            <th>{t("name")}</th>
-                            <th>{t("hoursWorked")}</th>
-                            <th>{t("allHours")}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {Object.keys(users)
-                          .reverse().map((key)=> <tr>
-                            <td>
-                              {(users[key as keyof typeof users] as User).name}
-                            </td>
-                            <td>
-                              {(users[key as keyof typeof users] as User).timeString}
-                            </td>
-                            <td>
-                            {
+              <caption>{`${t("passcode")}: ${props.state.teamPasscode}`}</caption>
+              <thead>
+                <tr>
+                  <th>{t("name")}</th>
+                  <th>{t("hoursWorked")}</th>
+                  <th>{t("allHours")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.keys(users)
+                  .reverse().map((key) => <tr>
+                    <td>
+                      {(users[key as keyof typeof users] as User).name}
+                    </td>
+                    <td>
+                      {(users[key as keyof typeof users] as User).timeString}
+                    </td>
+                    <td>
+                      {
                         (users[key as keyof typeof users] as User)
                           .totalTimeString
                       }
-                            </td>
-                          </tr>)}
-                    </tbody>
-                </table>
+                    </td>
+                  </tr>)}
+              </tbody>
+            </table>
           </>
         ) : (
           <></>

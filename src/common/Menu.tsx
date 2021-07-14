@@ -75,32 +75,32 @@ const Menu = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
 
   return (
     <>
-    <OutsideClickHandler
-      onOutsideClick={() =>
-        !props.state.isMenuVisible ? hideMenu() : setTimeout(hideMenu, 0)}>
-      <div className={props.state.isMenuVisible ? "menu menu--visible" : "menu menu--hidden"}>
-        {props.state.userID && ( props.state.teamID && (
-          <>
-            <NavbarButton 
-              text={`${t("start")}`} 
-              callback={setStartCallback} 
-              classes="menuButton"/>
-            <NavbarButton 
-              text={`${t("calendar")}`} 
-              callback={setCalendarCallback}
-              classes="menuButton" />
-            <NavbarButton
-              text={`${t("declarations")}`}
-              callback={setDeclerationsCallback}
-              classes="menuButton"/>
-            <NavbarButton
-              text={`${t("team")}`}
-              callback={setTeamCallback}
-              classes="menuButton"/>
-          </>
-        ))}
-      </div>
-    </OutsideClickHandler>
+      <OutsideClickHandler
+        onOutsideClick={() =>
+          !props.state.isMenuVisible ? hideMenu() : setTimeout(hideMenu, 0)}>
+        <div className={props.state.isMenuVisible ? "menu menu--visible" : "menu menu--hidden"}>
+          {props.state.userID && (props.state.teamID && (
+            <>
+              <NavbarButton
+                text={`${t("start")}`}
+                callback={setStartCallback}
+                classes="menuButton" />
+              <NavbarButton
+                text={`${t("calendar")}`}
+                callback={setCalendarCallback}
+                classes="menuButton" />
+              <NavbarButton
+                text={`${t("declarations")}`}
+                callback={setDeclerationsCallback}
+                classes="menuButton" />
+              <NavbarButton
+                text={`${t("team")}`}
+                callback={setTeamCallback}
+                classes="menuButton" />
+            </>
+          ))}
+        </div>
+      </OutsideClickHandler>
     </>
   );
 };

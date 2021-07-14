@@ -41,7 +41,7 @@ const Calendar = (props: {
   state: State;
   dispatch: React.Dispatch<Action>;
 }) => {
-  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
+  const [promiseInProgress, setPromiseInProgress] = useState(false);
   const { t } = useTranslation();
   const [groups, setGroups] = React.useState<singleGroup[]>([]);
   const [items, setItems] = React.useState<singleItem[]>([]);
@@ -125,40 +125,40 @@ const Calendar = (props: {
       {/* {props.state.isTeamLeader ? getPasscode() : ""} */}
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-            <h6 className="m-0 font-weight-bold text-primary">{t("calendar")}</h6>
+          <h6 className="m-0 font-weight-bold text-primary">{t("calendar")}</h6>
         </div>
         <div className="card-body">
-           {isNamesVisible ?
-      <>
-      <FaChevronRight
-        className="calendar__button"
-        onClick={() => {
-          setIsNamesVisible(!isNamesVisible);
-        }}
-      />
-      <FaChevronLeft
-        className="calendar__button"
-        onClick={() => {
-          setIsNamesVisible(!isNamesVisible);
-        }}
-      />
-      </>
-      :
-      <>
-        <FaChevronLeft
-          className="calendar__button"
-          onClick={() => {
-            setIsNamesVisible(!isNamesVisible);
-          }}
-        />
-        <FaChevronRight
-          className="calendar__button"
-          onClick={() => {
-            setIsNamesVisible(!isNamesVisible);
-          }}
-        />
-        </>}
-        <Timeline
+          {isNamesVisible ?
+            <>
+              <FaChevronRight
+                className="calendar__button"
+                onClick={() => {
+                  setIsNamesVisible(!isNamesVisible);
+                }}
+              />
+              <FaChevronLeft
+                className="calendar__button"
+                onClick={() => {
+                  setIsNamesVisible(!isNamesVisible);
+                }}
+              />
+            </>
+            :
+            <>
+              <FaChevronLeft
+                className="calendar__button"
+                onClick={() => {
+                  setIsNamesVisible(!isNamesVisible);
+                }}
+              />
+              <FaChevronRight
+                className="calendar__button"
+                onClick={() => {
+                  setIsNamesVisible(!isNamesVisible);
+                }}
+              />
+            </>}
+          <Timeline
             lineHeight={60}
             itemHeightRatio={0.85}
             sidebarWidth={isNamesVisible ? 100 : 0}
@@ -169,12 +169,12 @@ const Calendar = (props: {
             items={items}
             defaultTimeStart={moment().add(-4, "day")}
             defaultTimeEnd={moment().add(4, "day")}
-            onItemSelect={() => {}}
+            onItemSelect={() => { }}
             minZoom={24 * 60 * 60 * 1000}
           />
         </div>
-    </div>
-      
+      </div>
+
     </div>
   );
 };

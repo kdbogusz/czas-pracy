@@ -14,7 +14,7 @@ import Loader from "react-loader-spinner";
 import login from '../assets/img/login.svg'
 
 const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
-  const [ promiseInProgress, setPromiseInProgress ] = useState(false);
+  const [promiseInProgress, setPromiseInProgress] = useState(false);
   const { t } = useTranslation();
   const [creds, setCreds] = React.useState({
     name: "",
@@ -35,7 +35,7 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    if (creds.password !== creds.passwordCheck || creds.name==="" || creds.password==="") {
+    if (creds.password !== creds.passwordCheck || creds.name === "" || creds.password === "") {
       setTemporaryMessage("Logowanie nie powiodło się");
       return;
     }
@@ -132,63 +132,63 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     >
       <div className="login-container__login">
         <h1>{t("signIn")}:</h1>
-          <form className="login__form" onSubmit={submitHandler} onKeyDown={keyDownHandler}>
-            <div className="login__field">
-              <label htmlFor="loginName" className="login__label">{t("userName")}:</label>
-              <input
-                type="text"
-                id="loginName"
-                name="loginName"
-                className="login__input"
-                value={creds.name}
-                onChange={(e) => setCreds({ ...creds, name: e.target.value.split(/\s/).join('') })}
-              ></input>
-            </div>
-
-            <div className="login__field">
-              <label htmlFor="loginName" className="login__label">{t("password")}:</label>
-              <input
-                type="password"
-                id="loginPassword"
-                name="loginPassword"
-                className="login__input"
-                value={creds.password}
-                onChange={(e) => setCreds({ ...creds, password: e.target.value.split(/\s/).join('') })}
-              ></input>
-            </div>
-
-            <div className="login__field">
-              <label htmlFor="loginName" className="login__label">{t("repeatPassword")}:</label>
-              <input
-                type="password"
-                id="loginPasswordCheck"
-                name="loginPasswordCheck"
-                className="login__input"
-                value={creds.passwordCheck}
-                onChange={(e) =>
-                  setCreds({ ...creds, passwordCheck: e.target.value.split(/\s/).join('') })
-                }
-              ></input>
-            </div>
-          </form>
-          <div className="login__buttons">
-          <button
-              type="button"
-              onClick={submitHandler}
-              className="miscButton--main miscButton--shadow login__button login-btn__login"
-            >
-              {t("signIn")}
-            </button>
-            <button
-              type="button"
-              onClick={cancelHandler}
-              className="miscButton--cancel login__button "
-            >
-              {t("cancel")}
-            </button>
+        <form className="login__form" onSubmit={submitHandler} onKeyDown={keyDownHandler}>
+          <div className="login__field">
+            <label htmlFor="loginName" className="login__label">{t("userName")}:</label>
+            <input
+              type="text"
+              id="loginName"
+              name="loginName"
+              className="login__input"
+              value={creds.name}
+              onChange={(e) => setCreds({ ...creds, name: e.target.value.split(/\s/).join('') })}
+            ></input>
           </div>
-            {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
-          <p className={message === "" ? "login__message" : "login__message login__message--visible"}>{message}</p>
+
+          <div className="login__field">
+            <label htmlFor="loginName" className="login__label">{t("password")}:</label>
+            <input
+              type="password"
+              id="loginPassword"
+              name="loginPassword"
+              className="login__input"
+              value={creds.password}
+              onChange={(e) => setCreds({ ...creds, password: e.target.value.split(/\s/).join('') })}
+            ></input>
+          </div>
+
+          <div className="login__field">
+            <label htmlFor="loginName" className="login__label">{t("repeatPassword")}:</label>
+            <input
+              type="password"
+              id="loginPasswordCheck"
+              name="loginPasswordCheck"
+              className="login__input"
+              value={creds.passwordCheck}
+              onChange={(e) =>
+                setCreds({ ...creds, passwordCheck: e.target.value.split(/\s/).join('') })
+              }
+            ></input>
+          </div>
+        </form>
+        <div className="login__buttons">
+          <button
+            type="button"
+            onClick={submitHandler}
+            className="miscButton--main miscButton--shadow login__button login-btn__login"
+          >
+            {t("signIn")}
+          </button>
+          <button
+            type="button"
+            onClick={cancelHandler}
+            className="miscButton--cancel login__button "
+          >
+            {t("cancel")}
+          </button>
+        </div>
+        {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
+        <p className={message === "" ? "login__message" : "login__message login__message--visible"}>{message}</p>
       </div>
       <div className="login-container__img">
         <img src={login} alt="login"></img>

@@ -16,10 +16,10 @@ const Join = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
       }}
     >
       <div className="join-container">
-        <img className="join-img" src={calendar} alt="calendar"/>
+        <img className="join-img" src={calendar} alt="calendar" />
       </div>
       <div className="join-container join__text">
-       <h3>{t("organizationOfWork")}.</h3>
+        <h3>{t("organizationOfWork")}.</h3>
       </div>
     </div>
   );

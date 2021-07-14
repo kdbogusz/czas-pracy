@@ -119,35 +119,35 @@ const Team = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
           : "start start--hidden"
       }
     >
-       <div className="card shadow mb-4">
+      <div className="card shadow mb-4">
         <div className="card-header py-3">
-            <h6 className="m-0 font-weight-bold text-primary">{t("team")}</h6>
+          <h6 className="m-0 font-weight-bold text-primary">{t("team")}</h6>
         </div>
         <div className="card-body">
-        <div className="team-container">
-        <TeamInfo state={props.state} dispatch={props.dispatch} />
-        <div>
-          {props.state.isTeamLeader ? (
-            <button
-              type="button"
-              className="miscButton--delete"
-              onClick={deleteHandler}
-            >
-              {t("deleteTeam")}
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="miscButton--delete "
-              onClick={() => leaveHandler(props.state.userID)}
-            >
-              {t("leaveTeam")}
-            </button>
-          )}
+          <div className="team-container">
+            <TeamInfo state={props.state} dispatch={props.dispatch} />
+            <div>
+              {props.state.isTeamLeader ? (
+                <button
+                  type="button"
+                  className="miscButton--delete"
+                  onClick={deleteHandler}
+                >
+                  {t("deleteTeam")}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="miscButton--delete "
+                  onClick={() => leaveHandler(props.state.userID)}
+                >
+                  {t("leaveTeam")}
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-        </div>
-    </div>
 
     </div>
   );
