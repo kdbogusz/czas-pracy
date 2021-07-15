@@ -169,7 +169,7 @@ const Declarations = (props: {
   const setTemporaryEvent = () => {
     if (formInfo.start !== formInfo.end) {
       const temporaryEvent: EventInfo = {
-        title: timeDiffString(formInfo.start, formInfo.end),
+        title: timeDiffString(formInfo.start, formInfo.end) === "00:00" ? "URLOP" : timeDiffString(formInfo.start, formInfo.end),
         allDay: false,
         start: formInfo.start,
         end: formInfo.end,

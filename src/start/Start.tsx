@@ -1,6 +1,6 @@
 import React from "react";
 import { FaBriefcase, FaMugHot, FaBed } from "react-icons/fa";
-import { State, Action } from "../common/reducer";
+import { State, Action, ActionType } from "../common/reducer";
 import {
   timeDiffString,
   removeOldEvents,
@@ -18,21 +18,36 @@ import "../common/common.css";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 
-enum StampType {
+import { useHistory, useLocation } from "react-router-dom";
+
+export enum StampType {
   Work = "work",
   Break = "break",
   Out = "out",
 }
 
-type Stamp = {
+export type Stamp = {
   stampType: StampType;
   moment: Date;
 };
 
 const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   const { t } = useTranslation();
-  const [pressed, setPressed] = React.useState(StampType.Out);
-  const [stamps, setStamps] = React.useState<Stamp[]>([]);
+  const pressed = props.state.startButtonPressed;
+  const setPressed = (buttonPressed: StampType) => {
+    props.dispatch({
+      type: ActionType.SetStartButtonPressed,
+      payload: buttonPressed,
+    });
+  };
+  const stamps = props.state.stamps;
+  const setStamps = (newStamps: Stamp[]) => {
+    props.dispatch({
+      type: ActionType.SetStamps,
+      payload: newStamps,
+    });
+  };
+  
   const [timeElapsedWorkDisplay, setTimeElapsedWorkDisplay] =
     React.useState("");
   const [timeElapsedBreakDisplay, setTimeElapsedBreakDisplay] =
@@ -176,6 +191,7 @@ const Start = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
 
   React.useEffect(() => {
     setTimeElapsedWorkDisplay(timeElapsedWork(stamps));
+    setTimeElapsedBreakDisplay(timeElapsedBreak(stamps));
     const interval = setInterval(() => {
       setTimeElapsedWorkDisplay(timeElapsedWork(stamps));
       setTimeElapsedBreakDisplay(timeElapsedBreak(stamps));

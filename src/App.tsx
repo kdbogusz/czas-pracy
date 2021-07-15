@@ -11,21 +11,38 @@ import Login from "./join/Login";
 import Register from "./join/Register";
 import NoTeam from "./team/NoTeam";
 import Team from "./team/Team";
-import { useTranslation } from "react-i18next"
-import { initialState, reducer } from "./common/reducer";
-import { initializeApp, getApps, getApp} from "firebase/app";
+import { useTranslation } from "react-i18next";
+import { initialState, reducer, ActionType, State, viableStages } from "./common/reducer";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import moment from "moment";
-import 'moment/locale/en-gb' 
-import 'moment/locale/pl' 
+import "moment/locale/en-gb";
+import "moment/locale/pl";
+import {
+  useHistory,
+  useLocation,
+  BrowserRouter,
+  Switch,
+  Route,
+  useParams,
+} from "react-router-dom";
 
 const App = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const { t, i18n } = useTranslation();
-  const lang = (navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;
-  moment.locale(lang)
-  
-  React.useEffect(() => {i18n.changeLanguage(lang)}, [])
+  const lang =
+    navigator.languages && navigator.languages.length
+      ? navigator.languages[0]
+      : navigator.language;
+  moment.locale(lang);
+  const history = useHistory();
+  const location = useLocation();
+  let routingState = "REST";
+  // const [routingState, setRoutingState] = React.useState("REST");
+
+  React.useEffect(() => {
+    i18n.changeLanguage(lang);
+  }, []);
 
   React.useEffect(() => {
     state.firebaseApp = !getApps().length
@@ -43,6 +60,65 @@ const App = () => {
     state.db = getFirestore();
   }, []);
 
+  React.useEffect(() => {
+    console.log(state)
+      console.log("LOCATION OUT", (location.state) ? (location.state as State).stage: "", location.pathname, state.stage, routingState)
+      if (routingState === "REST"
+      ){ 
+      // && (
+      //   location.pathname !== `/${state.stage}` || (
+      // (location.state) && (location.state as State).stage !== state.stage))) {
+      // if (routingState === "REST" && location.pathname !== `/${state.stage}`) {
+        console.log("LOCATION IN", (location.state) ? (location.state as State).stage: "", location.pathname, state.stage, routingState)
+        if (viableStages.includes(location.pathname.substring(1)) || location.pathname.substring(1) === "") {
+          routingState = "LOCATION CHANGE";
+          dispatch({
+            type: ActionType.SetStageToString,
+            payload:
+              location.pathname.substring(1) === ""
+                ? "join"
+                : location.pathname.substring(1),
+          });
+          if (location.state) {
+            dispatch({
+              type: ActionType.SetState,
+              payload: location.state as State,
+            });
+          } else
+          location.state = {
+            ...state,
+            stage: location.pathname.substring(1) === ""
+            ? "join"
+            : location.pathname.substring(1),
+            db: undefined,
+            firebaseApp: undefined,
+          };
+        } else {
+          location.pathname = "/"
+        }
+        
+        console.log("LOCATION IN AFTER", (location.state) ? (location.state as State).stage: "", location.pathname, state.stage, routingState)
+      } else routingState = "REST";
+  }, [location]);
+
+  React.useEffect(() => {
+      console.log("STAGE OUT", (location.state) ? (location.state as State).stage: "", location.pathname, state.stage, routingState)
+      if (
+        routingState === "REST" && (
+        location.pathname !== `/${state.stage}` || (
+        (location.state) && (location.state as State).stage !== state.stage ))
+      ) {
+        console.log("STAGE IN", (location.state) ? (location.state as State).stage: "", location.pathname, state.stage, routingState)
+        routingState = "STAGE CHANGE";
+        history.push(`/${state.stage !== "join" ? state.stage : ""}`, {
+          ...state,
+          db: undefined,
+          firebaseApp: undefined,
+        });
+        console.log("STAGE IN AFTER", (location.state) ? (location.state as State).stage: "", location.pathname, state.stage, routingState)
+      } else routingState = "REST";
+  }, [state.stage]);
+
   return (
     <div className="App">
       <header>
@@ -51,16 +127,35 @@ const App = () => {
       </header>
 
       <div className="app__body">
-        <NoTeam state={state} dispatch={dispatch} />
-        <Start state={state} dispatch={dispatch} />
-        {state.stage === "calendar" && (
-          <Calendar state={state} dispatch={dispatch} />
-        )}
-        <Declarations state={state} dispatch={dispatch} />
-        <Join state={state} dispatch={dispatch} />
-        <Login state={state} dispatch={dispatch} />
-        <Register state={state} dispatch={dispatch} />
-        <Team state={state} dispatch={dispatch} />
+        <Switch>
+          <Route path="/noTeam">
+            <NoTeam state={state} dispatch={dispatch} />
+          </Route>
+          <Route path="/start">
+            <Start state={state} dispatch={dispatch} />
+          </Route>
+          <Route path="/calendar">
+            {//state.stage === "calendar" && (
+              <Calendar state={state} dispatch={dispatch} />
+            // )
+          }
+          </Route>
+          <Route path="/declarations">
+            <Declarations state={state} dispatch={dispatch} />
+          </Route>
+          <Route exact path="/login">
+            <Login state={state} dispatch={dispatch} />
+          </Route>
+          <Route path="/register">
+            <Register state={state} dispatch={dispatch} />
+          </Route>
+          <Route path="/team">
+            <Team state={state} dispatch={dispatch} />
+          </Route>
+          <Route path="/">
+            <Join state={state} dispatch={dispatch} />
+          </Route>
+        </Switch>
       </div>
     </div>
   );

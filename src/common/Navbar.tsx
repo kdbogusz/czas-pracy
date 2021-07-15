@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import "./navbar.css";
 import "../common/common.css";
 import NavbarButton from "./NavbarButton";
+import { Link } from "react-router-dom";
 
 const Navbar = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   const { t } = useTranslation();

@@ -13,6 +13,8 @@ import { useTranslation } from "react-i18next";
 import Loader from "react-loader-spinner";
 import login from '../assets/img/login.svg'
 
+import { Link } from "react-router-dom";
+
 const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
   const [promiseInProgress, setPromiseInProgress] = useState(false);
   const { t } = useTranslation();
@@ -35,14 +37,18 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
+    console.log("HELLo");
     if (creds.password !== creds.passwordCheck || creds.name === "" || creds.password === "") {
       setTemporaryMessage("Logowanie nie powiodło się");
       return;
     }
+    console.log("-2");
 
     (async () => {
       if (props.state.db) {
         setPromiseInProgress(true);
+        console.log(props.state.db)
+
         const userQuery = query(
           collection(props.state.db, "users"),
           where("name", "==", creds.name)
@@ -60,12 +66,12 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
                 payload: doc.data().teamID,
               });
               props.dispatch({
-                type: ActionType.SetStageStart,
-                payload: "",
-              });
-              props.dispatch({
                 type: ActionType.ShowNavBar,
                 payload: true,
+              });
+              props.dispatch({
+                type: ActionType.SetStageStart,
+                payload: "",
               });
             } else {
               props.dispatch({
@@ -184,7 +190,8 @@ const Login = (props: { state: State; dispatch: React.Dispatch<Action> }) => {
             onClick={cancelHandler}
             className="miscButton--cancel login__button "
           >
-            {t("cancel")}
+            
+          {t("cancel")}
           </button>
         </div>
         {promiseInProgress && <Loader type="ThreeDots" color="#3498db" height="100" width="100" />}
